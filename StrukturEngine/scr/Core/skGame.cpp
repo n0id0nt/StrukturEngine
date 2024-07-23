@@ -6,6 +6,7 @@
 #include "..\Util\skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skPlayerComponent.h"
+#include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skPlayerSystem.h"
 
@@ -19,6 +20,11 @@ void LoadData(Struktur::Core::skGameData* gameData)
         }
         Transform transform{ {i * 10.f, i * 10.f,0.f},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
         gameData->registry.emplace<Struktur::Component::skTransformComponent>(entity, transform);
+
+        //load image
+        Image sprite = LoadImage("C:/Users/Administrator/Documents/Henkel/HenkelEngine/HenkelEngine/res/images/Tall.png");
+        gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity).texture = LoadTextureFromImage(sprite);
+        UnloadImage(sprite);
     }
     using namespace std::chrono_literals;
     std::this_thread::sleep_for(5s);

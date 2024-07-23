@@ -1,0 +1,1 @@
+#include "skSpriteComponent.h"

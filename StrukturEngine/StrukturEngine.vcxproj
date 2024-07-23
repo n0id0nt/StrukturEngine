@@ -155,6 +155,7 @@
     <ClCompile Include="scr\ECS\System\skPlayerSystem.cpp" />
     <ClCompile Include="scr\Core\skFileParser.cpp" />
     <ClCompile Include="scr\Core\skResourcePool.cpp" />
+    <ClCompile Include="scr\ECS\Component\skSpriteComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="scr\ECS\System\skPlayerSystem.h" />
     <ClInclude Include="scr\Core\skFileParser.h" />
     <ClInclude Include="scr\Core\skResourcePool.h" />
+    <ClInclude Include="scr\ECS\Component\skSpriteComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
