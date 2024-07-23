@@ -12,6 +12,8 @@
 
 void LoadData(Struktur::Core::skGameData* gameData)
 {
+    Image texture2d = LoadImage("../ExampleGame/Zombie.png");
+    //Image image = LoadImage("C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/StrukturEngine/StrukturEngine/ExampleGame/spelunky_shop.png");
     for (auto i = 0u; i < 10u; ++i) {
         const auto entity = gameData->registry.create();
         if (i == 0)
@@ -22,12 +24,13 @@ void LoadData(Struktur::Core::skGameData* gameData)
         gameData->registry.emplace<Struktur::Component::skTransformComponent>(entity, transform);
 
         //load image
-        Image sprite = LoadImage("C:/Users/Administrator/Documents/Henkel/HenkelEngine/HenkelEngine/res/images/Tall.png");
-        gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity).texture = LoadTextureFromImage(sprite);
-        UnloadImage(sprite);
+        //Image sprite = LoadImage("../ExampleGame/Tall.png");
+        auto& texture = gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity);
+        texture.image = texture2d;
+        //UnloadImage(sprite);
     }
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(5s);
+    //using namespace std::chrono_literals;
+    //std::this_thread::sleep_for(2s);
 }
 
 bool SplashScreen(const double startTime)
@@ -70,6 +73,8 @@ bool SplashScreen(const double startTime)
 
 bool LoadingScreen()
 {
+    //Texture2D texture2d = LoadTexture("C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/StrukturEngine/StrukturEngine/ExampleGame/spelunky_shop.png");
+
     int width = GetScreenWidth();
     int height = GetScreenHeight();
     std::string loadingScreenName = "LOADING DATA...";
@@ -87,6 +92,7 @@ bool LoadingScreen()
     ClearBackground(Color{ 30,30,30,255 });
     DrawRectanglePro(rectOuter, orginOuter, rotation, Color{ 230,230,230,255 });
     DrawRectanglePro(rectInner, orginInnter, rotation, Color{ 30,30,30,255 });
+    //DrawTexture(texture2d, 0, 0, WHITE);
     DrawText(loadingScreenName.c_str(), (width - fontWidth) / 2.f, (height - fontSize) / 2.f + 70.f, fontSize, Color{230,230,230,255});
     EndDrawing();
     return true;
@@ -94,17 +100,32 @@ bool LoadingScreen()
 
 void Struktur::Core::Game()
 {
-
     skGameData gameData;
     InitWindow(1280, 720, "Struktur Engine");
-    SetTargetFPS(60);
     gameData.shouldQuit = false;
 
+    SetTargetFPS(20);
     // create task to load game
     Util::skTask<Struktur::Core::skGameData*> loadingTask(LoadData);
     loadingTask.Launch(&gameData);
+    LoadData(&gameData);
 
     const double startTime = GetTime();
+    bool splashScreen = true;
+    while (splashScreen)
+    {
+        splashScreen = SplashScreen(startTime);
+    }
+    while (!loadingTask.complete())
+    {
+        // TODO some way to force a min time to display the loading screen
+        LoadingScreen();
+    }
+    loadingTask.Join();
+    // Move the images to vram
+    System::Render::CreateTextures(gameData.registry);
+    SetTargetFPS(60);
+
     while (!gameData.shouldQuit)
     {
         if (WindowShouldClose()) 
@@ -112,16 +133,7 @@ void Struktur::Core::Game()
             gameData.shouldQuit = true;
         }
 
-        if (SplashScreen(startTime))
-        {
-            continue;
-        }
-        if (!loadingTask.complete())
-        {
-            // TODO some way to force a min time to display the loading screen
-            LoadingScreen();
-            continue;
-        }
+
 
         //physics 
         //script

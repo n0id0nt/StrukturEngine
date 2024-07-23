@@ -6,6 +6,7 @@ namespace Struktur
 	{
 		struct skSpriteComponent
 		{
+			Image image;
 			Texture2D texture;
 		};
 	};

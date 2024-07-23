@@ -8,6 +8,7 @@ namespace Struktur
 		namespace Render
 		{
 			void Update(entt::registry& registry);
+			void CreateTextures(entt::registry& registry);
 		};
 	};
 };
