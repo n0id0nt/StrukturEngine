@@ -1,6 +1,6 @@
 #pragma once
 #include <entt/entt.hpp>
-
+#include "skResourcePool.h"
 namespace Struktur
 {
 	namespace Core
@@ -9,6 +9,7 @@ namespace Struktur
 		{
 			bool shouldQuit;
 			entt::registry registry;
+			skResourcePool resourcePool;
 		};
 	};
 };

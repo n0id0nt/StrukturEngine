@@ -3,7 +3,7 @@
 #include "raymath.h"
 #include "skGameData.h"
 #include <string>
-#include "..\Util\skTask.h"
+#include "../Util/skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skPlayerComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
@@ -12,8 +12,9 @@
 
 void LoadData(Struktur::Core::skGameData* gameData)
 {
-    Image texture2d = LoadImage("../ExampleGame/Zombie.png");
-    //Image image = LoadImage("C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/StrukturEngine/StrukturEngine/ExampleGame/spelunky_shop.png");
+    //load image
+    // TODO move this to an array or map
+    gameData->resourcePool.CreateTexture("../ExampleGame/Zombie.png");
     for (auto i = 0u; i < 10u; ++i) {
         const auto entity = gameData->registry.create();
         if (i == 0)
@@ -23,14 +24,20 @@ void LoadData(Struktur::Core::skGameData* gameData)
         Transform transform{ {i * 10.f, i * 10.f,0.f},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
         gameData->registry.emplace<Struktur::Component::skTransformComponent>(entity, transform);
 
-        //load image
-        //Image sprite = LoadImage("../ExampleGame/Tall.png");
         auto& texture = gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity);
-        texture.image = texture2d;
-        //UnloadImage(sprite);
+        // ideally i just have like a config file that creates all the entities for each object in the scene
+        texture.imagePath = "../ExampleGame/Zombie.png";
     }
-    //using namespace std::chrono_literals;
-    //std::this_thread::sleep_for(2s);
+	using namespace std::chrono_literals;
+	std::this_thread::sleep_for(5s);
+}
+
+void MoveResourcesToVRAM(Struktur::Core::skResourcePool& resourcePool)
+{
+    if (resourcePool.IsTextureLoadedInGPU("../ExampleGame/Zombie.png"))
+    {
+        resourcePool.LoadTextureInGPU("../ExampleGame/Zombie.png");
+    }
 }
 
 bool SplashScreen(const double startTime)
@@ -52,6 +59,7 @@ bool SplashScreen(const double startTime)
         float t = (currentTime - startTime) / fadeInTime;
         textAlpha *= Lerp(0.f, 1.f, t);
     }
+    // Fade out
     else if (currentTime > startTime + fadeInTime + holdTime && currentTime < startTime + fadeInTime + holdTime + fadeOutTime)
     {
         float t = (currentTime - startTime - fadeInTime - holdTime) / fadeOutTime;
@@ -73,8 +81,6 @@ bool SplashScreen(const double startTime)
 
 bool LoadingScreen()
 {
-    //Texture2D texture2d = LoadTexture("C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/StrukturEngine/StrukturEngine/ExampleGame/spelunky_shop.png");
-
     int width = GetScreenWidth();
     int height = GetScreenHeight();
     std::string loadingScreenName = "LOADING DATA...";
@@ -105,24 +111,27 @@ void Struktur::Core::Game()
     gameData.shouldQuit = false;
 
     SetTargetFPS(20);
-    // create task to load game
-    Util::skTask<Struktur::Core::skGameData*> loadingTask(LoadData);
-    loadingTask.Launch(&gameData);
+    // load in game data from memory
+    {
+        // create task to load game
+        Util::skTask<Struktur::Core::skGameData*> loadingTask(LoadData);
+        loadingTask.Launch(&gameData);
 
-    const double startTime = GetTime();
-    bool splashScreen = true;
-    while (splashScreen)
-    {
-        splashScreen = SplashScreen(startTime);
+        const double startTime = GetTime();
+        bool splashScreen = true;
+        while (splashScreen)
+        {
+            splashScreen = SplashScreen(startTime);
+        }
+        while (!loadingTask.complete())
+        {
+            // TODO some way to force a min time to display the loading screen
+            LoadingScreen();
+        }
+        loadingTask.Join();
+        // Move the images to vram
+        MoveResourcesToVRAM(gameData.resourcePool);
     }
-    while (!loadingTask.complete())
-    {
-        // TODO some way to force a min time to display the loading screen
-        LoadingScreen();
-    }
-    loadingTask.Join();
-    // Move the images to vram
-    System::Render::CreateTextures(gameData.registry);
     SetTargetFPS(60);
 
     while (!gameData.shouldQuit)
@@ -139,7 +148,7 @@ void Struktur::Core::Game()
         //camera
         //animation
         System::Player::Update(gameData.registry);
-        System::Render::Update(gameData.registry);
+        System::Render::Update(gameData.registry, gameData.resourcePool);
     }
 
     CloseWindow();

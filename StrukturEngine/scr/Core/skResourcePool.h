@@ -32,9 +32,10 @@ namespace Struktur
 			//void ReleaseShader(const std::string& vertexShaderFilePath, const std::string& fragmentShaderFilePath);
 		
 			void CreateTexture(const std::string& path);
-			bool IsTextureLoadedInGPU(const std::string& path);
+			bool IsTextureLoadedInGPU(const std::string& path) const;
 			void LoadTextureInGPU(const std::string& path);
-			Texture2D& RetrieveTexture(const std::string& path);
+			Texture2D RetrieveTexture(const std::string& path) const;
+			void UnloadTextureGPU(const std::string& path);
 			void ReleaseTexture(const std::string& path);
 		
 			//void CreateFont(const std::string& path, int size);
