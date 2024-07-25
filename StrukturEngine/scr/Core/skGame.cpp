@@ -108,7 +108,6 @@ void Struktur::Core::Game()
     // create task to load game
     Util::skTask<Struktur::Core::skGameData*> loadingTask(LoadData);
     loadingTask.Launch(&gameData);
-    LoadData(&gameData);
 
     const double startTime = GetTime();
     bool splashScreen = true;
