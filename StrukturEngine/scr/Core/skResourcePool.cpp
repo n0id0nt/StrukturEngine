@@ -10,7 +10,7 @@ Struktur::Core::skResourcePool::~skResourcePool()
 
 void Struktur::Core::skResourcePool::CreateTexture(const std::string& path)
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
@@ -24,7 +24,7 @@ void Struktur::Core::skResourcePool::CreateTexture(const std::string& path)
 
 bool Struktur::Core::skResourcePool::IsTextureLoadedInGPU(const std::string& path) const
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
@@ -36,7 +36,7 @@ bool Struktur::Core::skResourcePool::IsTextureLoadedInGPU(const std::string& pat
 
 void Struktur::Core::skResourcePool::LoadTextureInGPU(const std::string& path)
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
@@ -57,12 +57,12 @@ void Struktur::Core::skResourcePool::LoadTextureInGPU(const std::string& path)
 
 Texture2D Struktur::Core::skResourcePool::RetrieveTexture(const std::string& path) const
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
 		assert(true); // texture does not exist
-		Texture2D empty;
+		Texture2D empty{};
 		return empty;
 	}
 	if (!it->second.loadedInGPU)
@@ -74,7 +74,7 @@ Texture2D Struktur::Core::skResourcePool::RetrieveTexture(const std::string& pat
 
 void Struktur::Core::skResourcePool::UnloadTextureGPU(const std::string& path)
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
@@ -96,8 +96,7 @@ void Struktur::Core::skResourcePool::UnloadTextureGPU(const std::string& path)
 
 void Struktur::Core::skResourcePool::ReleaseTexture(const std::string& path)
 {
-	entt::hashed_string key = entt::hashed_string{ path.c_str() };
-	auto key = entt::hashed_string::value(key);
+	std::string key = path;
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{

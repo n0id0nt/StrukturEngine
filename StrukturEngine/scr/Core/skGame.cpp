@@ -10,11 +10,19 @@
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skPlayerSystem.h"
 
+std::string s_textures[] = {
+    "../ExampleGame/Zombie.png",
+    "../ExampleGame/Tall.png"
+};
+
 void LoadData(Struktur::Core::skGameData* gameData)
 {
     //load image
-    // TODO move this to an array or map
-    gameData->resourcePool.CreateTexture("../ExampleGame/Zombie.png");
+    for (std::string texture : s_textures)
+    {
+        gameData->resourcePool.CreateTexture(texture);
+    }
+    // create entities
     for (auto i = 0u; i < 10u; ++i) {
         const auto entity = gameData->registry.create();
         if (i == 0)
@@ -26,7 +34,7 @@ void LoadData(Struktur::Core::skGameData* gameData)
 
         auto& texture = gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity);
         // ideally i just have like a config file that creates all the entities for each object in the scene
-        texture.imagePath = "../ExampleGame/Zombie.png";
+        texture.imagePath = s_textures[i%2];
     }
 	using namespace std::chrono_literals;
 	std::this_thread::sleep_for(5s);
@@ -34,9 +42,12 @@ void LoadData(Struktur::Core::skGameData* gameData)
 
 void MoveResourcesToVRAM(Struktur::Core::skResourcePool& resourcePool)
 {
-    if (resourcePool.IsTextureLoadedInGPU("../ExampleGame/Zombie.png"))
+    for (std::string texture : s_textures)
     {
-        resourcePool.LoadTextureInGPU("../ExampleGame/Zombie.png");
+        if (!resourcePool.IsTextureLoadedInGPU(texture))
+        {
+            resourcePool.LoadTextureInGPU(texture);
+        }
     }
 }
 

@@ -42,7 +42,7 @@ namespace Struktur
 			//Font* RetrieveFont(const std::string& path, int size);
 			//void ReleaseFont(const std::string& path, int size);
 		private:
-			std::unordered_map<entt::hashed_string, RefCounterGPU<Image, Texture2D>> m_images;
+			std::unordered_map<std::string, RefCounterGPU<Image, Texture2D>> m_images;
 		};
 	}
 }
