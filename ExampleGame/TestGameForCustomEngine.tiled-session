@@ -1,0 +1,305 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx",
+    "expandedProjectPaths": [
+        "AutomappingRules",
+        "Levels/ExampleLDKTLevel/tiled",
+        "Levels/ExampleLDKTLevel",
+        "Settings",
+        "Template",
+        "Levels",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "AutoMappingTestLevel.tmx": {
+            "expandedObjectLayers": [
+                10,
+                8
+            ],
+            "scale": 1,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 703,
+                "y": 230.5
+            }
+        },
+        "AutoMappingTestLevel2.tmx": {
+            "expandedObjectLayers": [
+                13
+            ],
+            "scale": 0.25,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1868,
+                "y": 894
+            }
+        },
+        "AutoMappingTestLevel3.tmx": {
+            "expandedObjectLayers": [
+                13
+            ],
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 1204.6666666666665,
+                "y": 181
+            }
+        },
+        "AutoMappingTestLevel4.tmx": {
+            "expandedObjectLayers": [
+                13
+            ],
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 598.5,
+                "y": 171.25
+            }
+        },
+        "AutoMappingTestLevel5.tmx": {
+            "expandedObjectLayers": [
+                13
+            ],
+            "scale": 1,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 247,
+                "y": 250.5
+            }
+        },
+        "AutoMappingTestLevel6.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 87,
+                "y": 379.75
+            }
+        },
+        "AutomappingRules/AutoTileRules.tmx": {
+            "scale": 2,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 799,
+                "y": 159.25
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 378,
+                "y": 305.5
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx#CaveTiles": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx#Collision": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx#OneWay": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx#Warrior_Sheet_Effect": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1406,
+                "y": 538.5
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx#CaveTiles": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx#Collision": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx#OneWay": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx#Warrior_Sheet_Effect": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0003_Level_2.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 328.5,
+                "y": 69.5
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0003_Level_2.tmx#CaveTiles": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0003_Level_2.tmx#Collision": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0003_Level_2.tmx#OneWay": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0003_Level_2.tmx#Warrior_Sheet_Effect": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0004_Level_3.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 716.5,
+                "y": -206
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0004_Level_3.tmx#CaveTiles": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0004_Level_3.tmx#Collision": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0004_Level_3.tmx#OneWay": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0004_Level_3.tmx#Warrior_Sheet_Effect": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx": {
+            "scale": 1,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 222,
+                "y": 143.5
+            }
+        },
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx#CaveTiles": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx#Collision": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx#OneWay": {
+            "scaleInDock": 1
+        },
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx#Warrior_Sheet_Effect": {
+            "scaleInDock": 1
+        },
+        "Player.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 197,
+                "y": 184
+            }
+        },
+        "TestLevel.tmj": {
+            "expandedGroupLayers": [
+                3
+            ],
+            "expandedObjectLayers": [
+                4
+            ],
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 272.99999999999994,
+                "y": 219.33333333333331
+            }
+        },
+        "TestLevel.tmx": {
+            "expandedGroupLayers": [
+                3
+            ],
+            "expandedObjectLayers": [
+                4,
+                6
+            ],
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 232.5,
+                "y": 251.25
+            }
+        },
+        "TestTiles.tsj": {
+            "scaleInDock": 3,
+            "scaleInEditor": 5.5
+        },
+        "TestTiles.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 5.5
+        },
+        "Warrior_Sheet-Effect.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "adventurer-1.3-Sheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "cavesofgallet_tiles.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        }
+    },
+    "last.imagePath": "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example/Tiles",
+    "last.objectTemplatePath": "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example/Template",
+    "last.objectTypesPath": "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example/Settings/PropertyTypes/propertytypes.xml",
+    "last.worldFilePath": "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example",
+    "loadedWorlds": [
+        "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example/FirstTestWorld.world",
+        "C:/Users/H1Ber/OneDrive/Documents/MyGameCreationProjects/HenkelEngine/HenkelEngine/Example/Levels/ExampleLDKTLevel/tiled/ExampleLDKTLevel.world"
+    ],
+    "map.fixedSize": true,
+    "map.height": 20,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": 1,
+    "map.orientation": 1,
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 15,
+    "openFiles": [
+        "TestLevel.tmx",
+        "adventurer-1.3-Sheet.tsx",
+        "cavesofgallet_tiles.tsx",
+        "AutoMappingTestLevel.tmx",
+        "AutomappingRules/AutoTileRules.tmx",
+        "Warrior_Sheet-Effect.tsx",
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx",
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx",
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx"
+    ],
+    "project": "TestGameForCustomEngine.tiled-project",
+    "property.type": "Tag",
+    "recentFiles": [
+        "AutoMappingTestLevel.tmx",
+        "Warrior_Sheet-Effect.tsx",
+        "Levels/ExampleLDKTLevel/tiled/0001_Level_0.tmx",
+        "Levels/ExampleLDKTLevel/tiled/0002_Level_1.tmx",
+        "Levels/ExampleLDKTLevel/tiled/0005_Level_4.tmx",
+        "TestLevel.tmx",
+        "adventurer-1.3-Sheet.tsx",
+        "cavesofgallet_tiles.tsx",
+        "AutomappingRules/AutoTileRules.tmx",
+        "Player.tmx",
+        "TestTiles.tsj",
+        "TestLevel.tmj"
+    ],
+    "tileset.embedInMap": false,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.spacing": 0,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.transparentColor": "#ff00ff",
+    "tileset.type": 0,
+    "tileset.useTransparentColor": false
+}

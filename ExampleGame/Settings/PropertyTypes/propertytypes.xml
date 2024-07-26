@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Animation" color="#a0a0a4">
+  <property name="animationTime" type="float" default="0"/>
+  <property name="endFrame" type="int" default="0"/>
+  <property name="loop" type="bool" default="false"/>
+  <property name="startFrame" type="int" default="0"/>
+ </objecttype>
+ <objecttype name="Camera" color="#a0a0a4">
+  <property name="Damping" type="class" propertytype="Vec2" default=""/>
+  <property name="DeadZone" type="class" propertytype="Vec2" default=""/>
+  <property name="Offset" type="class" propertytype="Vec2" default=""/>
+  <property name="Zoom" type="float" default="1"/>
+ </objecttype>
+ <objecttype name="Collider" color="#a0a0a4">
+  <property name="Category" type="string" propertytype="CollisionLayers" default="None"/>
+  <property name="ColliderShape" type="class" propertytype="RectangleCollider" default=""/>
+  <property name="ColliderType" type="string" propertytype="ColliderType" default="Static"/>
+  <property name="Mask" type="string" propertytype="CollisionLayers" default="All"/>
+  <property name="Sensor" type="bool" default="false"/>
+ </objecttype>
+ <objecttype name="RectangleCollider" color="#43a425">
+  <property name="Height" type="float" default="0"/>
+  <property name="Width" type="float" default="0"/>
+ </objecttype>
+ <objecttype name="Sprite" color="#a0a0a4">
+  <property name="XOffset" type="float" default="0"/>
+  <property name="YOffset" type="float" default="0"/>
+ </objecttype>
+ <objecttype name="Vec2" color="#a0a0a4">
+  <property name="X" type="float" default="0"/>
+  <property name="Y" type="float" default="0"/>
+ </objecttype>
+</objecttypes>

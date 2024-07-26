@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#4f9691" nextlayerid="14" nextobjectid="6">
+ <properties>
+  <property name="ActiveCamera" type="object" value="5"/>
+  <property name="Pixels Per Meter" type="float" value="16"/>
+ </properties>
+ <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
+ <layer id="1" name="ground_input" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztljsOwCAMQ1m5/4W7tggiO44LA5YyEfLcEj69tdZvfGImJNfBXflAcqrZjL+xtpu74ke+HPw3K/KV4Su+q/lVHjKqmOtcf4R/5dHOtR35p/g4Wcj/QseYb0XvQsabyo/y0FpZviLlHePmu+5ilu98i6A9muWzOUy/Zmpn9qnCX82Jcli2ugdmtVl+ZQ+i56XaA87Yyf4rHpzDDn0=
+  </data>
+ </layer>
+ <layer id="6" name="background_detail" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlwEOgCAIAPlH/7Ke49Obm22MCSKJstZtrqYRhCAE8EO5yPUckHmrl9N1ER2t58rcAZAtupNRTsMM30TgQIMjKec8of5erd8THPejMRvND1/JC0ovR1ZR4iOCHbuR8qTuVa6jWT96515rreSpVM8iI/kLr80+T07g/eXtR+6bJZusWHuUN3j1NytqCs5PDVyMlnnJXq2PRvfPu84xPVc2vGdIRjoLPOIN/5doctLDhicW0f30fKaxvrNvi9YzzuYGTeQj2w==
+  </data>
+ </layer>
+ <layer id="11" name="Ladders" width="32" height="32">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Category" propertytype="CollisionLayers" value="Ladder"/>
+     <property name="Sensor" type="bool" value="true"/>
+    </properties>
+   </property>
+   <property name="Tag#Ladder" type="class" propertytype="Tag"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAADwbhAAAAE=
+  </data>
+ </layer>
+ <layer id="12" name="OneWayPlatforms" width="32" height="32">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Sensor" type="bool" value="false"/>
+    </properties>
+   </property>
+   <property name="Script" type="file" value="Scripts/OneWayPlatform.lua"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0sEJADAIBMHrwP67zTfkkYAQWGEH/N+piSRJ6qhtiCr8jCS3XblLvt/3mfoDr7xnL3q/CRklsgW/RgHh
+  </data>
+ </layer>
+ <objectgroup id="13" name="Cameras">
+  <object id="5" name="Camera2" x="236" y="237.333">
+   <properties>
+    <property name="Camera" type="class" propertytype="Camera">
+     <properties>
+      <property name="Damping" type="class" propertytype="Vec2">
+       <properties>
+        <property name="X" type="float" value="3"/>
+        <property name="Y" type="float" value="3"/>
+       </properties>
+      </property>
+      <property name="Zoom" type="float" value="2"/>
+     </properties>
+    </property>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="2" name="ground" width="32" height="32">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Category" propertytype="CollisionLayers" value="Ground"/>
+    </properties>
+   </property>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztV8EOgzAIxYNbdCe9dV/rp0/jXkbYa0tbXTyMhOwwyntQoNiJSHcxfRL12B6BG0QWIRIMBrO1Nl69J3AZj5zttOpsuNbEXCPDqg/lH743TjeCf7SEN47N6USwz8AHB5tTeyc1+Ftux/13yZhSTq3xo77X+11qOdgaqBFPD8QE94CZ8Wtp4f6XvLT0yBGie+QKPK5ea6NRlq/UneK/0lzjXC+fmcTyhfcslsugfEwF+Po9nCO+4d/73pfiYwaXnEv5KnkXzsBnORjkuy7sjlL7nnnwA/HPdoGWHOidh/mxNWR3sdg5iGemltSAjT+Hj/gwUxkX7DeePrDxe85gnkJZTyIHuVzq2vPE7xXElbqD2B7a2gPenorh5+5Az3mmNqfg4LFj9pq7jg2zvjea+8Zj3z5M4V9zSXFu1RfBoy2G
+  </data>
+ </layer>
+</map>

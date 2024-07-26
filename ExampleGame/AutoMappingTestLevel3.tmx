@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#4f9691" nextlayerid="14" nextobjectid="6">
+ <properties>
+  <property name="ActiveCamera" type="object" value="5"/>
+  <property name="Pixels Per Meter" type="float" value="16"/>
+ </properties>
+ <tileset firstgid="1" source="cavesofgallet_tiles.tsx"/>
+ <layer id="1" name="ground_input" width="32" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzjZGBg4BzFeDEDGhsXIMU8UvSQC8gxj1p24zOXGuoocQO1zaOFW0m1fyDcQM20Sk030NMtlOZdSt1LTllGK/fTwn5CbqGkTKdE/3DBAJgBCUA=
+  </data>
+ </layer>
+ <layer id="6" name="background_detail" width="32" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztkmEKwCAIhb2H99KOs6OPwGgIomls/dgHUtRL7RXAjwereZPQa1GaGqNn2FXN3iLaAYN9BwK4FlKZuTN4tVH2sdjjk+HDas9Vn1ahN4sl2PkmFp4HkTfBGa62Qs8fqSG6o7D8yf7BHV5XPaIDff6CG1ZiEnM=
+  </data>
+ </layer>
+ <layer id="11" name="Ladders" width="32" height="16">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Category" propertytype="CollisionLayers" value="Ladder"/>
+     <property name="Sensor" type="bool" value="true"/>
+    </properties>
+   </property>
+   <property name="Tag#Ladder" type="class" propertytype="Tag"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwUgDAAgAAAE=
+  </data>
+ </layer>
+ <layer id="12" name="OneWayPlatforms" width="32" height="16">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Sensor" type="bool" value="false"/>
+    </properties>
+   </property>
+   <property name="Script" type="file" value="Scripts/OneWayPlatform.lua"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDBXAj4RHAX0BPxY8CkbBUAYAmy8AeQ==
+  </data>
+ </layer>
+ <objectgroup id="13" name="Cameras">
+  <object id="5" name="Camera3" x="244" y="124">
+   <properties>
+    <property name="Camera" type="class" propertytype="Camera">
+     <properties>
+      <property name="Damping" type="class" propertytype="Vec2">
+       <properties>
+        <property name="X" type="float" value="3"/>
+        <property name="Y" type="float" value="3"/>
+       </properties>
+      </property>
+      <property name="Zoom" type="float" value="2"/>
+     </properties>
+    </property>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <layer id="2" name="ground" width="32" height="16">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Category" propertytype="CollisionLayers" value="Ground"/>
+    </properties>
+   </property>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzNVUEOhCAMLAc0uie8ua/dp1uEZpuGYglEbTKBKJ0ZWxAHAO7l+Iq5hhY+S86GCAA/HGBPOOda7BfcM+OjqH3DZtC0+tH0ZYSsO3dql7xY9MnzSG3OPZJ3QaxpHMbZErFXE+KD+k94iPWkvfqUhyA8xH7c2RM6L+TBZ1jr0euX9kDp/8XroWlM8N9DfK3VU03f5XdUk9LZl2s5LP0MoGtr9eBcVzm+Up81PW+6yyRXSy558Wzec6/G/APBcxZI
+  </data>
+ </layer>
+</map>

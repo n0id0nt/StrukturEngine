@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<area>
+    <texture 
+        source="res/images/CubeFace.png"
+        x="10" y="10"
+        width="220.6" height="110.3"
+        color="#FFADADAD"
+        >
+        <quad 
+            x="20" y="20"
+            width="20.6" height="20.3"
+            color="#FFADADAD"
+            />
+        <texture 
+            name="zombie"
+            source="res/images/Zombie.png"
+            x="60" y="20"
+            width="20.6" height="20.3"
+            />
+        <quad 
+            x="100" y="20"
+            width="20.6" height="20.3"
+            color="#FFADADAD"
+            />
+        <quad 
+            x="20" y="50"
+            width="185" height="205"
+            color="#AFDDDDFF"
+            >
+            <text 
+                name="text"
+                size="16"
+                font="../Example/fonts/arial.ttf"
+                width="185" height="205"
+                alignment="left"
+                wrapping="wrap"
+                text="!The Quick Brown Fox Jumps Over The Lazy Dog!&#10;!The Quick&#10;Brown Fox Jumps Over The Lazy Dog!"
+                color="#222222FF"
+                />
+            <!--<quad 
+                x="10" y="10"
+                width="185" height="205"
+                color="#FFFFFF88"
+                />-->
+        </quad>
+    </texture>
+</area>

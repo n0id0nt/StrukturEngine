@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <tileset firstgid="1" source="../TestTiles.tsx"/>
+ <object name="Potion" gid="2" width="16" height="16">
+  <properties>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="ColliderType" propertytype="ColliderType" value="Dynamic"/>
+     <property name="Mask" propertytype="CollisionLayers" value="Ground"/>
+    </properties>
+   </property>
+   <property name="Script" type="file" value="../Scripts/Bullet.lua"/>
+  </properties>
+ </object>
+</template>

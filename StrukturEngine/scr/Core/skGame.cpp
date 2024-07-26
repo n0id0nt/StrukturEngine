@@ -9,10 +9,12 @@
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skPlayerSystem.h"
+#include <entt/entt.hpp>
 
-std::string s_textures[] = {
-    "../ExampleGame/Zombie.png",
-    "../ExampleGame/Tall.png"
+std::array<std::string,3> s_textures = {
+    "../ExampleGame/Tiles/spelunky_shop.png",
+    "../ExampleGame/Tiles/cavesofgallet_tiles.png"
+    "../ExampleGame/Tiles/Warrior_Sheet-Effect.png"
 };
 
 void LoadData(Struktur::Core::skGameData* gameData)
@@ -34,7 +36,7 @@ void LoadData(Struktur::Core::skGameData* gameData)
 
         auto& texture = gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity);
         // ideally i just have like a config file that creates all the entities for each object in the scene
-        texture.imagePath = s_textures[i%2];
+        texture.imagePath = s_textures[i% s_textures.size()];
     }
 	using namespace std::chrono_literals;
 	std::this_thread::sleep_for(5s);
@@ -121,7 +123,7 @@ void Struktur::Core::Game()
     InitWindow(1280, 720, "Struktur Engine");
     gameData.shouldQuit = false;
 
-    SetTargetFPS(20);
+    SetTargetFPS(60);
     // load in game data from memory
     {
         // create task to load game
@@ -143,7 +145,6 @@ void Struktur::Core::Game()
         // Move the images to vram
         MoveResourcesToVRAM(gameData.resourcePool);
     }
-    SetTargetFPS(60);
 
     while (!gameData.shouldQuit)
     {

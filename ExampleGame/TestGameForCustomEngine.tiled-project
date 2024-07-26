@@ -1,0 +1,283 @@
+{
+    "automappingRulesFile": "rules.txt",
+    "commands": [
+    ],
+    "compatibilityVersion": 1100,
+    "extensionsPath": "extensions",
+    "folders": [
+        "."
+    ],
+    "properties": [
+    ],
+    "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 3,
+            "members": [
+                {
+                    "name": "animationTime",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "endFrame",
+                    "type": "int",
+                    "value": 0
+                },
+                {
+                    "name": "loop",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "startFrame",
+                    "type": "int",
+                    "value": 0
+                }
+            ],
+            "name": "Animation",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 7,
+            "members": [
+                {
+                    "name": "Damping",
+                    "propertyType": "Vec2",
+                    "type": "class",
+                    "value": {
+                        "X": 1,
+                        "Y": 1
+                    }
+                },
+                {
+                    "name": "DeadZone",
+                    "propertyType": "Vec2",
+                    "type": "class",
+                    "value": {
+                    }
+                },
+                {
+                    "name": "Offset",
+                    "propertyType": "Vec2",
+                    "type": "class",
+                    "value": {
+                    }
+                },
+                {
+                    "name": "Zoom",
+                    "type": "float",
+                    "value": 1
+                }
+            ],
+            "name": "Camera",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 10,
+            "members": [
+                {
+                    "name": "Category",
+                    "propertyType": "CollisionLayers",
+                    "type": "string",
+                    "value": "All"
+                },
+                {
+                    "name": "ColliderShape",
+                    "propertyType": "RectangleCollider",
+                    "type": "class",
+                    "value": {
+                    }
+                },
+                {
+                    "name": "ColliderType",
+                    "propertyType": "ColliderType",
+                    "type": "string",
+                    "value": "Static"
+                },
+                {
+                    "name": "Mask",
+                    "propertyType": "CollisionLayers",
+                    "type": "string",
+                    "value": "All"
+                },
+                {
+                    "name": "Sensor",
+                    "type": "bool",
+                    "value": false
+                }
+            ],
+            "name": "Collider",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        },
+        {
+            "id": 1,
+            "name": "ColliderType",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Static",
+                "Dynamic",
+                "OneWay"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "id": 9,
+            "name": "CollisionLayers",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "Ground",
+                "Player",
+                "Ladder",
+                "Water",
+                "All",
+                "None"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ff43a425",
+            "drawFill": true,
+            "id": 6,
+            "members": [
+                {
+                    "name": "Height",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "Width",
+                    "type": "float",
+                    "value": 0
+                }
+            ],
+            "name": "RectangleCollider",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 4,
+            "members": [
+                {
+                    "name": "XOffset",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "YOffset",
+                    "type": "float",
+                    "value": 0
+                }
+            ],
+            "name": "Sprite",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 11,
+            "members": [
+            ],
+            "name": "Tag",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 8,
+            "members": [
+                {
+                    "name": "X",
+                    "type": "float",
+                    "value": 0
+                },
+                {
+                    "name": "Y",
+                    "type": "float",
+                    "value": 0
+                }
+            ],
+            "name": "Vec2",
+            "type": "class",
+            "useAs": [
+                "property",
+                "map",
+                "layer",
+                "object",
+                "tile",
+                "tileset",
+                "wangcolor",
+                "wangset",
+                "project"
+            ]
+        }
+    ]
+}

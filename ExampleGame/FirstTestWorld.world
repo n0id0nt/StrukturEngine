@@ -1,0 +1,48 @@
+{
+    "maps": [
+        {
+            "fileName": "AutoMappingTestLevel.tmx",
+            "height": 256,
+            "width": 512,
+            "x": 1024,
+            "y": 16
+        },
+        {
+            "fileName": "AutoMappingTestLevel2.tmx",
+            "height": 512,
+            "width": 512,
+            "x": 1536,
+            "y": -32
+        },
+        {
+            "fileName": "AutoMappingTestLevel3.tmx",
+            "height": 256,
+            "width": 512,
+            "x": 2048,
+            "y": 64
+        },
+        {
+            "fileName": "AutoMappingTestLevel4.tmx",
+            "height": 512,
+            "width": 512,
+            "x": 2560,
+            "y": 16
+        },
+        {
+            "fileName": "AutoMappingTestLevel5.tmx",
+            "height": 512,
+            "width": 512,
+            "x": 2384,
+            "y": 528
+        },
+        {
+            "fileName": "AutoMappingTestLevel6.tmx",
+            "height": 512,
+            "width": 512,
+            "x": 3072,
+            "y": -192
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

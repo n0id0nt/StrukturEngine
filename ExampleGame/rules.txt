@@ -1,0 +1,1 @@
+AutomappingRules\AutoTileRules.tmx

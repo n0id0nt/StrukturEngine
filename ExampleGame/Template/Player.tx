@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <tileset firstgid="1" source="../Warrior_Sheet-Effect.tsx"/>
+ <object name="Player" gid="1" width="69" height="44">
+  <properties>
+   <property name="Animation#2ComboAttack" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="26"/>
+     <property name="startFrame" type="int" value="15"/>
+    </properties>
+   </property>
+   <property name="Animation#Climb" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="99"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="92"/>
+    </properties>
+   </property>
+   <property name="Animation#Crouch" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="66"/>
+     <property name="startFrame" type="int" value="64"/>
+    </properties>
+   </property>
+   <property name="Animation#Dash" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="73"/>
+     <property name="startFrame" type="int" value="67"/>
+    </properties>
+   </property>
+   <property name="Animation#DashAttack" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="83"/>
+     <property name="startFrame" type="int" value="74"/>
+    </properties>
+   </property>
+   <property name="Animation#Death" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="37"/>
+     <property name="startFrame" type="int" value="27"/>
+    </properties>
+   </property>
+   <property name="Animation#EdgeGrab" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="54"/>
+     <property name="startFrame" type="int" value="50"/>
+    </properties>
+   </property>
+   <property name="Animation#EdgeIdle" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="60"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="55"/>
+    </properties>
+   </property>
+   <property name="Animation#Fall" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="49"/>
+     <property name="startFrame" type="int" value="47"/>
+    </properties>
+   </property>
+   <property name="Animation#Hurt" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="41"/>
+     <property name="startFrame" type="int" value="38"/>
+    </properties>
+   </property>
+   <property name="Animation#Idle" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="6"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="1"/>
+    </properties>
+   </property>
+   <property name="Animation#Jump" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="44"/>
+     <property name="startFrame" type="int" value="42"/>
+    </properties>
+   </property>
+   <property name="Animation#LadderGrab" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="96"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="89"/>
+    </properties>
+   </property>
+   <property name="Animation#Run" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="14"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="7"/>
+    </properties>
+   </property>
+   <property name="Animation#Slide" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="88"/>
+     <property name="startFrame" type="int" value="84"/>
+    </properties>
+   </property>
+   <property name="Animation#UpToFall" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="46"/>
+     <property name="startFrame" type="int" value="45"/>
+    </properties>
+   </property>
+   <property name="Animation#WallSlide" type="class" propertytype="Animation">
+    <properties>
+     <property name="animationTime" type="float" value="1000"/>
+     <property name="endFrame" type="int" value="63"/>
+     <property name="loop" type="bool" value="true"/>
+     <property name="startFrame" type="int" value="61"/>
+    </properties>
+   </property>
+   <property name="Collider" type="class" propertytype="Collider">
+    <properties>
+     <property name="Category" propertytype="CollisionLayers" value="Player"/>
+     <property name="ColliderShape" type="class" propertytype="RectangleCollider">
+      <properties>
+       <property name="Height" type="float" value="30"/>
+       <property name="Width" type="float" value="13"/>
+      </properties>
+     </property>
+     <property name="ColliderType" propertytype="ColliderType" value="Dynamic"/>
+     <property name="Mask" propertytype="CollisionLayers" value="All"/>
+    </properties>
+   </property>
+   <property name="DefaultAnimation" value="Idle"/>
+   <property name="InitualiseInScene" value="GamePlay"/>
+   <property name="Script" type="file" value="../Scripts/Player.lua"/>
+   <property name="Script#maxSpeed" type="float" value="100"/>
+   <property name="Sprite" type="class" propertytype="Sprite">
+    <properties>
+     <property name="XOffset" type="float" value="8"/>
+     <property name="YOffset" type="float" value="-6"/>
+    </properties>
+   </property>
+  </properties>
+ </object>
+</template>
