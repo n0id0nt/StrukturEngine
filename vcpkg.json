@@ -1,7 +1,8 @@
 {
   "dependencies": [
-    "raylib",
     "entt",
-	"pugixml"
+    "pugixml",
+    "raylib",
+    "nlohmann-json"
   ]
 }

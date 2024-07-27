@@ -153,9 +153,12 @@
     <ClCompile Include="scr\ECS\System\skRenderSystem.cpp" />
     <ClCompile Include="scr\ECS\Component\skPlayerComponent.cpp" />
     <ClCompile Include="scr\ECS\System\skPlayerSystem.cpp" />
-    <ClCompile Include="scr\Core\skFileParser.cpp" />
+    <ClCompile Include="scr\FileLoading\skLevelParser.cpp" />
     <ClCompile Include="scr\Core\skResourcePool.cpp" />
     <ClCompile Include="scr\ECS\Component\skSpriteComponent.cpp" />
+    <ClCompile Include="scr\ECS\Component\skLevelComponent.cpp" />
+    <ClCompile Include="scr\ECS\Component\skTileMapComponent.cpp" />
+    <ClCompile Include="scr\Game\skTileMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -165,9 +168,12 @@
     <ClInclude Include="scr\ECS\System\skRenderSystem.h" />
     <ClInclude Include="scr\ECS\Component\skPlayerComponent.h" />
     <ClInclude Include="scr\ECS\System\skPlayerSystem.h" />
-    <ClInclude Include="scr\Core\skFileParser.h" />
+    <ClInclude Include="scr\FileLoading\skLevelParser.h" />
     <ClInclude Include="scr\Core\skResourcePool.h" />
     <ClInclude Include="scr\ECS\Component\skSpriteComponent.h" />
+    <ClInclude Include="scr\ECS\Component\skLevelComponent.h" />
+    <ClInclude Include="scr\ECS\Component\skTileMapComponent.h" />
+    <ClInclude Include="scr\Game\skTileMap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

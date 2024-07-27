@@ -3,19 +3,53 @@
 #include "raymath.h"
 #include "skGameData.h"
 #include <string>
+#include <vector>
 #include "../Util/skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skPlayerComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
+#include "../ECS/Component/skTileMapComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skPlayerSystem.h"
 #include <entt/entt.hpp>
+#include "../FileLoading/skLevelParser.h"
+#include "../Game/skTileMap.h"
 
 std::array<std::string,3> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
-    "../ExampleGame/Tiles/cavesofgallet_tiles.png"
-    "../ExampleGame/Tiles/Warrior_Sheet-Effect.png"
+    "../ExampleGame/Tiles/cavesofgallet_tiles.png",
+    "../ExampleGame/Tiles/Warrior_Sheet-Effect.png",
 };
+
+void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry) 
+{
+    //const auto levelEntity = registry.create();
+
+
+    for (auto& layer : level.layers) {
+    	const auto layerEntity = registry.create();
+        switch (layer.type)
+        {
+        case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
+        case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
+        {
+            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
+            registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
+            std::vector<Struktur::Game::TileMap::skGridTile> grid;
+            grid.reserve(layer.autoLayerTiles.size());
+            for (auto& gridTile : layer.autoLayerTiles)
+            {
+                Struktur::Game::TileMap::skGridTile newGridTile{gridTile.px, gridTile.src, (Struktur::Game::TileMap::FlipBit)gridTile.f};
+                grid.push_back(newGridTile);
+            }
+            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
 
 void LoadData(Struktur::Core::skGameData* gameData)
 {
@@ -24,22 +58,15 @@ void LoadData(Struktur::Core::skGameData* gameData)
     {
         gameData->resourcePool.CreateTexture(texture);
     }
-    // create entities
-    for (auto i = 0u; i < 10u; ++i) {
-        const auto entity = gameData->registry.create();
-        if (i == 0)
-        {
-            gameData->registry.emplace<Struktur::Component::skPlayerComponent>(entity);
-        }
-        Transform transform{ {i * 10.f, i * 10.f,0.f},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
-        gameData->registry.emplace<Struktur::Component::skTransformComponent>(entity, transform);
 
-        auto& texture = gameData->registry.emplace<Struktur::Component::skSpriteComponent>(entity);
-        // ideally i just have like a config file that creates all the entities for each object in the scene
-        texture.imagePath = s_textures[i% s_textures.size()];
-    }
+    // load level
+    Struktur::FileLoading::LevelParser::skWorld world = Struktur::FileLoading::LevelParser::LoadWorldMap(gameData, "../ExampleGame/", "Levels/ExampleLDKTLevel.ldtk");
+    gameData->world = world;
+    Struktur::FileLoading::LevelParser::skLevel& firstLevel = world.levels[0]; // should probably actually store the first level somewhere
+    LoadLevelEntities(firstLevel, gameData->registry);
+
 	using namespace std::chrono_literals;
-	std::this_thread::sleep_for(5s);
+	std::this_thread::sleep_for(2s);
 }
 
 void MoveResourcesToVRAM(Struktur::Core::skResourcePool& resourcePool)
@@ -160,7 +187,12 @@ void Struktur::Core::Game()
         //camera
         //animation
         System::Player::Update(gameData.registry);
+
+        BeginDrawing();
+        ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool);
+        EndDrawing();
+
     }
 
     CloseWindow();

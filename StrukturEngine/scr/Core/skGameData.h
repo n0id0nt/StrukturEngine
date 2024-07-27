@@ -1,6 +1,7 @@
 #pragma once
 #include <entt/entt.hpp>
 #include "skResourcePool.h"
+#include "../FileLoading/skLevelParser.h"
 namespace Struktur
 {
 	namespace Core
@@ -10,6 +11,7 @@ namespace Struktur
 			bool shouldQuit;
 			entt::registry registry;
 			skResourcePool resourcePool;
+			FileLoading::LevelParser::skWorld world;
 		};
 	};
 };
