@@ -873,7 +873,24 @@
 					"seed": 2158630,
 					"overrideTilesetUid": null,
 					"gridTiles": [],
-					"entityInstances": []
+					"entityInstances": [
+						{
+							"__identifier": "Player",
+							"__grid": [14,9],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#BE4A2F",
+							"iid": "ee43f2c0-25d0-11ef-9d74-3d22c9375818",
+							"width": 16,
+							"height": 16,
+							"defUid": 42,
+							"px": [232,152],
+							"fieldInstances": [{ "__identifier": "ComponentData", "__type": "FilePath", "__value": null, "__tile": null, "defUid": 48, "realEditorValues": [] }],
+							"__worldX": 232,
+							"__worldY": 152
+						}
+					]
 				},
 				{
 					"__identifier": "OneWay",

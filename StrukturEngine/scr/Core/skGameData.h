@@ -2,6 +2,8 @@
 #include <entt/entt.hpp>
 #include "skResourcePool.h"
 #include "../FileLoading/skLevelParser.h"
+#include "../Util/skLuaState.h"
+
 namespace Struktur
 {
 	namespace Core
@@ -12,6 +14,7 @@ namespace Struktur
 			entt::registry registry;
 			skResourcePool resourcePool;
 			FileLoading::LevelParser::skWorld world;
+			Util::skLuaState luaState;
 		};
 	};
 };

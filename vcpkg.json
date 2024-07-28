@@ -1,8 +1,10 @@
 {
   "dependencies": [
     "entt",
+    "lua",
+    "nlohmann-json",
     "pugixml",
     "raylib",
-    "nlohmann-json"
+    "sol2"
   ]
 }

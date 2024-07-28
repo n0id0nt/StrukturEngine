@@ -14,6 +14,7 @@
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
+#include "skLua.h"
 
 std::array<std::string,3> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
@@ -45,6 +46,14 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
             registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid);
             break;
         }
+        case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
+        {
+            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
+            registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
+            registry.emplace<Struktur::Component::skPlayerComponent>(layerEntity);
+            registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
+            break;
+        }
         default:
             break;
         }
@@ -53,7 +62,12 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
 
 void LoadData(Struktur::Core::skGameData* gameData)
 {
+    //set up lua state
+    // TODO - set up lua bindings here
+    Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, "../ExampleGame/Scripts/LUAMain.lua");
+
     //load image
+    //TODO - BERT MOVE THIS TO LUA
     for (std::string texture : s_textures)
     {
         gameData->resourcePool.CreateTexture(texture);
@@ -180,10 +194,11 @@ void Struktur::Core::Game()
             gameData.shouldQuit = true;
         }
 
-
+        float dt = 0;
 
         //physics 
         //script
+        Lua::UpdateLuaState(gameData.luaState, dt);
         //camera
         //animation
         System::Player::Update(gameData.registry);
