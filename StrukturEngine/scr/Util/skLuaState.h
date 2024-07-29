@@ -11,7 +11,7 @@ namespace Struktur
 		class skLuaState
 		{
 		public:
-			skLuaState() = default;
+			skLuaState();
 			~skLuaState() = default;
 
 			void Update(float dt);
