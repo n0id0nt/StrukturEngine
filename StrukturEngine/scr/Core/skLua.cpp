@@ -1,5 +1,10 @@
 #include "skLua.h"
 
+void Struktur::Core::Lua::BindGameDataToLua(Util::skLuaState& luaState, const Struktur::Core::skGameData& gameData)
+{
+	luaState.Set();
+}
+
 void Struktur::Core::Lua::InitualiseLuaState(Util::skLuaState& luaState, const std::string& luaMainFile)
 {
 	luaState.ScriptFile(luaMainFile);

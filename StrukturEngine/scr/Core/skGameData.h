@@ -15,6 +15,8 @@ namespace Struktur
 			skResourcePool resourcePool;
 			FileLoading::LevelParser::skWorld world;
 			Util::skLuaState luaState;
+
+			static void LUABind(Util::skLuaState& lua);
 		};
 	};
 };

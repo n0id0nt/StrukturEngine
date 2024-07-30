@@ -1,5 +1,6 @@
 #pragma once
 #include "../Util/skLuaState.h"
+#include "skGameData.h"
 
 namespace Struktur
 {

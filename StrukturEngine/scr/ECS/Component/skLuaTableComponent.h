@@ -1,14 +1,13 @@
 #pragma once
-#include <string>
+#include <sol/sol.hpp>
 
 namespace Struktur
 {
 	namespace Component
 	{
-		struct skLevelComponent
+		struct skLuaTableComponent
 		{
-			std::string table;
+			sol::table table;
 		};
 	};
 };
-

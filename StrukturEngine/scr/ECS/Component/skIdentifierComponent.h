@@ -1,14 +1,14 @@
 #pragma once
+
 #include <string>
 
 namespace Struktur
 {
 	namespace Component
 	{
-		struct skLevelComponent
+		struct skIdentifierComponent
 		{
-			std::string table;
+			std::string type;
 		};
 	};
 };
-

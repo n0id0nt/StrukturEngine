@@ -63,11 +63,12 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
 void LoadData(Struktur::Core::skGameData* gameData)
 {
     //set up lua state
-    // TODO - set up lua bindings here
+    Struktur::Core::Lua::BindToLua(gameData->luaState);
+    // set the lua values
+    // now load the main lua file
     Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, "../ExampleGame/Scripts/LUAMain.lua");
 
     //load image
-    //TODO - BERT MOVE THIS TO LUA
     for (std::string texture : s_textures)
     {
         gameData->resourcePool.CreateTexture(texture);
