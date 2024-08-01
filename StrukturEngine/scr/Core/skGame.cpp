@@ -9,6 +9,7 @@
 #include "../ECS/Component/skPlayerComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skTileMapComponent.h"
+#include "../ECS/Component/skIdentifierComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skPlayerSystem.h"
 #include <entt/entt.hpp>
@@ -50,7 +51,8 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         {
             Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
             registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
-            registry.emplace<Struktur::Component::skPlayerComponent>(layerEntity);
+            registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, "Player");
+            //registry.emplace<Struktur::Component::skPlayerComponent>(layerEntity);
             registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
             break;
         }
@@ -65,6 +67,7 @@ void LoadData(Struktur::Core::skGameData* gameData)
     //set up lua state
     Struktur::Core::Lua::BindToLua(gameData->luaState);
     // set the lua values
+    gameData->luaState.Set("GameData", gameData);
     // now load the main lua file
     Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, "../ExampleGame/Scripts/LUAMain.lua");
 

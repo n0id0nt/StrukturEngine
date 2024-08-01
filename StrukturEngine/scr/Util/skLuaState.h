@@ -33,6 +33,8 @@ namespace Struktur
 			void NewEnum(const std::string_view& name, Args&&... args) {
 				m_lua.new_enum<read_only>(name, std::forward<Args>(args)...);
 			}
+
+			sol::table CreateTable();
 		private:
 			sol::state m_lua;
 

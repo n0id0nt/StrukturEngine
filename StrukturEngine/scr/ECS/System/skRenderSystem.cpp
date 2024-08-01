@@ -41,7 +41,7 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
         {
             Texture2D texture = resourcePool.RetrieveTexture(sprite.imagePath);
 
-            Rectangle destRec{ transform.transform.translation.x, transform.transform.translation.y, sprite.size.x, sprite.size.y };
+            Rectangle destRec{ transform.translation.x, transform.translation.y, sprite.size.x, sprite.size.y };
             //switch (gridTile.flipBit)
             //{
             //case Game::TileMap::FlipBit::BOTH:

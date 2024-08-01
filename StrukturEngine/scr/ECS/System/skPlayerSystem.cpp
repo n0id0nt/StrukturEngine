@@ -8,7 +8,7 @@ void Struktur::System::Player::Update(entt::registry& registry)
 
     for (auto [entity, transform] : view.each())
     {
-        transform.transform.translation.x += (int)IsKeyDown(KEY_RIGHT) - (int)IsKeyDown(KEY_LEFT);
-        transform.transform.translation.y += (int)IsKeyDown(KEY_DOWN) - (int)IsKeyDown(KEY_UP);
+        transform.translation.x += (int)IsKeyDown(KEY_RIGHT) - (int)IsKeyDown(KEY_LEFT);
+        transform.translation.y += (int)IsKeyDown(KEY_DOWN) - (int)IsKeyDown(KEY_UP);
     }
 }

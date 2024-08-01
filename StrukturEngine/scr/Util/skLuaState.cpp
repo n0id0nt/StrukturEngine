@@ -53,3 +53,8 @@ void Struktur::Util::skLuaState::ScriptFile(const std::string& filename)
 		assert(false);
 	}
 }
+
+sol::table Struktur::Util::skLuaState::CreateTable()
+{
+	return m_lua.create_table();
+}
