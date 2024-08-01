@@ -7,11 +7,30 @@ void Struktur::Core::Lua::BindToLua(Util::skLuaState& luaState)
 	skGameData::LUABind(luaState);
 	Component::skTransformComponent::LUABind(luaState);
 
-	luaState.NewUsertype<Vector3>("vector3"
+
+	// these are values from libraries that need to be bound - Might be a good idea to move this to a separate function 
+	luaState.NewUsertype<Vector3>("vec3"
+		, "new", sol::constructors<Vector3(float, float, float)>()
 		, "x", &Vector3::x
 		, "y", &Vector3::y
 		, "z", &Vector3::z
 	);	
+	luaState["vec3"]["copy"] = sol::overload(
+		[](const Vector3& original) {
+		return Vector3(original);
+	}
+	);
+	luaState.NewUsertype<Vector2>("vec2"
+		, "new", sol::constructors<Vector2(float, float)>()
+		, "x", &Vector2::x
+		, "y", &Vector2::y
+	);	
+	luaState["vec2"]["copy"] = sol::overload(
+		[](const Vector2& original) {
+		return Vector2(original);
+	}
+	);
+
 	luaState.NewUsertype<entt::entity>("entity");
 }
 

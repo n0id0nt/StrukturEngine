@@ -34,6 +34,16 @@ namespace Struktur
 				m_lua.new_enum<read_only>(name, std::forward<Args>(args)...);
 			}
 
+			template <typename T>
+			sol::table_proxy<sol::global_table&, sol::detail::proxy_key_t<T>> operator[](T&& key) {
+				return m_lua[std::forward<T>(key)];
+			}
+
+			template <typename T>
+			sol::table_proxy<const sol::global_table&, sol::detail::proxy_key_t<T>> operator[](T&& key) const {
+				return m_lua[std::forward<T>(key)];
+			}
+
 			sol::table CreateTable();
 		private:
 			sol::state m_lua;
