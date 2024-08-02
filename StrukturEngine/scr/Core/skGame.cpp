@@ -211,6 +211,10 @@ void Struktur::Core::Game()
         BeginDrawing();
         ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool);
+        //debug render(lines and stuff)
+        //render UI
+        //render debug UI
+        //Render IMGUI (When i actually add this)
         EndDrawing();
 
     }
