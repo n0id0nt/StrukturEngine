@@ -44,6 +44,7 @@ void Struktur::Core::skGameData::LUABind(Util::skLuaState& lua)
 	lua.NewUsertype<skGameData>("gameData"
 		,"resourcePool", &skGameData::resourcePool
 		,"world", &skGameData::world
+		,"input", &skGameData::input
 		//,"registry", &skGameData::registry
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>

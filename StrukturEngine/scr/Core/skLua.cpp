@@ -1,12 +1,13 @@
 #include "skLua.h"
 #include "skGameData.h"
+#include "skInput.h"
 #include "../ECS/Component/skTransformComponent.h"
 
 void Struktur::Core::Lua::BindToLua(Util::skLuaState& luaState)
 {
 	skGameData::LUABind(luaState);
 	Component::skTransformComponent::LUABind(luaState);
-
+	skInput::LUABind(luaState);
 
 	// these are values from libraries that need to be bound - Might be a good idea to move this to a separate function 
 	luaState.NewUsertype<Vector3>("vec3"

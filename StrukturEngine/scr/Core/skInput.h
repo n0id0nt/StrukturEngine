@@ -54,19 +54,14 @@ namespace Struktur
 
 				Count
 			};
-
-			enum class MouseButtons
-			{
-				Left,
-				Middle,
-				Right,
-
-				Count
-			};
 		public:
 
-			skInput();
+			skInput(int gamer = 0);
 			~skInput();
+
+			void Update();
+
+			void LoadInputBindings(const std::string& fileDir, const std::string& bindingFile);
 
 			bool isKeyDown(KeyboardKey key);
 			bool isKeyJustPressed(KeyboardKey key);
@@ -89,7 +84,7 @@ namespace Struktur
 			float getStringControllerAxisValue(const std::string& input);
 
 			void CreateButtonBinding(const std::string& input, KeyboardKey code);
-			void CreateButtonBinding(const std::string& input, KeyboardKey code);
+			void CreateButtonBinding(const std::string& input, GamepadButton code);
 
 			void CreateVairableBinding(const std::string& input, KeyboardKey code);
 			void CreateVairableBinding(const std::string& input, GamepadButton code);
@@ -126,6 +121,9 @@ namespace Struktur
 			static std::unordered_map<std::string, GamepadAxis> s_controllerAxisMap;
 
 			float m_deadzone;
+
+			std::string m_gamepadId;
+			int m_gamepadIndex;
 		};
 	};
 };

@@ -3,6 +3,7 @@
 #include "skResourcePool.h"
 #include "../FileLoading/skLevelParser.h"
 #include "../Util/skLuaState.h"
+#include "skInput.h"
 
 namespace Struktur
 {
@@ -15,6 +16,7 @@ namespace Struktur
 			skResourcePool resourcePool;
 			FileLoading::LevelParser::skWorld world;
 			Util::skLuaState luaState;
+			skInput input;
 
 			static void LUABind(Util::skLuaState& lua);
 		};

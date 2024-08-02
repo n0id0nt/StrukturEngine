@@ -151,8 +151,6 @@
     <ClCompile Include="scr\Main.cpp" />
     <ClCompile Include="scr\ECS\Component\skTransformComponent.cpp" />
     <ClCompile Include="scr\ECS\System\skRenderSystem.cpp" />
-    <ClCompile Include="scr\ECS\Component\skPlayerComponent.cpp" />
-    <ClCompile Include="scr\ECS\System\skPlayerSystem.cpp" />
     <ClCompile Include="scr\FileLoading\skLevelParser.cpp" />
     <ClCompile Include="scr\Core\skResourcePool.cpp" />
     <ClCompile Include="scr\ECS\Component\skSpriteComponent.cpp" />
@@ -171,8 +169,6 @@
     <ClInclude Include="scr\Util\skTask.h" />
     <ClInclude Include="scr\ECS\Component\skTransformComponent.h" />
     <ClInclude Include="scr\ECS\System\skRenderSystem.h" />
-    <ClInclude Include="scr\ECS\Component\skPlayerComponent.h" />
-    <ClInclude Include="scr\ECS\System\skPlayerSystem.h" />
     <ClInclude Include="scr\FileLoading\skLevelParser.h" />
     <ClInclude Include="scr\Core\skResourcePool.h" />
     <ClInclude Include="scr\ECS\Component\skSpriteComponent.h" />

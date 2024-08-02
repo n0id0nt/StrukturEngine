@@ -6,12 +6,10 @@
 #include <vector>
 #include "../Util/skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
-#include "../ECS/Component/skPlayerComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skTileMapComponent.h"
 #include "../ECS/Component/skIdentifierComponent.h"
 #include "../ECS/System/skRenderSystem.h"
-#include "../ECS/System/skPlayerSystem.h"
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
@@ -32,10 +30,10 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
     	const auto layerEntity = registry.create();
         switch (layer.type)
         {
-        case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
+        case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
-            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
+            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
             registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
             grid.reserve(layer.autoLayerTiles.size());
@@ -49,10 +47,10 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         }
         case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
         {
-            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY},{0.f,0.f,0.f,0.f},{0.f,0.f,0.f} };
+            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
             registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
             registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, "Player");
-            //registry.emplace<Struktur::Component::skPlayerComponent>(layerEntity);
+            // Move this to lua
             registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
             break;
         }
@@ -64,6 +62,10 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
 
 void LoadData(Struktur::Core::skGameData* gameData)
 {
+    //load input
+    gameData->input = Struktur::Core::skInput(0);
+    gameData->input.LoadInputBindings("../ExampleGame/", "Settings/InputBindings/InputBindings.xml");
+
     //set up lua state
     Struktur::Core::Lua::BindToLua(gameData->luaState);
     // set the lua values
@@ -87,6 +89,7 @@ void LoadData(Struktur::Core::skGameData* gameData)
 	std::this_thread::sleep_for(2s);
 }
 
+// This needs to be called on the main thread because this talks to the gpu
 void MoveResourcesToVRAM(Struktur::Core::skResourcePool& resourcePool)
 {
     for (std::string texture : s_textures)
@@ -201,11 +204,9 @@ void Struktur::Core::Game()
         float dt = 0;
 
         //physics 
-        //script
         Lua::UpdateLuaState(gameData.luaState, dt);
         //camera
         //animation
-        System::Player::Update(gameData.registry);
 
         BeginDrawing();
         ClearBackground(BLACK);
