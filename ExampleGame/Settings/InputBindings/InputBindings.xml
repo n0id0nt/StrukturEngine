@@ -12,8 +12,8 @@
     </input>
     <input name="Dash" type="button">
         <bindings>
-            <binding type="keycode" value="lshift"/>
-            <binding type="keycode" value="rshift"/>
+            <binding type="keycode" value="leftshift"/>
+            <binding type="keycode" value="rightshift"/>
         </bindings>
     </input>
     <input name="Grab" type="button">

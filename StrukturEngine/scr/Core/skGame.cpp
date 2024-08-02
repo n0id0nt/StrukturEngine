@@ -9,6 +9,7 @@
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skTileMapComponent.h"
 #include "../ECS/Component/skIdentifierComponent.h"
+#include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
@@ -52,6 +53,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
             registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, "Player");
             // Move this to lua
             registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
+            registry.emplace<Struktur::Component::skCameraComponent>(layerEntity, 3.f);
             break;
         }
         default:

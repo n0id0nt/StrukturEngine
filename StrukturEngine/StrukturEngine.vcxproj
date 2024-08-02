@@ -162,6 +162,7 @@
     <ClCompile Include="scr\ECS\Component\skLuaTableComponent.cpp" />
     <ClCompile Include="scr\ECS\Component\skIdentifierComponent.cpp" />
     <ClCompile Include="scr\Core\skInput.cpp" />
+    <ClCompile Include="scr\ECS\Component\skCameraComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="scr\ECS\Component\skLuaTableComponent.h" />
     <ClInclude Include="scr\ECS\Component\skIdentifierComponent.h" />
     <ClInclude Include="scr\Core\skInput.h" />
+    <ClInclude Include="scr\ECS\Component\skCameraComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

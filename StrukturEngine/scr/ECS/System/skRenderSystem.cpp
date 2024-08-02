@@ -2,11 +2,24 @@
 #include "../Component/skTransformComponent.h"
 #include "../Component/skSpriteComponent.h"
 #include "../Component/skTileMapComponent.h"
+#include "../Component/skCameraComponent.h"
 #include "raylib.h"
 #include "../../Core/skResourcePool.h"
 
 void Struktur::System::Render::Update(entt::registry& registry, const Core::skResourcePool& resourcePool)
 {
+    Camera2D currCamera = { 0 };
+    {
+        auto view = registry.view<Struktur::Component::skCameraComponent, Struktur::Component::skTransformComponent>();
+
+        for (auto [entity, camera, transform] : view.each())
+        {
+            currCamera.target = Vector2{ transform.translation.x, transform.translation.y };
+            currCamera.offset = Vector2{ 1280 / 2, 720 / 2 };
+            currCamera.zoom = camera.zoom;
+        }
+    }
+    BeginMode2D(currCamera);
     {
         auto view = registry.view<Struktur::Component::skTransformComponent, Struktur::Component::skTileMapComponent>();
 
@@ -58,4 +71,5 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
             DrawTexturePro(texture, sprite.sourceRec, destRec, Vector2{ 0,0 }, 0, WHITE);
         }
     }
+    EndMode2D();
 }
