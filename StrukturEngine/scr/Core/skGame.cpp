@@ -10,6 +10,7 @@
 #include "../ECS/Component/skTileMapComponent.h"
 #include "../ECS/Component/skIdentifierComponent.h"
 #include "../ECS/Component/skCameraComponent.h"
+#include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
@@ -22,7 +23,7 @@ std::array<std::string,3> s_textures = {
     "../ExampleGame/Tiles/Warrior_Sheet-Effect.png",
 };
 
-void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry) 
+void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry, Struktur::Scripting::skLuaState& luaState)
 {
     //const auto levelEntity = registry.create();
 
@@ -48,12 +49,32 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         }
         case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
         {
-            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
-            registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
-            registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, "Player");
-            // Move this to lua
-            registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
-            registry.emplace<Struktur::Component::skCameraComponent>(layerEntity, 3.f);
+            for (auto& entityInstance : layer.entityInstaces)
+            {
+                Vector2 position = entityInstance.px;
+                Transform transform{ {position.x, position.y}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
+                registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
+                registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, entityInstance.identifier);
+                auto& luaComponent = registry.emplace<Struktur::Component::skLuaComponent>(layerEntity, false, luaState.CreateTable());
+                for (auto fieldInstance : entityInstance.fieldInstances)
+                {
+                    switch (fieldInstance.type)
+                    {
+                    case Struktur::FileLoading::LevelParser::FieldInstanceType::FLOAT:
+                    {
+                        float value = std::any_cast<float>(fieldInstance.value);
+                        luaComponent.table[fieldInstance.identifier] = value;
+                        break;
+                    }
+                    default:
+                        assert(false);
+                        break;
+                    }
+                }
+                // Move this to lua
+                registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
+                registry.emplace<Struktur::Component::skCameraComponent>(layerEntity, 3.f);
+            }
             break;
         }
         default:
@@ -69,11 +90,12 @@ void LoadData(Struktur::Core::skGameData* gameData)
     gameData->input.LoadInputBindings("../ExampleGame/", "Settings/InputBindings/InputBindings.xml");
 
     //set up lua state
+    gameData->luaState.CreateLuaState("../ExampleGame/");
     Struktur::Core::Lua::BindToLua(gameData->luaState);
     // set the lua values
     gameData->luaState.Set("GameData", gameData);
     // now load the main lua file
-    Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, "../ExampleGame/Scripts/LUAMain.lua");
+    Struktur::Core::Lua::CreateLuaStateScript(gameData->luaState, "../ExampleGame/Scripts/LUAMain.lua");
 
     //load image
     for (std::string texture : s_textures)
@@ -85,10 +107,13 @@ void LoadData(Struktur::Core::skGameData* gameData)
     Struktur::FileLoading::LevelParser::skWorld world = Struktur::FileLoading::LevelParser::LoadWorldMap(gameData, "../ExampleGame/", "Levels/ExampleLDKTLevel.ldtk");
     gameData->world = world;
     Struktur::FileLoading::LevelParser::skLevel& firstLevel = world.levels[0]; // should probably actually store the first level somewhere
-    LoadLevelEntities(firstLevel, gameData->registry);
+    LoadLevelEntities(firstLevel, gameData->registry, gameData->luaState);
+
+    // Call inisialise function now that all the entities are created
+    Struktur::Core::Lua::InitualiseLuaState(gameData->luaState);
 
 	using namespace std::chrono_literals;
-	std::this_thread::sleep_for(2s);
+	std::this_thread::sleep_for(5s);
 }
 
 // This needs to be called on the main thread because this talks to the gpu
@@ -203,12 +228,12 @@ void Struktur::Core::Game()
             gameData.shouldQuit = true;
         }
 
-        float dt = 0;
+        float dt = GetFrameTime();
 
         //physics 
         Lua::UpdateLuaState(gameData.luaState, dt);
-        //camera
         //animation
+        //camera
 
         BeginDrawing();
         ClearBackground(BLACK);

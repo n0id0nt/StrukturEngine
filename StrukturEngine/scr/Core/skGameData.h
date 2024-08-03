@@ -2,7 +2,7 @@
 #include <entt/entt.hpp>
 #include "skResourcePool.h"
 #include "../FileLoading/skLevelParser.h"
-#include "../Util/skLuaState.h"
+#include "../Scripting/skLuaState.h"
 #include "skInput.h"
 
 namespace Struktur
@@ -15,10 +15,10 @@ namespace Struktur
 			entt::registry registry;
 			skResourcePool resourcePool;
 			FileLoading::LevelParser::skWorld world;
-			Util::skLuaState luaState;
+			Scripting::skLuaState luaState;
 			skInput input;
 
-			static void LUABind(Util::skLuaState& lua);
+			static void LUABind(Scripting::skLuaState& lua);
 		};
 	};
 };

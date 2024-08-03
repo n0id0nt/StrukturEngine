@@ -11,7 +11,7 @@
 	"iid": "d6a2af70-fec0-11ee-a725-db5e867542c9",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 49,
+	"nextUid": 50,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -744,13 +744,13 @@
 			"pivotY": 0.5,
 			"fieldDefs": [
 				{
-					"identifier": "ComponentData",
+					"identifier": "MaxSpeed",
 					"doc": null,
-					"__type": "FilePath",
-					"uid": 48,
-					"type": "F_Path",
+					"__type": "Float",
+					"uid": 49,
+					"type": "F_Float",
 					"isArray": false,
-					"canBeNull": true,
+					"canBeNull": false,
 					"arrayMinLength": null,
 					"arrayMaxLength": null,
 					"editorDisplayMode": "Hidden",
@@ -766,11 +766,11 @@
 					"useForSmartColor": false,
 					"exportToToc": false,
 					"searchable": false,
-					"min": null,
+					"min": 0,
 					"max": null,
 					"regex": null,
-					"acceptFileTypes": [".xml"],
-					"defaultOverride": null,
+					"acceptFileTypes": null,
+					"defaultOverride": { "id": "V_Float", "params": [5] },
 					"textLanguageMode": null,
 					"symmetricalRef": false,
 					"autoChainRef": true,
@@ -886,7 +886,7 @@
 							"height": 16,
 							"defUid": 42,
 							"px": [232,152],
-							"fieldInstances": [{ "__identifier": "ComponentData", "__type": "FilePath", "__value": null, "__tile": null, "defUid": 48, "realEditorValues": [] }],
+							"fieldInstances": [{ "__identifier": "MaxSpeed", "__type": "Float", "__value": 5, "__tile": null, "defUid": 49, "realEditorValues": [] }],
 							"__worldX": 232,
 							"__worldY": 152
 						}
@@ -1878,10 +1878,7 @@
 							"height": 16,
 							"defUid": 42,
 							"px": [136,184],
-							"fieldInstances": [{ "__identifier": "ComponentData", "__type": "FilePath", "__value": "../UI/Layouts/TestLayout.xml", "__tile": null, "defUid": 48, "realEditorValues": [{
-								"id": "V_String",
-								"params": ["../UI/Layouts/TestLayout.xml"]
-							}] }],
+							"fieldInstances": [{ "__identifier": "MaxSpeed", "__type": "Float", "__value": 5, "__tile": null, "defUid": 49, "realEditorValues": [] }],
 							"__worldX": -440,
 							"__worldY": 136
 						}

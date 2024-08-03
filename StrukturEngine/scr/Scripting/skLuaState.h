@@ -6,14 +6,16 @@
 
 namespace Struktur
 {
-	namespace Util
+	namespace Scripting
 	{
 		class skLuaState
 		{
 		public:
-			skLuaState();
+			skLuaState() = default;
 			~skLuaState() = default;
 
+			void CreateLuaState(const std::string& workingDirectory);
+			void Initialise();
 			void Update(float dt);
 
 			void ScriptFile(const std::string& filename);
@@ -50,6 +52,9 @@ namespace Struktur
 
 			sol::protected_function m_update;
 			std::function<void(float)> m_updateFunction;
+
+			sol::protected_function m_initialise;
+			std::function<void()> m_initialiseFunction;
 
 			//sol::protected_function m_onMessage;
 			//std::function<void(const std::string&, const sol::object&, const Entity&)> m_onMessageFunction;

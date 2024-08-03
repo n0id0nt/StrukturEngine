@@ -2,12 +2,18 @@
 #include "skGameData.h"
 #include "skInput.h"
 #include "../ECS/Component/skTransformComponent.h"
+#include "../ECS/Component/skLuaComponent.h"
+#include "../Scripting/skLuaScriptTemplate.h"
 
-void Struktur::Core::Lua::BindToLua(Util::skLuaState& luaState)
+void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 {
 	skGameData::LUABind(luaState);
-	Component::skTransformComponent::LUABind(luaState);
 	skInput::LUABind(luaState);
+
+	Component::skTransformComponent::LUABind(luaState);
+	Component::skLuaComponent::LUABind(luaState);
+
+	Scripting::skLuaScriptTemplate::LUABind(luaState);
 
 	// these are values from libraries that need to be bound - Might be a good idea to move this to a separate function 
 	luaState.NewUsertype<Vector3>("vec3"
@@ -35,12 +41,17 @@ void Struktur::Core::Lua::BindToLua(Util::skLuaState& luaState)
 	luaState.NewUsertype<entt::entity>("entity");
 }
 
-void Struktur::Core::Lua::InitualiseLuaState(Util::skLuaState& luaState, const std::string& luaMainFile)
+void Struktur::Core::Lua::CreateLuaStateScript(Scripting::skLuaState& luaState, const std::string& luaMainFile)
 {
 	luaState.ScriptFile(luaMainFile);
 }
 
-void Struktur::Core::Lua::UpdateLuaState(Util::skLuaState& luaState, float dt)
+void Struktur::Core::Lua::InitualiseLuaState(Scripting::skLuaState& luaState)
+{
+	luaState.Initialise();
+}
+
+void Struktur::Core::Lua::UpdateLuaState(Scripting::skLuaState& luaState, float dt)
 {
 	luaState.Update(dt);
 }

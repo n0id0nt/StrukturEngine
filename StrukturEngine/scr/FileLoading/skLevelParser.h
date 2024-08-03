@@ -7,6 +7,7 @@
 #include "raylib.h"
 #include <nlohmann/json.hpp>
 #include <optional>
+#include <any>
 
 namespace Struktur
 {
@@ -18,10 +19,28 @@ namespace Struktur
 	{
 		namespace LevelParser
 		{
+			enum class FieldInstanceType
+			{
+				INTEGER,
+				FLOAT,
+				BOOLEAN,
+				STRING,
+				MULTILINE,
+				COLOUR,
+				ENUM,
+				FILE_PATH,
+				TILE,
+				ENTITY_REF,
+				POINT,
+
+				COUNT
+			};
+
 			struct skFieldInstance
 			{
 				std::string identifier;
-
+				std::any value;
+				FieldInstanceType type;
 			};
 
 			struct skEntity
@@ -112,6 +131,7 @@ namespace Struktur
 			void LoadFieldInstances(skEntity& entity, const nlohmann::json& json);
 			void LoadIntGrid(skLayer& gridLayer, const nlohmann::json& json);
 			void LoadAutoLayerTiles(skLayer& gridLayer, const nlohmann::json& json);
+			FieldInstanceType ConvertFieldTypeToEnum(const std::string& fieldInstanceType);
 		}
 	}
 }

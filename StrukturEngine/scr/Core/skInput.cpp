@@ -765,9 +765,9 @@ GamepadAxis Struktur::Core::skInput::GetControllerAxisFromString(const std::stri
 	return it->second;
 }
 
-void Struktur::Core::skInput::LUABind(Util::skLuaState& lua)
+void Struktur::Core::skInput::LUABind(Scripting::skLuaState& lua)
 {
-	lua.NewUsertype<skInput>("Input",
+	lua.NewUsertype<skInput>("input",
 		"isInputDown", &skInput::isInputDown,
 		"isInputJustPressed", &skInput::isInputJustPressed,
 		"isInputJustReleased", &skInput::isInputJustReleased,

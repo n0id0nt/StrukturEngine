@@ -1,5 +1,5 @@
 #pragma once
-#include "../Util/skLuaState.h"
+#include "../Scripting/skLuaState.h"
 #include "skGameData.h"
 
 namespace Struktur
@@ -8,11 +8,13 @@ namespace Struktur
 	{
 		namespace Lua
 		{
-			void BindToLua(Util::skLuaState& luaState);
+			void BindToLua(Scripting::skLuaState& luaState);
 
-			void InitualiseLuaState(Util::skLuaState& luaState, const std::string& luaMainFile);
+			void CreateLuaStateScript(Scripting::skLuaState& luaState, const std::string& luaMainFile);
 
-			void UpdateLuaState(Util::skLuaState& luaState, float dt);
+			void InitualiseLuaState(Scripting::skLuaState& luaState);
+
+			void UpdateLuaState(Scripting::skLuaState& luaState, float dt);
 		};
 	};
 };

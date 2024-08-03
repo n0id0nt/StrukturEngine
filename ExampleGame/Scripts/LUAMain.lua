@@ -1,20 +1,34 @@
-print("Test 1")
+
+local Player_Script = require("Player")
 
 local gameObjects = 
 {
-    player = "Test",
-}
+    Player = Player_Script,
+} 
 
---Script.create = function(dt)
---    -- add components to each 
---    print("Test 2")
---end
+Script.initialise = function(dt)
+    -- initialise each component
+    for objectIdentifier, script in pairs(gameObjects) do
+        local entities = GameData:getEntitiesWithIdentifier(objectIdentifier)
+        for _, entity in ipairs(entities) do
+            script.create(entity)
+            local luaComponent = GameData:getLuaComponent(entity)
+            luaComponent.initalised = true
+        end
+    end
+end
 
 Script.update = function(dt)
-    print("Test 2")
-    local entity = GameData:getEntitiesWithIdentifier("Player")[1] -- should only be one
-    local playerTransform = GameData:getTransformComponent(entity)
-    local move = GameData.input:getInputAxis2("Move")
-    playerTransform.translation.x = playerTransform.translation.x + move.x
-    playerTransform.translation.y = playerTransform.translation.y - move.y
+    for objectIdentifier, script in pairs(gameObjects) do
+        local entities = GameData:getEntitiesWithIdentifier(objectIdentifier)
+        for _, entity in ipairs(entities) do
+            local luaComponent = GameData:getLuaComponent(entity)
+            if not luaComponent.initalised then
+                script.create(entity)
+                luaComponent.initalised = true
+            end
+            
+            script.update(entity, dt)
+        end
+    end
 end

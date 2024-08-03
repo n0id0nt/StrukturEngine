@@ -158,11 +158,12 @@
     <ClCompile Include="scr\ECS\Component\skTileMapComponent.cpp" />
     <ClCompile Include="scr\Game\skTileMap.cpp" />
     <ClCompile Include="scr\Core\skLua.cpp" />
-    <ClCompile Include="scr\Util\skLuaState.cpp" />
-    <ClCompile Include="scr\ECS\Component\skLuaTableComponent.cpp" />
+    <ClCompile Include="scr\Scripting\skLuaState.cpp" />
+    <ClCompile Include="scr\ECS\Component\skLuaComponent.cpp" />
     <ClCompile Include="scr\ECS\Component\skIdentifierComponent.cpp" />
     <ClCompile Include="scr\Core\skInput.cpp" />
     <ClCompile Include="scr\ECS\Component\skCameraComponent.cpp" />
+    <ClCompile Include="scr\Scripting\skLuaScriptTemplate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -177,11 +178,12 @@
     <ClInclude Include="scr\ECS\Component\skTileMapComponent.h" />
     <ClInclude Include="scr\Game\skTileMap.h" />
     <ClInclude Include="scr\Core\skLua.h" />
-    <ClInclude Include="scr\Util\skLuaState.h" />
-    <ClInclude Include="scr\ECS\Component\skLuaTableComponent.h" />
+    <ClInclude Include="scr\Scripting\skLuaState.h" />
+    <ClInclude Include="scr\ECS\Component\skLuaComponent.h" />
     <ClInclude Include="scr\ECS\Component\skIdentifierComponent.h" />
     <ClInclude Include="scr\Core\skInput.h" />
     <ClInclude Include="scr\ECS\Component\skCameraComponent.h" />
+    <ClInclude Include="scr\Scripting\skLuaScriptTemplate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,13 +1,16 @@
 #pragma once
-#include "raylib.h"
+#include <sol/sol.hpp>
 #include "../../Scripting/skLuaState.h"
 
 namespace Struktur
 {
 	namespace Component
 	{
-		struct skTransformComponent : public Transform
+		struct skLuaComponent
 		{
+			bool initalised;
+			sol::table table;
+
 			static void LUABind(Scripting::skLuaState& lua);
 		};
 	};

@@ -1,6 +1,22 @@
 #include "skGameData.h"
 #include "../ECS/Component/skIdentifierComponent.h"
 #include "../ECS/Component/skTransformComponent.h"
+#include "../ECS/Component/skLuaComponent.h"
+
+entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
+{
+	auto view = gameData.registry.view<Struktur::Component::skIdentifierComponent>();
+	for (auto [entity, identifierComponent] : view.each())
+	{
+		if (identifierComponent.type == identifier)
+		{
+			return entity;
+		}
+	}
+
+	assert(false);
+	return entt::entity();
+}
 
 sol::table LUA_GetEntitiesWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -26,7 +42,7 @@ sol::table LUA_GetEntitiesAndComponentsOfType(Struktur::Core::skGameData& gameDa
 	auto view = gameData.registry.view<Component>();
 	for (auto [entity, component] : view.each())
 	{
-		entitiesTable.add(entity, component);
+		entitiesTable[entity] = component;
 	}
 
 	return entitiesTable;
@@ -39,7 +55,7 @@ Component& LUA_GetComponentFromEntity(Struktur::Core::skGameData& gameData, cons
 	return component;
 }
 
-void Struktur::Core::skGameData::LUABind(Util::skLuaState& lua)
+void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
 	lua.NewUsertype<skGameData>("gameData"
 		,"resourcePool", &skGameData::resourcePool
@@ -47,7 +63,9 @@ void Struktur::Core::skGameData::LUABind(Util::skLuaState& lua)
 		,"input", &skGameData::input
 		//,"registry", &skGameData::registry
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
+		,"getEntityWithIdentifier", &LUA_GetEntityWithIdentifier
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>
 		,"getTransformComponent", &LUA_GetComponentFromEntity<Component::skTransformComponent>
+		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
 	);
 }

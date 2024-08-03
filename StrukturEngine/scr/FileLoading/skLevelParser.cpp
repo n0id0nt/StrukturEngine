@@ -116,8 +116,55 @@ void Struktur::FileLoading::LevelParser::LoadFieldInstances(skEntity& entity, co
 		std::string fieldName = fieldInstanceJson["__identifier"];
 		TraceLog(LOG_INFO, std::format("Loading field instance {}", fieldName).c_str());
 
+		FieldInstanceType fieldType = ConvertFieldTypeToEnum(fieldInstanceJson["__type"]);
+
 		skFieldInstance field;
 		field.identifier = fieldName;
+		field.type = fieldType;
+		switch (fieldType)
+		{
+		case Struktur::FileLoading::LevelParser::FieldInstanceType::INTEGER:
+		{
+			int fieldValue = fieldInstanceJson["__value"];
+			field.value = fieldValue;
+			break;
+		}		
+		case Struktur::FileLoading::LevelParser::FieldInstanceType::FLOAT:
+		{
+			float fieldValue = fieldInstanceJson["__value"];
+			field.value = fieldValue;
+			break;
+		}
+		case Struktur::FileLoading::LevelParser::FieldInstanceType::BOOLEAN:
+		{
+			bool fieldValue = fieldInstanceJson["__value"];
+			field.value = fieldValue;
+			break;
+		}
+		case Struktur::FileLoading::LevelParser::FieldInstanceType::STRING:
+		{
+			std::string fieldValue = fieldInstanceJson["__value"];
+			field.value = fieldValue;
+			break;
+		}		
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::MULTILINE:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::COLOUR:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::ENUM:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::FILE_PATH:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::TILE:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::ENTITY_REF:
+		//	break;
+		//case Struktur::FileLoading::LevelParser::FieldInstanceType::POINT:
+		//	break;
+		default:
+			assert(false);
+			break;
+		}
 
 		entity.fieldInstances.push_back(field);
 	}
@@ -148,4 +195,14 @@ void Struktur::FileLoading::LevelParser::LoadAutoLayerTiles(skLayer& gridLayer, 
 		gridTile.a = autoLayerTileJson["a"];
 		gridLayer.autoLayerTiles.push_back(gridTile);
 	}
+}
+
+Struktur::FileLoading::LevelParser::FieldInstanceType Struktur::FileLoading::LevelParser::ConvertFieldTypeToEnum(const std::string& fieldInstanceType)
+{
+	if (fieldInstanceType == "Float")
+	{
+		return FieldInstanceType::FLOAT;
+	}
+	assert(false); // need to implement this type
+	return FieldInstanceType::COUNT;
 }

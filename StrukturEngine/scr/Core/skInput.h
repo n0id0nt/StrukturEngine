@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include "../Util/skLuaState.h"
+#include "../Scripting/skLuaState.h"
 #include <set>
 
 namespace Struktur
@@ -109,7 +109,7 @@ namespace Struktur
 			GamepadButton GetControllerButtonFromString(const std::string& input);
 			GamepadAxis GetControllerAxisFromString(const std::string& input);
 
-			static void LUABind(Util::skLuaState& lua);
+			static void LUABind(Scripting::skLuaState& lua);
 
 		private:
 			std::unordered_map<std::string, Binding> m_buttonBindings;
