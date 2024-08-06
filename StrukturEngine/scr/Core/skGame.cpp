@@ -17,6 +17,10 @@
 #include "../Game/skTileMap.h"
 #include "skLua.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+#undef RAYGUI_IMPLEMENTATION            // Avoid including raygui implementation again
+
 std::array<std::string,3> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
     "../ExampleGame/Tiles/cavesofgallet_tiles.png",
@@ -73,7 +77,6 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                 }
                 // Move this to lua
                 registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
-                registry.emplace<Struktur::Component::skCameraComponent>(layerEntity, 3.f);
             }
             break;
         }
@@ -242,6 +245,19 @@ void Struktur::Core::Game()
         //render UI
         //render debug UI
         //Render IMGUI (When i actually add this)
+#ifdef _DEBUG
+        static bool showMessageBox = false;
+
+        int focus = 0, scroll = 0; // Needed by GuiDMPropertyList()
+        if (GuiButton(Rectangle{ 24, 24, 120, 30 }, "#191#Show Compnents")) showMessageBox = true;
+
+        if (showMessageBox)
+        {
+            int result = GuiMessageBox(Rectangle{ 85, 70, 250, 100 },
+                "#191#Message Box", "Hi! This is a message!", "Nice;Cool");
+            if (result >= 0) showMessageBox = false;
+        }
+#endif
         EndDrawing();
 
     }

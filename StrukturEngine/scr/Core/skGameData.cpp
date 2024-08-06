@@ -2,6 +2,7 @@
 #include "../ECS/Component/skIdentifierComponent.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skLuaComponent.h"
+#include "../ECS/Component/skCameraComponent.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -55,6 +56,13 @@ Component& LUA_GetComponentFromEntity(Struktur::Core::skGameData& gameData, cons
 	return component;
 }
 
+template<typename Component, typename... Args>
+Component& LUA_CreateComponent(Struktur::Core::skGameData& gameData, const entt::entity& entity, Args &&...args)
+{
+	Component& component = gameData.registry.emplace<Component>(entity, std::forward<Args>(args)...);
+	return component;
+}
+
 void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
 	lua.NewUsertype<skGameData>("gameData"
@@ -62,10 +70,13 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"world", &skGameData::world
 		,"input", &skGameData::input
 		//,"registry", &skGameData::registry
+		// Get components
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
 		,"getEntityWithIdentifier", &LUA_GetEntityWithIdentifier
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>
 		,"getTransformComponent", &LUA_GetComponentFromEntity<Component::skTransformComponent>
 		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
+		// create components
+		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent, float>
 	);
 }

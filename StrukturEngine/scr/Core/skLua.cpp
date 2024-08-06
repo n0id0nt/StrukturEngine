@@ -37,6 +37,18 @@ void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 		return Vector2(original);
 	}
 	);
+	luaState.NewUsertype<Rectangle>("rectangle"
+		, "new", sol::constructors<Rectangle(float, float, float, float)>()
+		, "x", &Rectangle::x
+		, "y", &Rectangle::y
+		, "width", &Rectangle::width
+		, "height", &Rectangle::height
+	);	
+	luaState["rectangle"]["copy"] = sol::overload(
+		[](const Rectangle& original) {
+		return Rectangle(original);
+	}
+	);
 
 	luaState.NewUsertype<entt::entity>("entity");
 }
