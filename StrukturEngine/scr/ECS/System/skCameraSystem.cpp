@@ -1,1 +1,74 @@
 #include "skCameraSystem.h"
+#include "../Component/skCameraComponent.h"
+#include "../Component/skTransformComponent.h"
+#include "../../Game/skCamera.h"
+#include <noise/noise.h>
+
+void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry& registry, Game::skCamera& out_camera)
+{
+    auto view = registry.view<Struktur::Component::skCameraComponent, Struktur::Component::skTransformComponent>();
+
+    entt::entity focusedCameraEntity;
+    Struktur::Component::skCameraComponent* focusedCameraComponent = nullptr;
+    Struktur::Component::skTransformComponent* focusedTransformComponent = nullptr;
+    int highestPriority = INT_MIN;
+    for (auto [entity, camera, transform] : view.each())
+    {
+        if (camera.cameraPriority > highestPriority)
+        {
+            highestPriority = camera.cameraPriority;
+            focusedCameraEntity = entity;
+            focusedCameraComponent = &camera;
+            focusedTransformComponent = &transform;
+        }
+    }
+
+    if (focusedCameraComponent && focusedTransformComponent)
+    {
+        //out_camera.target = out_camera.previousCameraPosition;
+        Vector2 position = Vector2{ focusedTransformComponent->translation.x, focusedTransformComponent->translation.y };
+        Vector2 newPos = focusedCameraComponent->forcePosition ? TargetPosition(systemTime, dt, focusedCameraComponent, position, out_camera)
+            : CalculateSmoothedPosition(systemTime, dt, focusedCameraComponent, position, out_camera);
+        focusedCameraComponent->forcePosition = false;
+        out_camera.target = newPos;
+        out_camera.zoom = focusedCameraComponent->zoom;
+        out_camera.rotation = focusedCameraComponent->angle;
+        out_camera.previousCameraPosition = newPos;
+        //out_camera.previousCameraAngle = angle;
+
+        // exclude shake from previous position
+        CalculateCameraShake(systemTime, dt, focusedCameraComponent, out_camera);
+    }
+}
+
+Vector2 Struktur::System::Camera::CalculateSmoothedPosition(float systemTime, float dt, Struktur::Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera)
+{
+	return Vector2();
+}
+
+Vector2 Struktur::System::Camera::TargetPosition(float systemTime, float dt, Struktur::Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera)
+{
+    return cameraComponentPos;
+}
+
+void Struktur::System::Camera::CalculateCameraShake(float systemTime, float dt, Struktur::Component::skCameraComponent* cameraComponent, Game::skCamera& camera)
+{
+    float trauma = cameraComponent->trauma;
+    if (trauma > 0.f)
+    {
+        const int seed = 0;
+        float shake = std::pow(trauma, 2.f);
+        static noise::module::Perlin perlin;
+        float angle = cameraComponent->maxAngle * shake * perlin.getValue(seed, systemTime / cameraComponent->shakeAmplitude);
+        float xOffset = cameraComponent->maxOffset * shake * perlin.getValue(seed + 1, systemTime / cameraComponent->shakeAmplitude);
+        float yOffset = cameraComponent->maxOffset * shake * perlin.getValue(seed + 2, systemTime / cameraComponent->shakeAmplitude);
+
+        cameraComponent->trauma = trauma - dt / cameraComponent->traumaTime;
+        camera.target = Vector2{ camera.target.x + xOffset, camera.target.y + yOffset };
+        camera.previousCameraAngle = camera.rotation + angle;
+    }
+    else
+    {
+        cameraComponent->trauma = 0;
+    }
+}

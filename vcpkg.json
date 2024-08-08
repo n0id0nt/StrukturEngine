@@ -4,8 +4,9 @@
     "lua",
     "nlohmann-json",
     "pugixml",
+    "raygui",
     "raylib",
     "sol2",
-    "raygui"
+    "libnoise"
   ]
 }
