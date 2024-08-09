@@ -886,7 +886,7 @@
 							"height": 16,
 							"defUid": 42,
 							"px": [232,152],
-							"fieldInstances": [{ "__identifier": "MaxSpeed", "__type": "Float", "__value": 5, "__tile": null, "defUid": 49, "realEditorValues": [] }],
+							"fieldInstances": [{ "__identifier": "MaxSpeed", "__type": "Float", "__value": 50, "__tile": null, "defUid": 49, "realEditorValues": [{ "id": "V_Float", "params": [50] }] }],
 							"__worldX": 232,
 							"__worldY": 152
 						}

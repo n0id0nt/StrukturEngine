@@ -76,7 +76,8 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>
 		,"getTransformComponent", &LUA_GetComponentFromEntity<Component::skTransformComponent>
 		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
+		,"getCameraComponent", &LUA_GetComponentFromEntity<Component::skCameraComponent>
 		// create components
-		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent, float>
+		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent>
 	);
 }

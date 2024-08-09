@@ -32,7 +32,7 @@ void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry
             : CalculateSmoothedPosition(systemTime, dt, focusedCameraComponent, position, out_camera);
         focusedCameraComponent->forcePosition = false;
         out_camera.target = newPos;
-        out_camera.offset = Vector2{ GetScreenWidth()/2.f, GetScreenHeight()/2.f };
+        out_camera.offset = Vector2{ GetScreenWidth()/2.f + focusedCameraComponent->offset.x, GetScreenHeight()/2.f + focusedCameraComponent->offset.x };
         out_camera.zoom = focusedCameraComponent->zoom;
         out_camera.rotation = focusedCameraComponent->angle;
         out_camera.previousCameraPosition = newPos;
@@ -51,22 +51,22 @@ Vector2 Struktur::System::Camera::CalculateSmoothedPosition(float systemTime, fl
 	{
 		if (cameraComponent->offset.x + cameraComponent->deadZone.x < cameraComponentScreenPos.x)
 		{
-			newPos.x = Lerp(0.f, cameraComponentScreenPos.x - cameraComponent->offset.x - cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
+			newPos.x = Lerp(GetScreenWidth() / 2.f, cameraComponentScreenPos.x - cameraComponent->offset.x - cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
 		}
 		else if (cameraComponent->offset.x - cameraComponent->deadZone.x > cameraComponentScreenPos.x)
 		{
-			newPos.x = Lerp(0.f, cameraComponentScreenPos.x - cameraComponent->offset.x + cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
+			newPos.x = Lerp(GetScreenWidth() / 2.f, cameraComponentScreenPos.x - cameraComponent->offset.x + cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
 		}
 	}
 	// y 
 	{
 		if (cameraComponent->offset.y + cameraComponent->deadZone.y < cameraComponentScreenPos.y)
 		{
-			newPos.y = Lerp(0.f, cameraComponentScreenPos.y - cameraComponent->offset.y - cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
+			newPos.y = Lerp(GetScreenHeight() / 2.f, cameraComponentScreenPos.y - cameraComponent->offset.y - cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
 		}
 		else if (cameraComponent->offset.y - cameraComponent->deadZone.y > cameraComponentScreenPos.y)
 		{
-			newPos.y = Lerp(0.f, cameraComponentScreenPos.y - cameraComponent->offset.y + cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
+			newPos.y = Lerp(GetScreenHeight() / 2.f, cameraComponentScreenPos.y - cameraComponent->offset.y + cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
 		}
 	}
 
@@ -92,6 +92,7 @@ void Struktur::System::Camera::CalculateCameraShake(float systemTime, float dt, 
         cameraComponent->trauma = trauma - dt / cameraComponent->traumaTime;
         camera.target = Vector2{ camera.target.x + xOffset, camera.target.y + yOffset };
         camera.previousCameraAngle = camera.rotation + angle;
+        //camera.roation = camera.rotation + angle;
     }
     else
     {

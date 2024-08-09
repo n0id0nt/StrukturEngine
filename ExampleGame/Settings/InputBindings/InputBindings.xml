@@ -4,10 +4,10 @@
     <input name="Jump" type="button">
         <bindings>
             <binding type="keycode"             value="space"/>
-            <binding type="keycode"             value="w"/>
-            <binding type="keycode"             value="up"/>
+            <!-- <binding type="keycode"             value="w"/> -->
+            <!-- <binding type="keycode"             value="up"/> -->
             <binding type="controllerButton"    value="a"/>
-            <binding type="controllerButton"    value="up"/>
+            <!-- <binding type="controllerButton"    value="up"/> -->
         </bindings>
     </input>
     <input name="Dash" type="button">

@@ -9,9 +9,9 @@
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skTileMapComponent.h"
 #include "../ECS/Component/skIdentifierComponent.h"
-#include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/System/skRenderSystem.h"
+#include "../ECS/System/skCameraSystem.h"
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
@@ -232,15 +232,16 @@ void Struktur::Core::Game()
         }
 
         float dt = GetFrameTime();
+        float systemTime = GetTime();
 
         //physics 
         Lua::UpdateLuaState(gameData.luaState, dt);
         //animation
-        //camera
+        System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
 
         BeginDrawing();
         ClearBackground(BLACK);
-        System::Render::Update(gameData.registry, gameData.resourcePool);
+        System::Render::Update(gameData.registry, gameData.resourcePool, gameData.camera);
         //debug render(lines and stuff)
         //render UI
         //render debug UI

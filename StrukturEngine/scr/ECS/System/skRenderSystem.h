@@ -1,5 +1,6 @@
 #pragma once
 #include <entt/entt.hpp>
+#include "../../Game/skCamera.h"
 
 namespace Struktur
 {
@@ -11,7 +12,7 @@ namespace Struktur
 	{
 		namespace Render
 		{
-			void Update(entt::registry& registry, const Core::skResourcePool& resourcePool);
+			void Update(entt::registry& registry, const Core::skResourcePool& resourcePool, const Game::skCamera& camera);
 		};
 	};
 };

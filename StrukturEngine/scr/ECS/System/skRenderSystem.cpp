@@ -6,20 +6,9 @@
 #include "raylib.h"
 #include "../../Core/skResourcePool.h"
 
-void Struktur::System::Render::Update(entt::registry& registry, const Core::skResourcePool& resourcePool)
+void Struktur::System::Render::Update(entt::registry& registry, const Core::skResourcePool& resourcePool, const Game::skCamera& camera)
 {
-    Camera2D currCamera = { 0 };
-    {
-        auto view = registry.view<Struktur::Component::skCameraComponent, Struktur::Component::skTransformComponent>();
-
-        for (auto [entity, camera, transform] : view.each())
-        {
-            currCamera.target = Vector2{ transform.translation.x, transform.translation.y };
-            currCamera.offset = Vector2{ 1280 / 2, 720 / 2 };
-            currCamera.zoom = camera.zoom;
-        }
-    }
-    BeginMode2D(currCamera);
+    BeginMode2D(camera);
     {
         auto view = registry.view<Struktur::Component::skTransformComponent, Struktur::Component::skTileMapComponent>();
 

@@ -6,6 +6,6 @@
     "pugixml",
     "raygui",
     "raylib",
-    "sol2",
+    "sol2"
   ]
 }
