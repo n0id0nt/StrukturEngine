@@ -2,7 +2,8 @@
 #include "../Component/skCameraComponent.h"
 #include "../Component/skTransformComponent.h"
 #include "../../Game/skCamera.h"
-#include <noise/noise.h>
+#include "../../Util/skNoise.h"
+#include <raymath.h>
 
 void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry& registry, Game::skCamera& out_camera)
 {
@@ -31,6 +32,7 @@ void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry
             : CalculateSmoothedPosition(systemTime, dt, focusedCameraComponent, position, out_camera);
         focusedCameraComponent->forcePosition = false;
         out_camera.target = newPos;
+        out_camera.offset = Vector2{ GetScreenWidth()/2.f, GetScreenHeight()/2.f };
         out_camera.zoom = focusedCameraComponent->zoom;
         out_camera.rotation = focusedCameraComponent->angle;
         out_camera.previousCameraPosition = newPos;
@@ -43,7 +45,32 @@ void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry
 
 Vector2 Struktur::System::Camera::CalculateSmoothedPosition(float systemTime, float dt, Struktur::Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera)
 {
-	return Vector2();
+	Vector2 cameraComponentScreenPos = camera.WorldPosToScreenPos(cameraComponentPos);
+    Vector2 newPos{};
+	// x
+	{
+		if (cameraComponent->offset.x + cameraComponent->deadZone.x < cameraComponentScreenPos.x)
+		{
+			newPos.x = Lerp(0.f, cameraComponentScreenPos.x - cameraComponent->offset.x - cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
+		}
+		else if (cameraComponent->offset.x - cameraComponent->deadZone.x > cameraComponentScreenPos.x)
+		{
+			newPos.x = Lerp(0.f, cameraComponentScreenPos.x - cameraComponent->offset.x + cameraComponent->deadZone.x, cameraComponent->damping.x * dt);
+		}
+	}
+	// y 
+	{
+		if (cameraComponent->offset.y + cameraComponent->deadZone.y < cameraComponentScreenPos.y)
+		{
+			newPos.y = Lerp(0.f, cameraComponentScreenPos.y - cameraComponent->offset.y - cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
+		}
+		else if (cameraComponent->offset.y - cameraComponent->deadZone.y > cameraComponentScreenPos.y)
+		{
+			newPos.y = Lerp(0.f, cameraComponentScreenPos.y - cameraComponent->offset.y + cameraComponent->deadZone.y, cameraComponent->damping.y * dt);
+		}
+	}
+
+    return camera.ScreenPosToWorldPos(newPos);
 }
 
 Vector2 Struktur::System::Camera::TargetPosition(float systemTime, float dt, Struktur::Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera)
@@ -58,10 +85,9 @@ void Struktur::System::Camera::CalculateCameraShake(float systemTime, float dt, 
     {
         const int seed = 0;
         float shake = std::pow(trauma, 2.f);
-        static noise::module::Perlin perlin;
-        float angle = cameraComponent->maxAngle * shake * perlin.getValue(seed, systemTime / cameraComponent->shakeAmplitude);
-        float xOffset = cameraComponent->maxOffset * shake * perlin.getValue(seed + 1, systemTime / cameraComponent->shakeAmplitude);
-        float yOffset = cameraComponent->maxOffset * shake * perlin.getValue(seed + 2, systemTime / cameraComponent->shakeAmplitude);
+        float angle = cameraComponent->maxAngle * shake * Util::Noise::PerlinNoise1(seed, systemTime / cameraComponent->shakeAmplitude);
+        float xOffset = cameraComponent->maxOffset * shake * Util::Noise::PerlinNoise1(seed + 1, systemTime / cameraComponent->shakeAmplitude);
+        float yOffset = cameraComponent->maxOffset * shake * Util::Noise::PerlinNoise1(seed + 2, systemTime / cameraComponent->shakeAmplitude);
 
         cameraComponent->trauma = trauma - dt / cameraComponent->traumaTime;
         camera.target = Vector2{ camera.target.x + xOffset, camera.target.y + yOffset };
