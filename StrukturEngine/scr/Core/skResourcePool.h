@@ -30,6 +30,7 @@ namespace Struktur
 			bool IsTextureLoadedInGPU(const std::string& path) const;
 			void LoadTextureInGPU(const std::string& path);
 			Texture2D RetrieveTexture(const std::string& path) const;
+			Image RetrieveImage(const std::string& path) const;
 			void UnloadTextureGPU(const std::string& path);
 			void ReleaseTexture(const std::string& path);
 		

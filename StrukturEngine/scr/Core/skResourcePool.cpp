@@ -72,6 +72,19 @@ Texture2D Struktur::Core::skResourcePool::RetrieveTexture(const std::string& pat
 	return it->second.referenceVRAM;
 }
 
+Image Struktur::Core::skResourcePool::RetrieveImage(const std::string& path) const
+{
+	std::string key = path;
+	auto it = m_images.find(key);
+	if (it == m_images.end())
+	{
+		assert(true); // texture does not exist
+		Image empty{};
+		return empty;
+	}
+	return it->second.referenceRAM;
+}
+
 void Struktur::Core::skResourcePool::UnloadTextureGPU(const std::string& path)
 {
 	std::string key = path;
