@@ -14,7 +14,7 @@ void Struktur::Core::skResourcePool::CreateTexture(const std::string& path)
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
-		m_images[key] = RefCounterGPU<Image, Texture2D>{ 1u, LoadImage(path.c_str()), Texture2D{}, false };
+		m_images[key] = RefGPU<Image, Texture2D>{ 1u, LoadImage(path.c_str()), Texture2D{}, false };
 	}
 	else
 	{

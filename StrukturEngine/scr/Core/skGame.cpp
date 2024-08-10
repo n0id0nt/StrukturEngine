@@ -75,8 +75,6 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                         break;
                     }
                 }
-                // Move this to lua
-                registry.emplace<Struktur::Component::skSpriteComponent>(layerEntity, s_textures[0], Vector2{ 32,32 }, Rectangle{0,0,32,32});
             }
             break;
         }

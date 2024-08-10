@@ -4,6 +4,7 @@
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/Component/skCameraComponent.h"
+#include "../ECS/Component/skSpriteComponent.h"
 #include "../Scripting/skLuaScriptTemplate.h"
 
 void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
@@ -14,6 +15,7 @@ void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 	Component::skTransformComponent::LUABind(luaState);
 	Component::skLuaComponent::LUABind(luaState);
 	Component::skCameraComponent::LUABind(luaState);
+	Component::skSpriteComponent::LUABind(luaState);
 
 	Scripting::skLuaScriptTemplate::LUABind(luaState);
 

@@ -11,13 +11,8 @@ namespace Struktur
 		class skResourcePool
 		{
 		private:
-			template <typename T>
-			struct RefCounter {
-				unsigned int count;
-				T reference;
-			};
 			template <typename RAM, typename VRAM>
-			struct RefCounterGPU {
+			struct RefGPU {
 				unsigned int count;
 				RAM referenceRAM;
 				VRAM referenceVRAM;
@@ -42,7 +37,7 @@ namespace Struktur
 			//Font* RetrieveFont(const std::string& path, int size);
 			//void ReleaseFont(const std::string& path, int size);
 		private:
-			std::unordered_map<std::string, RefCounterGPU<Image, Texture2D>> m_images;
+			std::unordered_map<std::string, RefGPU<Image, Texture2D>> m_images;
 		};
 	}
 }

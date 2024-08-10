@@ -21,7 +21,7 @@ namespace Struktur
 			bool forcePosition = false;
 			float traumaTime = 1.f;
 			float maxOffset = 0.6f;
-			float maxAngle = 90.f;
+			float maxAngle = 1.f;
 			float trauma = 0.f;
 			float shakeAmplitude = 0.1f;
 

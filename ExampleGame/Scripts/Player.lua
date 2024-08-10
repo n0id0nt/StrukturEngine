@@ -7,6 +7,10 @@ PlayerScript.create = function(entity)
     cameraComponent.zoom = 3
     cameraComponent.damping = vec2.new(3,3)
     cameraComponent.forcePosition = true
+    local spriteComponent = GameData:createSpriteComponent(entity)
+    spriteComponent.imagePath = "../ExampleGame/Tiles/Warrior_Sheet-Effect.png"
+    spriteComponent.size = vec2.new(32,32)
+    spriteComponent.sourceRec = rectangle.new(0,0,32,32)
 end
     
 PlayerScript.update = function(entity, dt)

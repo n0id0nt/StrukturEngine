@@ -91,8 +91,8 @@ void Struktur::System::Camera::CalculateCameraShake(float systemTime, float dt, 
 
         cameraComponent->trauma = trauma - dt / cameraComponent->traumaTime;
         camera.target = Vector2{ camera.target.x + xOffset, camera.target.y + yOffset };
-        camera.previousCameraAngle = camera.rotation + angle;
-        //camera.roation = camera.rotation + angle;
+        //camera.previousCameraAngle = camera.rotation + angle;
+        camera.rotation = camera.rotation + angle;
     }
     else
     {

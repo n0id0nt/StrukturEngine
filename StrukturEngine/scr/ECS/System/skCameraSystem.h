@@ -25,9 +25,6 @@ namespace Struktur
 			Vector2 CalculateSmoothedPosition(float systemTime, float dt, Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera);
 			Vector2 TargetPosition(float systemTime, float dt, Component::skCameraComponent* cameraComponent, const Vector2& cameraComponentPos, Game::skCamera& camera);
 			void CalculateCameraShake(float systemTime, float dt, Component::skCameraComponent* cameraComponent, Game::skCamera& camera);
-
-			static Vector3 m_previousCameraPosition;
-			static float m_previousCameraAngle;
 		};
 	};
 };
