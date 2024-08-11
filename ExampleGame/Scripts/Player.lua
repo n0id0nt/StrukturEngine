@@ -14,17 +14,33 @@ PlayerScript.create = function(entity, dt, systemTime)
     local runAnimation = spriteAnimation.new(7, 14, 1, true)
     spriteAnimationComponent:addAnimation("idle", idleAnimation)
     spriteAnimationComponent:addAnimation("run", runAnimation)
-    spriteAnimationComponent:playAnimation("run", systemTime)
+    spriteAnimationComponent:playAnimation("idle", systemTime)
 end
     
 PlayerScript.update = function(entity, dt, systemTime)
     local transformComponent = GameData:getTransformComponent(entity)
     local luaComponent = GameData:getLuaComponent(entity)
     local cameraComponent = GameData:getCameraComponent(entity)
+    local spriteComponent = GameData:getSpriteComponent(entity)
+    local spriteAnimationComponent = GameData:getSpriteAnimationComponent(entity)
     local speed = luaComponent.table.MaxSpeed
     local moveInput = GameData.input:getInputAxis2("Move")
     transformComponent.translation.x = transformComponent.translation.x + moveInput.x * speed * dt
     transformComponent.translation.y = transformComponent.translation.y - moveInput.y * speed * dt
+    if moveInput.x ~= 0 or moveInput.y ~= 0 then
+        if spriteAnimationComponent:getCurAnimation() ~= "run" then
+            spriteAnimationComponent:playAnimation("run", systemTime)
+        end
+    elseif spriteAnimationComponent:getCurAnimation() ~= "idle" then
+        spriteAnimationComponent:playAnimation("idle", systemTime)
+    end
+
+    if moveInput.x > 0 then
+        spriteComponent.flipped = false
+    elseif moveInput.x < 0 then
+        spriteComponent.flipped = true
+    end
+
     if GameData.input:isInputDown("Jump") then
         cameraComponent:addTrauma(0.15)
     end
