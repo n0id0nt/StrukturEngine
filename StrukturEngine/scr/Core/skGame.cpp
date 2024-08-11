@@ -12,6 +12,7 @@
 #include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skCameraSystem.h"
+#include "../ECS/System/skAnimationSystem.h"
 #include <entt/entt.hpp>
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
@@ -111,7 +112,7 @@ void LoadData(Struktur::Core::skGameData* gameData)
     LoadLevelEntities(firstLevel, gameData->registry, gameData->luaState);
 
     // Call inisialise function now that all the entities are created
-    Struktur::Core::Lua::InitualiseLuaState(gameData->luaState);
+    Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, GetTime());
 
 	using namespace std::chrono_literals;
 	std::this_thread::sleep_for(5s);
@@ -233,8 +234,8 @@ void Struktur::Core::Game()
         float systemTime = GetTime();
 
         //physics 
-        Lua::UpdateLuaState(gameData.luaState, dt);
-        //animation
+        Lua::UpdateLuaState(gameData.luaState, dt, systemTime);
+        System::Animation::Update(systemTime, dt, gameData.registry);
         System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
 
         BeginDrawing();

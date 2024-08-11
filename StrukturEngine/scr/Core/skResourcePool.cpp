@@ -14,11 +14,11 @@ void Struktur::Core::skResourcePool::CreateTexture(const std::string& path)
 	auto it = m_images.find(key);
 	if (it == m_images.end())
 	{
-		m_images[key] = RefGPU<Image, Texture2D>{ 1u, LoadImage(path.c_str()), Texture2D{}, false };
+		m_images[key] = RefGPU<Image, Texture2D>{ LoadImage(path.c_str()), Texture2D{}, false };
 	}
 	else
 	{
-		it->second.count++;
+		assert(false); // image already exists
 	}
 }
 
@@ -116,15 +116,11 @@ void Struktur::Core::skResourcePool::ReleaseTexture(const std::string& path)
 		assert(true); // texture does not exist
 		return;
 	}
-	it->second.count--;
-	if (it->second.count <= 0)
+	if (IsTextureLoadedInGPU(path))
 	{
-		if (IsTextureLoadedInGPU(path))
-		{
-			UnloadTextureGPU(path);
-		}
-		Image& image = it->second.referenceRAM;
-		UnloadImage(image);
-		m_images.erase(it);
+		UnloadTextureGPU(path);
 	}
+	Image& image = it->second.referenceRAM;
+	UnloadImage(image);
+	m_images.erase(it);
 }

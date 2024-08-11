@@ -12,9 +12,9 @@ namespace Struktur
 
 			void CreateLuaStateScript(Scripting::skLuaState& luaState, const std::string& luaMainFile);
 
-			void InitualiseLuaState(Scripting::skLuaState& luaState);
+			void InitualiseLuaState(Scripting::skLuaState& luaState, float systemTime);
 
-			void UpdateLuaState(Scripting::skLuaState& luaState, float dt);
+			void UpdateLuaState(Scripting::skLuaState& luaState, float dt, float systemTime);
 		};
 	};
 };

@@ -6,19 +6,19 @@ local gameObjects =
     Player = Player_Script,
 } 
 
-Script.initialise = function(dt)
+Script.initialise = function(systemTime)
     -- initialise each component
     for objectIdentifier, script in pairs(gameObjects) do
         local entities = GameData:getEntitiesWithIdentifier(objectIdentifier)
         for _, entity in ipairs(entities) do
-            script.create(entity)
+            script.create(entity, 0, systemTime)
             local luaComponent = GameData:getLuaComponent(entity)
             luaComponent.initalised = true
         end
     end
 end
 
-Script.update = function(dt)
+Script.update = function(dt, systemTime)
     for objectIdentifier, script in pairs(gameObjects) do
         local entities = GameData:getEntitiesWithIdentifier(objectIdentifier)
         for _, entity in ipairs(entities) do
@@ -28,7 +28,7 @@ Script.update = function(dt)
                 luaComponent.initalised = true
             end
             
-            script.update(entity, dt)
+            script.update(entity, dt, systemTime)
         end
     end
 end

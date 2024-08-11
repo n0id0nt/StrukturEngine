@@ -23,13 +23,13 @@ void Struktur::Scripting::skLuaState::CreateLuaState(const std::string& workingD
 	m_lua.set("Script", this);
 }
 
-void Struktur::Scripting::skLuaState::Initialise()
+void Struktur::Scripting::skLuaState::Initialise(float systemTime)
 {
 	if (m_initialise.valid())
 	{
 		sol::protected_function initialiseScript = m_initialise;
 
-		sol::protected_function_result result = initialiseScript();
+		sol::protected_function_result result = initialiseScript(systemTime);
 
 		// Check if the execution was successful
 		if (!result.valid()) {
@@ -41,13 +41,13 @@ void Struktur::Scripting::skLuaState::Initialise()
 	}
 }
 
-void Struktur::Scripting::skLuaState::Update(float dt)
+void Struktur::Scripting::skLuaState::Update(float dt, float systemTime)
 {
 	if (m_update.valid())
 	{
 		sol::protected_function updateScript = m_update;
 
-		sol::protected_function_result result = updateScript(dt);
+		sol::protected_function_result result = updateScript(dt, systemTime);
 
 		// Check if the execution was successful
 		if (!result.valid()) {
@@ -65,23 +65,23 @@ void Struktur::Scripting::skLuaState::ScriptFile(const std::string& filename)
 
 	if (m_updateFunction)
 	{
-		m_lua.script("function update(dt) Script.update(dt) end");
+		m_lua.script("function update(dt, systemTime) Script.update(dt, systemTime) end");
 		m_update = m_lua["update"];
 	}
 	else
 	{
-		TraceLog(LOG_ERROR, std::format("Lua script {} loading no Script.update(dt) function provided", filename).c_str());
+		TraceLog(LOG_ERROR, std::format("Lua script {} loading no Script.update(dt, systemTime) function provided", filename).c_str());
 		assert(false);
 	}
 
 	if (m_initialiseFunction)
 	{
-		m_lua.script("function initialise() Script.initialise() end");
+		m_lua.script("function initialise(systemTime) Script.initialise(systemTime) end");
 		m_initialise = m_lua["initialise"];
 	}
 	else
 	{
-		TraceLog(LOG_ERROR, std::format("Lua script {} loading no Script.initialise() function provided", filename).c_str());
+		TraceLog(LOG_ERROR, std::format("Lua script {} loading no Script.initialise(systemTime) function provided", filename).c_str());
 		assert(false);
 	}
 }

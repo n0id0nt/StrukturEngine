@@ -13,7 +13,6 @@ namespace Struktur
 		private:
 			template <typename RAM, typename VRAM>
 			struct RefGPU {
-				unsigned int count;
 				RAM referenceRAM;
 				VRAM referenceVRAM;
 				bool loadedInGPU;

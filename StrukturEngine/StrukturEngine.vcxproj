@@ -167,6 +167,9 @@
     <ClCompile Include="scr\ECS\System\skCameraSystem.cpp" />
     <ClCompile Include="scr\Game\skCamera.cpp" />
     <ClCompile Include="scr\Util\skNoise.cpp" />
+    <ClCompile Include="scr\Animation\skSpriteAnimation.cpp" />
+    <ClCompile Include="scr\ECS\Component\skSpriteAnimationComponent.cpp" />
+    <ClCompile Include="scr\ECS\System\skAnimationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -190,6 +193,9 @@
     <ClInclude Include="scr\ECS\System\skCameraSystem.h" />
     <ClInclude Include="scr\Game\skCamera.h" />
     <ClInclude Include="scr\Util\skNoise.h" />
+    <ClInclude Include="scr\Animation\skSpriteAnimation.h" />
+    <ClInclude Include="scr\ECS\Component\skSpriteAnimationComponent.h" />
+    <ClInclude Include="scr\ECS\System\skAnimationSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

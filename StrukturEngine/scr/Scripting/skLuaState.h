@@ -15,8 +15,8 @@ namespace Struktur
 			~skLuaState() = default;
 
 			void CreateLuaState(const std::string& workingDirectory);
-			void Initialise();
-			void Update(float dt);
+			void Initialise(float systemTime);
+			void Update(float dt, float systemTime);
 
 			void ScriptFile(const std::string& filename);
 
@@ -51,10 +51,10 @@ namespace Struktur
 			sol::state m_lua;
 
 			sol::protected_function m_update;
-			std::function<void(float)> m_updateFunction;
+			std::function<void(float, float)> m_updateFunction;
 
 			sol::protected_function m_initialise;
-			std::function<void()> m_initialiseFunction;
+			std::function<void(float)> m_initialiseFunction;
 
 			//sol::protected_function m_onMessage;
 			//std::function<void(const std::string&, const sol::object&, const Entity&)> m_onMessageFunction;

@@ -5,7 +5,9 @@
 #include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
+#include "../ECS/Component/skSpriteAnimationComponent.h"
 #include "../Scripting/skLuaScriptTemplate.h"
+#include "../Animation/skSpriteAnimation.h"
 
 void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 {
@@ -16,8 +18,10 @@ void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 	Component::skLuaComponent::LUABind(luaState);
 	Component::skCameraComponent::LUABind(luaState);
 	Component::skSpriteComponent::LUABind(luaState);
+	Component::skSpriteAnimationComponent::LUABind(luaState);
 
 	Scripting::skLuaScriptTemplate::LUABind(luaState);
+	Animation::skSpriteAnimation::LUABind(luaState);
 
 	// these are values from libraries that need to be bound - Might be a good idea to move this to a separate function 
 	luaState.NewUsertype<Vector3>("vec3"
@@ -62,12 +66,12 @@ void Struktur::Core::Lua::CreateLuaStateScript(Scripting::skLuaState& luaState, 
 	luaState.ScriptFile(luaMainFile);
 }
 
-void Struktur::Core::Lua::InitualiseLuaState(Scripting::skLuaState& luaState)
+void Struktur::Core::Lua::InitualiseLuaState(Scripting::skLuaState& luaState, float systemTime)
 {
-	luaState.Initialise();
+	luaState.Initialise(systemTime);
 }
 
-void Struktur::Core::Lua::UpdateLuaState(Scripting::skLuaState& luaState, float dt)
+void Struktur::Core::Lua::UpdateLuaState(Scripting::skLuaState& luaState, float dt, float systemTime)
 {
-	luaState.Update(dt);
+	luaState.Update(dt, systemTime);
 }

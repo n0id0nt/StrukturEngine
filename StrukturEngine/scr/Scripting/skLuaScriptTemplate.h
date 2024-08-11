@@ -16,8 +16,8 @@ namespace Struktur
 			static void LUABind(Scripting::skLuaState& lua);
 
 		private:
-			std::function<void(entt::entity)> m_createFunction;
-			std::function<void(entt::entity, float)> m_updateFunction;
+			std::function<void(entt::entity, float, float)> m_createFunction;
+			std::function<void(entt::entity, float, float)> m_updateFunction;
 			std::function<void(entt::entity)> m_destroyFunction;
 		};
 	};

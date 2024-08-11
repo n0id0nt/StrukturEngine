@@ -4,6 +4,7 @@
 #include "../ECS/Component/skLuaComponent.h"
 #include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
+#include "../ECS/Component/skSpriteAnimationComponent.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -79,8 +80,10 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
 		,"getCameraComponent", &LUA_GetComponentFromEntity<Component::skCameraComponent>
 		,"getSpriteComponent", &LUA_GetComponentFromEntity<Component::skSpriteComponent>
+		,"getSpriteAnimationComponent", &LUA_GetComponentFromEntity<Component::skSpriteAnimationComponent>
 		// create components
 		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent>
 		,"createSpriteComponent", &LUA_CreateComponent<Component::skSpriteComponent>
+		,"createSpriteAnimationComponent", &LUA_CreateComponent<Component::skSpriteAnimationComponent>
 	);
 }
