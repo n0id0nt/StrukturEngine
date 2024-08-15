@@ -17,10 +17,7 @@
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
 #include "skLua.h"
-
-#define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
-#undef RAYGUI_IMPLEMENTATION            // Avoid including raygui implementation again
 
 std::array<std::string,3> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
@@ -254,7 +251,14 @@ void Struktur::Core::Game()
         if (showMessageBox)
         {
             int result = GuiMessageBox(Rectangle{ 85, 70, 250, 100 },
-                "#191#Message Box", "Hi! This is a message!", "Nice;Cool");
+                "#191#Message Box", "Hi! This is a message!", "Nice;Cool;Wow");
+            const char* text[3] = { "Text;", "Text;", "Text;" };
+            static Vector2 scroll;
+            static Rectangle view;
+            static bool toggle;
+            result += GuiScrollPanel(Rectangle{ 85, 270, 250, 100 }, "Test text", Rectangle{ 95, 275, 230, 150 }, &scroll, &view);
+            result += GuiLabel(Rectangle{ view.x + scroll.x, view.y + scroll.y, view.width, 15 }, "Test text");
+            result += GuiCheckBox(Rectangle{ view.x + scroll.x, view.y + scroll.y + 15, view.width, 15 }, "Test text toggle", &toggle);
             if (result >= 0) showMessageBox = false;
         }
 #endif

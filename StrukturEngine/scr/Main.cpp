@@ -1,3 +1,7 @@
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+#undef RAYGUI_IMPLEMENTATION            // Avoid including raygui implementation again
+
 #include "Core\skGameData.h"
 #include "Core\skGame.h"
 
