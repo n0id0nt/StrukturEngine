@@ -43,7 +43,10 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
         {
             Texture2D texture = resourcePool.RetrieveTexture(sprite.imagePath);
 
-            Rectangle destRec{ transform.translation.x, transform.translation.y, sprite.size.x, sprite.size.y };
+            Vector3 spritePosition = transform.GetWorldPosition();
+            float spriteRotation = transform.GetAngle();
+            Vector3 spriteScale = transform.GetScale();
+            Rectangle destRec{ spritePosition.x, spritePosition.y, sprite.size.x * spriteScale.x, sprite.size.y * spriteScale.x };
             //switch (gridTile.flipBit)
             //{
             //case Game::TileMap::FlipBit::BOTH:
@@ -57,7 +60,7 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
             //    sourceRec.height *= -1;
             //    break;
             //}
-            DrawTexturePro(texture, sprite.sourceRec, destRec, Vector2{ 0,0 }, 0, WHITE);
+            DrawTexturePro(texture, sprite.sourceRec, destRec, Vector2{ 0,0 }, spriteRotation, WHITE);
         }
     }
     EndMode2D();

@@ -37,8 +37,8 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
         case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
-            Transform transform{ {layer.pxTotalOffsetX, layer.pxTotalOffsetY}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
-            registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
+            auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+            transform.SetPosition2(Vector2(layer.pxTotalOffsetX, layer.pxTotalOffsetY));
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
             grid.reserve(layer.autoLayerTiles.size());
             for (auto& gridTile : layer.autoLayerTiles)
@@ -54,8 +54,8 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
             for (auto& entityInstance : layer.entityInstaces)
             {
                 Vector2 position = entityInstance.px;
-                Transform transform{ {position.x, position.y}, {0.f,0.f,0.f,0.f}, {0.f,0.f,0.f} };
-                registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, transform);
+                auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+                transform.SetPosition2(Vector2(position.x, position.y));
                 registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, entityInstance.identifier);
                 auto& luaComponent = registry.emplace<Struktur::Component::skLuaComponent>(layerEntity, false, luaState.CreateTable());
                 for (auto fieldInstance : entityInstance.fieldInstances)
@@ -111,8 +111,8 @@ void LoadData(Struktur::Core::skGameData* gameData)
     // Call inisialise function now that all the entities are created
     Struktur::Core::Lua::InitualiseLuaState(gameData->luaState, GetTime());
 
-	using namespace std::chrono_literals;
-	std::this_thread::sleep_for(5s);
+	//using namespace std::chrono_literals;
+	//std::this_thread::sleep_for(5s);
 }
 
 // This needs to be called on the main thread because this talks to the gpu

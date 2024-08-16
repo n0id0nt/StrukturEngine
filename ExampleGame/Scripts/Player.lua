@@ -24,10 +24,13 @@ PlayerScript.update = function(entity, dt, systemTime)
     local spriteComponent = GameData:getSpriteComponent(entity)
     local spriteAnimationComponent = GameData:getSpriteAnimationComponent(entity)
     local speed = luaComponent.table.MaxSpeed
-    local moveInput = GameData.input:getInputAxis2("Move")
-    transformComponent.translation.x = transformComponent.translation.x + moveInput.x * speed * dt
-    transformComponent.translation.y = transformComponent.translation.y - moveInput.y * speed * dt
-    if moveInput.x ~= 0 or moveInput.y ~= 0 then
+    local moveInput = GameData.input:getInputAxis("Horizontal")
+    local scaleInput = GameData.input:getInputAxis("Vertical")
+    transformComponent.position = vec2.new(transformComponent.position.x + moveInput * speed * dt, transformComponent.position.y + scaleInput * speed * dt)
+    transformComponent.scale = vec2.new(2, 2)
+    --transformComponent.scale = transformComponent.scale.y + scaleInput * speed * dt
+    --transformComponent.translation.y = transformComponent.translation.y - moveInput.y * speed * dt
+    if moveInput ~= 0 then
         if spriteAnimationComponent:getCurAnimation() ~= "run" then
             spriteAnimationComponent:playAnimation("run", systemTime)
         end
@@ -35,9 +38,9 @@ PlayerScript.update = function(entity, dt, systemTime)
         spriteAnimationComponent:playAnimation("idle", systemTime)
     end
 
-    if moveInput.x > 0 then
+    if moveInput > 0 then
         spriteComponent.flipped = false
-    elseif moveInput.x < 0 then
+    elseif moveInput < 0 then
         spriteComponent.flipped = true
     end
 

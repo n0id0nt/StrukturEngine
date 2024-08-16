@@ -27,7 +27,7 @@ void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry
     if (focusedCameraComponent && focusedTransformComponent)
     {
         //out_camera.target = out_camera.previousCameraPosition;
-        Vector2 position = Vector2{ focusedTransformComponent->translation.x, focusedTransformComponent->translation.y };
+        Vector2 position = focusedTransformComponent->GetPosition2();
         Vector2 newPos = focusedCameraComponent->forcePosition ? TargetPosition(systemTime, dt, focusedCameraComponent, position, out_camera)
             : CalculateSmoothedPosition(systemTime, dt, focusedCameraComponent, position, out_camera);
         focusedCameraComponent->forcePosition = false;
