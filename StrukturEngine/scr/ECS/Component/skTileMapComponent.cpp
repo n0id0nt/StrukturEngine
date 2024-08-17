@@ -3,7 +3,7 @@
 int LUA_GetTileAtPosition(Struktur::Component::skTileMapComponent& tileMap, int x, int y)
 {
 	int index = x + tileMap.width * y;
-	if (index < 0 || index >= tileMap.grid.size()) 
+	if (x < 0 || y < 0 || index >= tileMap.grid.size())
 		return 0;
 	return tileMap.grid[index];
 }

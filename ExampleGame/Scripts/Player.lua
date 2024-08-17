@@ -38,10 +38,10 @@ local speedMultipliers = {
     giant64 = 1.25,
 }
 local collisionRecs = {
-    small8 = rectangle.new(-4,32-8,8,8),
-    medium16 = rectangle.new(-8,32-16,16,16),
-    large32 = rectangle.new(-16,32-32,32,32),
-    giant64 = rectangle.new(-32,32-64,64,64),
+    small8 = rectangle.new(-2,32-8,3,7),
+    medium16 = rectangle.new(-3,32-16,5,15),
+    large32 = rectangle.new(-6,32-32,11,31),
+    giant64 = rectangle.new(-11,32-64,21,63),
 }
 
 function math.clamp(val, lower, upper)
@@ -60,12 +60,23 @@ end
 local function tileMapCollision(collisionRect, position)
     local tileMaps = GameData:getTileMapComponentsTable()
     for entity, component in pairs(tileMaps) do 
-        p1 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y)
-        p2 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height)
-        p3 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y)
-        p4 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height)
+        local p1 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y)
+        local p2 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height)
+        local p3 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y)
+        local p4 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height)
+        
         if component:isPositionOnTile(p1) or component:isPositionOnTile(p2) or component:isPositionOnTile(p3) or component:isPositionOnTile(p4) then
             return true
+        end
+        -- need extra checks when rect is wider than the collision body
+        if collisionRect.width > component.tileSize or collisionRect.height > component.tileSize then
+            local p5 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height / 2)
+            local p6 = vec2.new(collisionRect.x + position.x + collisionRect.width / 2, collisionRect.y + position.y)
+            local p7 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height / 2)
+            local p8 = vec2.new(collisionRect.x + position.x + collisionRect.width / 2, collisionRect.y + position.y + collisionRect.height)
+            if component:isPositionOnTile(p5) or component:isPositionOnTile(p6) or component:isPositionOnTile(p7) or component:isPositionOnTile(p8) then
+                return true
+            end
         end
     end
     return false
@@ -137,6 +148,8 @@ PlayerScript.update = function(entity, dt, systemTime)
                 currentAnimation = "idle"
             end
             curSize = sizes[sizeIndex]
+            --TODO When the size changes add a check for collision
+            
             local desiredAnimation = playerAnimations[curSize][currentAnimation]
             if desiredAnimation ~= spriteAnimationComponent:getCurAnimation() then
                 spriteAnimationComponent:playAnimation(desiredAnimation, systemTime)
