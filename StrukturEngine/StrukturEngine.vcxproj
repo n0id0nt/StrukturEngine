@@ -170,6 +170,14 @@
     <ClCompile Include="scr\Animation\skSpriteAnimation.cpp" />
     <ClCompile Include="scr\ECS\Component\skSpriteAnimationComponent.cpp" />
     <ClCompile Include="scr\ECS\System\skAnimationSystem.cpp" />
+    <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skCollisionBodyComponent.cpp" />
+    <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skPhysicsBodyComponent.cpp" />
+    <ClCompile Include="scr\Physics\skCollisionLayers.cpp" />
+    <ClCompile Include="scr\Physics\skContactListener.cpp" />
+    <ClCompile Include="scr\Physics\skPhysicsWorld.cpp" />
+    <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skStaticBodyComponent.cpp" />
+    <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skTileMapCollisionBodyComponent.cpp" />
+    <ClCompile Include="scr\ECS\System\skPhysicsSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -196,6 +204,14 @@
     <ClInclude Include="scr\Animation\skSpriteAnimation.h" />
     <ClInclude Include="scr\ECS\Component\skSpriteAnimationComponent.h" />
     <ClInclude Include="scr\ECS\System\skAnimationSystem.h" />
+    <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skCollisionBodyComponent.h" />
+    <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skPhysicsBodyComponent.h" />
+    <ClInclude Include="scr\Physics\skCollisionLayers.h" />
+    <ClInclude Include="scr\Physics\skContactListener.h" />
+    <ClInclude Include="scr\Physics\skPhysicsWorld.h" />
+    <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skStaticBodyComponent.h" />
+    <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skTileMapCollisionBodyComponent.h" />
+    <ClInclude Include="scr\ECS\System\skPhysicsSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

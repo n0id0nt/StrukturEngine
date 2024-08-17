@@ -1,12 +1,13 @@
 {
   "dependencies": [
     "entt",
+    "glm",
     "lua",
     "nlohmann-json",
     "pugixml",
     "raygui",
     "raylib",
     "sol2",
-    "glm"
+    "box2d"
   ]
 }

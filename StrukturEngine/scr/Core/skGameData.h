@@ -4,6 +4,7 @@
 #include "../FileLoading/skLevelParser.h"
 #include "../Scripting/skLuaState.h"
 #include "../Game/skCamera.h"
+#include "../Physics/skPhysicsWorld.h"
 #include "skInput.h"
 
 namespace Struktur
@@ -19,6 +20,7 @@ namespace Struktur
 			Scripting::skLuaState luaState;
 			skInput input;
 			Game::skCamera camera;
+			std::unique_ptr<Physics::skPhysicsWorld> physicsWorld;
 
 			static void LUABind(Scripting::skLuaState& lua);
 		};

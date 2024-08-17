@@ -19,11 +19,18 @@
 #include "skLua.h"
 #include "raygui.h"
 
-std::array<std::string,3> s_textures = {
+std::array<std::string,4> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
     "../ExampleGame/Tiles/cavesofgallet_tiles.png",
     "../ExampleGame/Tiles/Warrior_Sheet-Effect.png",
+    "../ExampleGame/Tiles/PlayerGrowthSprites.png",
 };
+
+// TODO might want to load this from a file
+constexpr static const unsigned int FPS = 60;
+constexpr static const float TIME_STEP = 1.0f / FPS;
+constexpr static const int VELOCITY_ITERATIONS = 6;
+constexpr static const int POSITION_ITERATIONS = 4;
 
 void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry, Struktur::Scripting::skLuaState& luaState)
 {
@@ -37,7 +44,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
         case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
-            auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+            auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
             transform.SetPosition2(Vector2(layer.pxTotalOffsetX, layer.pxTotalOffsetY));
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
             grid.reserve(layer.autoLayerTiles.size());
@@ -46,7 +53,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                 Struktur::Game::TileMap::skGridTile newGridTile{gridTile.px, gridTile.src, (Struktur::Game::TileMap::FlipBit)gridTile.f};
                 grid.push_back(newGridTile);
             }
-            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid);
+            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid, layer.intGrid);
             break;
         }
         case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
@@ -87,6 +94,8 @@ void LoadData(Struktur::Core::skGameData* gameData)
     //load input
     gameData->input = Struktur::Core::skInput(0);
     gameData->input.LoadInputBindings("../ExampleGame/", "Settings/InputBindings/InputBindings.xml");
+
+    gameData->physicsWorld = std::make_unique<Struktur::Physics::skPhysicsWorld>(Vector2{ 0.f, 0.f }, TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS, 1.0f);
 
     //set up lua state
     gameData->luaState.CreateLuaState("../ExampleGame/");
@@ -197,7 +206,7 @@ void Struktur::Core::Game()
     InitWindow(1280, 720, "Struktur Engine");
     gameData.shouldQuit = false;
 
-    SetTargetFPS(60);
+    SetTargetFPS(FPS);
     // load in game data from memory
     {
         // create task to load game

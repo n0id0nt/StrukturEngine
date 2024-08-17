@@ -5,6 +5,7 @@
 #include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skSpriteAnimationComponent.h"
+#include "../ECS/Component/skTileMapComponent.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -76,6 +77,7 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
 		,"getEntityWithIdentifier", &LUA_GetEntityWithIdentifier
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>
+		,"getTileMapComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTileMapComponent>
 		,"getTransformComponent", &LUA_GetComponentFromEntity<Component::skTransformComponent>
 		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
 		,"getCameraComponent", &LUA_GetComponentFromEntity<Component::skCameraComponent>

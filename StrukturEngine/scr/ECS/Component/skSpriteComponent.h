@@ -12,6 +12,7 @@ namespace Struktur
 		{
 			std::string imagePath;
 			Vector2 size;
+			Vector2 offset;
 			Rectangle sourceRec;
 			int columns, rows;
 			int imageWidth, imageHeight;
