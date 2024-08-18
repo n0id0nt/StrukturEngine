@@ -33,6 +33,11 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
                     sourceRec.height *= -1;
                     break;
                 }
+                // this stops you from seeing a little bit of the neighboring sprite
+                sourceRec.x += 0.0001f;
+                sourceRec.y += 0.0001f;
+                sourceRec.width -= 0.0002f;
+                sourceRec.height -= 0.0002f;
                 Rectangle DestRec{ gridTile.position.x, gridTile.position.y, tileMap.tileSize, tileMap.tileSize };
                 DrawTexturePro(texture, sourceRec, DestRec, Vector2{ 0,0 }, 0, WHITE);
             }

@@ -1,9 +1,11 @@
 
 local Player_Script = require("Player")
+local PlayerHusk_Script = require("PlayerHusk")
 
 local gameObjects = 
 {
     Player = Player_Script,
+    PlayerHusk = PlayerHusk_Script,
 } 
 
 Script.initialise = function(systemTime)

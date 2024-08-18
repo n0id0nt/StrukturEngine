@@ -178,6 +178,7 @@
     <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skStaticBodyComponent.cpp" />
     <ClCompile Include="scr\ECS\Component\PhysicsBodyComponents\skTileMapCollisionBodyComponent.cpp" />
     <ClCompile Include="scr\ECS\System\skPhysicsSystem.cpp" />
+    <ClCompile Include="scr\ECS\System\skUISystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skStaticBodyComponent.h" />
     <ClInclude Include="scr\ECS\Component\PhysicsBodyComponents\skTileMapCollisionBodyComponent.h" />
     <ClInclude Include="scr\ECS\System\skPhysicsSystem.h" />
+    <ClInclude Include="scr\ECS\System\skUISystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

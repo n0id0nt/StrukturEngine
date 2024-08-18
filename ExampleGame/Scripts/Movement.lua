@@ -18,8 +18,8 @@ function Movement.registerProperties(tableComponent)
     tableComponent.jumpArcDist      = 1   * 16
     tableComponent.jumpFallDist     = 2   * 16
     tableComponent.maxFallSpeed     = 130
-    tableComponent.bufferTime = 100
-    tableComponent.coyoteTime = 100
+    tableComponent.bufferTime = 0.08
+    tableComponent.coyoteTime = 0.08
     -- collision
     --script:property("groundCheckArea", 1)
     --script:property("groundLayer", 1)
@@ -187,7 +187,7 @@ function Movement:calculateGravity(tableComponent, systemTime, dt, isGrounded)
         end
     end
     if not self.isGrounded then 
-        local deltaSpeed = (self.verticalSpeed < 0 and (self.endJumpEarly and self:jumpArcGravity(tableComponent, systemTime) or self:jumpGravity(tableComponent, systemTime)) or self:fallGravity(tableComponent, systemTime)) * dt
+        local deltaSpeed = (self.verticalSpeed < 0 and self:jumpGravity(tableComponent, systemTime) or self:fallGravity(tableComponent, systemTime)) * dt
         self.verticalSpeed = self.verticalSpeed + deltaSpeed
 
         -- clamp speed
@@ -210,9 +210,9 @@ function Movement:jump(tableComponent, systemTime, dt)
         self.justJumped = false
     end
     -- end jump input once at jump arc
-    if self.verticalSpeed > -self:jumpArcSpeed(tableComponent, systemTime) then
-        self.endJumpEarly = true
-    end
+    --if self.verticalSpeed > -self:jumpArcSpeed(tableComponent, systemTime) then
+    --    self.endJumpEarly = true
+    --end
     -- test to end jump early
     --if not self.isGrounded and not self.jumpInput and not self.endJumpEarly then
     --    self.endJumpEarly = true

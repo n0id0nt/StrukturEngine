@@ -11,7 +11,7 @@
 	"iid": "d6a2af70-fec0-11ee-a725-db5e867542c9",
 	"jsonVersion": "1.5.3",
 	"appBuildId": 473703,
-	"nextUid": 50,
+	"nextUid": 51,
 	"identifierStyle": "Capitalize",
 	"toc": [],
 	"worldLayout": "Free",
@@ -781,6 +781,41 @@
 					"tilesetUid": null
 				}
 			]
+		},
+		{
+			"identifier": "PlayerHusk",
+			"uid": 50,
+			"tags": [],
+			"exportToToc": false,
+			"allowOutOfBounds": false,
+			"doc": null,
+			"width": 16,
+			"height": 16,
+			"resizableX": false,
+			"resizableY": false,
+			"minWidth": null,
+			"maxWidth": null,
+			"minHeight": null,
+			"maxHeight": null,
+			"keepAspectRatio": false,
+			"tileOpacity": 1,
+			"fillOpacity": 1,
+			"lineOpacity": 1,
+			"hollow": false,
+			"color": "#3E8948",
+			"renderMode": "Rectangle",
+			"showName": true,
+			"tilesetId": null,
+			"tileRenderMode": "FitInside",
+			"tileRect": null,
+			"uiTileRect": null,
+			"nineSliceBorders": [],
+			"maxCount": 0,
+			"limitScope": "PerLevel",
+			"limitBehavior": "MoveLastOne",
+			"pivotX": 0,
+			"pivotY": 0,
+			"fieldDefs": []
 		}
 	], "tilesets": [
 		{
@@ -889,6 +924,22 @@
 							"fieldInstances": [{ "__identifier": "MaxSpeed", "__type": "Float", "__value": 40, "__tile": null, "defUid": 49, "realEditorValues": [{ "id": "V_Float", "params": [40] }] }],
 							"__worldX": 88,
 							"__worldY": 280
+						},
+						{
+							"__identifier": "PlayerHusk",
+							"__grid": [0,0],
+							"__pivot": [0,0],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#3E8948",
+							"iid": "6b21cf20-4ce0-11ef-9ebb-cfa7e6580224",
+							"width": 16,
+							"height": 16,
+							"defUid": 50,
+							"px": [0,0],
+							"fieldInstances": [],
+							"__worldX": 0,
+							"__worldY": 0
 						}
 					]
 				},

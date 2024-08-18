@@ -4,6 +4,7 @@
 #include "skGameData.h"
 #include <string>
 #include <vector>
+#include <entt/entt.hpp>
 #include "../Util/skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
@@ -13,11 +14,10 @@
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skCameraSystem.h"
 #include "../ECS/System/skAnimationSystem.h"
-#include <entt/entt.hpp>
+#include "../ECS/System/skUISystem.h"
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
 #include "skLua.h"
-#include "raygui.h"
 
 std::array<std::string,4> s_textures = {
     "../ExampleGame/Tiles/spelunky_shop.png",
@@ -38,12 +38,12 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
 
 
     for (auto& layer : level.layers) {
-    	const auto layerEntity = registry.create();
         switch (layer.type)
         {
         case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
         case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
+    	    const auto layerEntity = registry.create();
             auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
             transform.SetPosition2(Vector2(layer.pxTotalOffsetX, layer.pxTotalOffsetY));
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
@@ -60,6 +60,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         {
             for (auto& entityInstance : layer.entityInstaces)
             {
+                const auto layerEntity = registry.create();
                 Vector2 position = entityInstance.px;
                 auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
                 transform.SetPosition2(Vector2(position.x, position.y));
@@ -247,30 +248,11 @@ void Struktur::Core::Game()
         BeginDrawing();
         ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool, gameData.camera);
+        System::UI::Update(gameData.registry, gameData.resourcePool);
         //debug render(lines and stuff)
         //render UI
         //render debug UI
         //Render IMGUI (When i actually add this)
-#ifdef _DEBUG
-        static bool showMessageBox = false;
-
-        int focus = 0, scroll = 0; // Needed by GuiDMPropertyList()
-        if (GuiButton(Rectangle{ 24, 24, 120, 30 }, "#191#Show Compnents")) showMessageBox = true;
-
-        if (showMessageBox)
-        {
-            int result = GuiMessageBox(Rectangle{ 85, 70, 250, 100 },
-                "#191#Message Box", "Hi! This is a message!", "Nice;Cool;Wow");
-            const char* text[3] = { "Text;", "Text;", "Text;" };
-            static Vector2 scroll;
-            static Rectangle view;
-            static bool toggle;
-            result += GuiScrollPanel(Rectangle{ 85, 270, 250, 100 }, "Test text", Rectangle{ 95, 275, 230, 150 }, &scroll, &view);
-            result += GuiLabel(Rectangle{ view.x + scroll.x, view.y + scroll.y, view.width, 15 }, "Test text");
-            result += GuiCheckBox(Rectangle{ view.x + scroll.x, view.y + scroll.y + 15, view.width, 15 }, "Test text toggle", &toggle);
-            if (result >= 0) showMessageBox = false;
-        }
-#endif
         EndDrawing();
 
     }
