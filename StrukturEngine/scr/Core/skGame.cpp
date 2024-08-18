@@ -61,7 +61,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
             for (auto& entityInstance : layer.entityInstaces)
             {
                 Vector2 position = entityInstance.px;
-                auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+                auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
                 transform.SetPosition2(Vector2(position.x, position.y));
                 registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, entityInstance.identifier);
                 auto& luaComponent = registry.emplace<Struktur::Component::skLuaComponent>(layerEntity, false, luaState.CreateTable());

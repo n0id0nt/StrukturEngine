@@ -39,9 +39,9 @@ local speedMultipliers = {
 }
 local collisionRecs = {
     small8 = rectangle.new(-2,32-8,3,7),
-    medium16 = rectangle.new(-3,32-16,5,15),
-    large32 = rectangle.new(-6,32-32,11,31),
-    giant64 = rectangle.new(-11,32-64,21,63),
+    medium16 = rectangle.new(-3,32-15,5,14),
+    large32 = rectangle.new(-6,32-30,11,29),
+    giant64 = rectangle.new(-11,32-59,21,58),
 }
 
 function math.clamp(val, lower, upper)
@@ -77,6 +77,49 @@ local function tileMapCollision(collisionRect, position)
             if component:isPositionOnTile(p5) or component:isPositionOnTile(p6) or component:isPositionOnTile(p7) or component:isPositionOnTile(p8) then
                 return true
             end
+        end
+    end
+    return false
+end
+
+local function tileMapCollisionLeft(collisionRect, position)
+    local tileMaps = GameData:getTileMapComponentsTable()
+    for entity, component in pairs(tileMaps) do 
+        local p1 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height / 4)
+        local p2 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height * 3 / 4)
+        local p3 = vec2.new(collisionRect.x + position.x, collisionRect.y + position.y + collisionRect.height / 2)
+        
+        if component:isPositionOnTile(p1) or component:isPositionOnTile(p2) or component:isPositionOnTile(p3) then
+            return true
+        end
+    end
+    return false
+end
+
+local function tileMapCollisionRight(collisionRect, position)
+    local tileMaps = GameData:getTileMapComponentsTable()
+    for entity, component in pairs(tileMaps) do 
+        local p1 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height / 4)
+        local p2 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height * 3 / 4)
+        local p3 = vec2.new(collisionRect.x + position.x + collisionRect.width, collisionRect.y + position.y + collisionRect.height / 2)
+        
+        if component:isPositionOnTile(p1) or component:isPositionOnTile(p2) or component:isPositionOnTile(p3) then
+            return true
+        end
+    end
+    return false
+end
+
+-- this is a skinnier check because the head is the skinniest part of the body and to eliminate the most false positives
+local function tileMapCollisionUp(collisionRect, position)
+    local tileMaps = GameData:getTileMapComponentsTable()
+    for entity, component in pairs(tileMaps) do 
+        local p1 = vec2.new(collisionRect.x + position.x + collisionRect.width  * 2 / 5, collisionRect.y + position.y)
+        local p2 = vec2.new(collisionRect.x + position.x + collisionRect.width * 3 / 5, collisionRect.y + position.y)
+        local p3 = vec2.new(collisionRect.x + position.x + collisionRect.width / 2, collisionRect.y + position.y)
+        
+        if component:isPositionOnTile(p1) or component:isPositionOnTile(p2) or component:isPositionOnTile(p3) then
+            return true
         end
     end
     return false
@@ -147,8 +190,28 @@ PlayerScript.update = function(entity, dt, systemTime)
             elseif currentAnimation ~= "idle" then
                 currentAnimation = "idle"
             end
-            curSize = sizes[sizeIndex]
-            --TODO When the size changes add a check for collision
+            local newSize = sizes[sizeIndex]
+            if newSize ~= curSize then
+                curSize = newSize
+                
+                local collisionRec = collisionRecs[curSize]
+                local initialPosition = transformComponent.position
+                local targetPositionX = math.round(initialPosition.x)
+                local targetPositionY = math.round(initialPosition.y)
+                while tileMapCollisionUp(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
+                    print("up")
+                    targetPositionY = targetPositionY + 1
+                end
+                while tileMapCollisionLeft(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
+                    print("Left")
+                    targetPositionX = targetPositionX + 1
+                end
+                while tileMapCollisionRight(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
+                    print("Right")
+                    targetPositionX = targetPositionX - 1
+                end
+                transformComponent.position = vec2.new(targetPositionX, targetPositionY)
+            end
             
             local desiredAnimation = playerAnimations[curSize][currentAnimation]
             if desiredAnimation ~= spriteAnimationComponent:getCurAnimation() then
