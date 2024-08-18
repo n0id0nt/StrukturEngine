@@ -248,7 +248,7 @@ void Struktur::Core::Game()
         BeginDrawing();
         ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool, gameData.camera);
-        System::UI::Update(gameData.registry, gameData.resourcePool);
+        //System::UI::Update(gameData.registry, gameData.resourcePool);
         //debug render(lines and stuff)
         //render UI
         //render debug UI

@@ -66,7 +66,12 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
             //    sourceRec.height *= -1;
             //    break;
             //}
-            DrawTexturePro(texture, sprite.sourceRec, destRec, sprite.offset, spriteRotation, WHITE);
+            Rectangle sourceRec = sprite.sourceRec;
+            sourceRec.x += 0.0001f;
+            sourceRec.y += 0.0001f;
+            sourceRec.width -= 0.0002f;
+            sourceRec.height -= 0.0002f;
+            DrawTexturePro(texture, sourceRec, destRec, sprite.offset, spriteRotation, WHITE);
         }
     }
     EndMode2D();
