@@ -5,6 +5,7 @@
 #include "../Component/skCameraComponent.h"
 #include "raylib.h"
 #include "../../Core/skResourcePool.h"
+#include <cmath>
 
 void Struktur::System::Render::Update(entt::registry& registry, const Core::skResourcePool& resourcePool, const Game::skCamera& camera)
 {
@@ -46,7 +47,7 @@ void Struktur::System::Render::Update(entt::registry& registry, const Core::skRe
             Vector3 spritePosition = transform.GetWorldPosition();
             float spriteRotation = transform.GetAngle();
             Vector3 spriteScale = transform.GetScale();
-            Rectangle destRec{ spritePosition.x, spritePosition.y, sprite.size.x * spriteScale.x, sprite.size.y * spriteScale.x };
+            Rectangle destRec{ round(spritePosition.x * 2) / 2, round(spritePosition.y * 2) / 2, sprite.size.x * spriteScale.x, sprite.size.y * spriteScale.x };
             //switch (gridTile.flipBit)
             //{
             //case Game::TileMap::FlipBit::BOTH:

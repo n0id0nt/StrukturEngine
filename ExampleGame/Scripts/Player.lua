@@ -1,3 +1,5 @@
+local Movement = require("Movement")
+
 local PlayerScript = scriptTemplate.new()
 
 local sizes = {
@@ -7,11 +9,6 @@ local sizes = {
     "giant64",
 }
 -- should put these on the players table
-local transformTime = 10
-local transforming = false
-local timeOfLastTransformation
-local curSize = "small8"
-local currentAnimation
 local playerAnimations = {
     small8 = {
         idle = "idle8",
@@ -38,10 +35,16 @@ local speedMultipliers = {
     giant64 = 1.25,
 }
 local collisionRecs = {
-    small8 = rectangle.new(-2,32-8,3,7),
-    medium16 = rectangle.new(-3,32-15,5,14),
-    large32 = rectangle.new(-6,32-30,11,29),
-    giant64 = rectangle.new(-11,32-59,21,58),
+    small8 = rectangle.new(-2,32-8,4,8),
+    medium16 = rectangle.new(-3,32-15,6,15),
+    large32 = rectangle.new(-6,32-30,12,30),
+    giant64 = rectangle.new(-11,32-59,22,59),
+}
+local groundedRecs = {
+    small8 = rectangle.new(-2,32,4,0.25),
+    medium16 = rectangle.new(-3,32,6,0.25),
+    large32 = rectangle.new(-6,32,12,0.25),
+    giant64 = rectangle.new(-11,32,22,0.25),
 }
 
 function math.clamp(val, lower, upper)
@@ -155,72 +158,101 @@ PlayerScript.create = function(entity, dt, systemTime)
     spriteAnimationComponent:addAnimation("run64", run64Animation)
     spriteAnimationComponent:addAnimation("transform", transformAnimation)
     spriteAnimationComponent:playAnimation("idle8", systemTime)
-    currentAnimation = "idle"
+    
+    local luaComponent = GameData:getLuaComponent(entity)
+    local entityTable = luaComponent.table
+    entityTable.Movement = Movement:new()
+    entityTable.Movement.registerProperties(entityTable)
+    entityTable.transformTime = 10
+    entityTable.transforming = false
+    --entityTable.timeOfLastTransformation = nil
+    entityTable.curSize = "small8"
+    entityTable.currentAnimation = "idle"
+    entityTable.velocity = vec2.new(0,0)
 end
     
 PlayerScript.update = function(entity, dt, systemTime)
-    local velocityX = 0
-    local velocityY = 0
     local transformComponent = GameData:getTransformComponent(entity)
     local luaComponent = GameData:getLuaComponent(entity)
+    local entityTable = luaComponent.table
     local cameraComponent = GameData:getCameraComponent(entity)
     local spriteComponent = GameData:getSpriteComponent(entity)
     local spriteAnimationComponent = GameData:getSpriteAnimationComponent(entity)
-    local speed = luaComponent.table.MaxSpeed
-    if not transforming then
+    if not entityTable.transforming then
         local moveInput = GameData.input:getInputAxis("Horizontal")
-        local scaleInput = GameData.input:getInputAxis("Vertical")
-        --transformComponent.scale = transformComponent.scale.y + scaleInput * speed * dt
-        --transformComponent.translation.y = transformComponent.translation.y - moveInput.y * speed * dt
-        if not timeOfLastTransformation then
-            timeOfLastTransformation = systemTime
+        local jumpInput = GameData.input:isInputDown("Jump")
+
+        if not entityTable.timeOfLastTransformation then
+            entityTable.timeOfLastTransformation = systemTime
         end
-        local activeTransformTime = systemTime - timeOfLastTransformation
-        if transformTime < activeTransformTime then
-            timeOfLastTransformation = nil
-            transforming = true
+        local activeTransformTime = systemTime - entityTable.timeOfLastTransformation
+        if entityTable.transformTime < activeTransformTime then
+            entityTable.timeOfLastTransformation = nil
+            entityTable.transforming = true
         else
-            local sizeIndex = 1 + math.floor(#sizes * activeTransformTime / transformTime) 
+            local sizeIndex = 1 + math.floor(#sizes * activeTransformTime / entityTable.transformTime) 
             sizeIndex = math.clamp(sizeIndex, 1, #sizes)
             
             if moveInput ~= 0 then
-                if currentAnimation ~= "run" then
-                    currentAnimation = "run"
+                if entityTable.currentAnimation ~= "run" then
+                    entityTable.currentAnimation = "run"
                 end
-            elseif currentAnimation ~= "idle" then
-                currentAnimation = "idle"
+            elseif entityTable.currentAnimation ~= "idle" then
+                entityTable.currentAnimation = "idle"
             end
             local newSize = sizes[sizeIndex]
-            if newSize ~= curSize then
-                curSize = newSize
+
+            local speedMultiplier = speedMultipliers[entityTable.curSize]
+            local movement = entityTable.Movement
+            movement:setSpeed(entityTable.velocity)
+
+            movement:setHorizontalInput(moveInput)
+            movement:setJumpInput(jumpInput, systemTime)
+            local groundedRec = groundedRecs[newSize]
+            local entityPosition = transformComponent.position
+            local isGrounded = tileMapCollision(groundedRec, vec2.new(entityPosition.x, entityPosition.y))
+            movement:moveMaxSpeed(entityTable)
+            movement:calculateGravity(entityTable, systemTime, dt, isGrounded)
+            movement:jump(entityTable, systemTime, dt)
+        
+            local horizontalSpeed, verticalSpeed = movement:getSpeed()
+            entityTable.velocity = vec2.new(horizontalSpeed, verticalSpeed)
+
+            if newSize ~= entityTable.curSize then
+                entityTable.curSize = newSize
                 
-                local collisionRec = collisionRecs[curSize]
-                local initialPosition = transformComponent.position
-                local targetPositionX = math.round(initialPosition.x)
-                local targetPositionY = math.round(initialPosition.y)
+                local collisionRec = collisionRecs[entityTable.curSize]
+                local targetPositionX = entityPosition.x
+                local targetPositionY = entityPosition.y
                 while tileMapCollisionUp(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
                     print("up")
-                    targetPositionY = targetPositionY + 1
+                    targetPositionY = targetPositionY + 0.25
+                    if entityTable.velocity.y < 0 then
+                        entityTable.velocity.y = 0
+                    end
                 end
                 while tileMapCollisionLeft(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
                     print("Left")
-                    targetPositionX = targetPositionX + 1
+                    targetPositionX = targetPositionX + 0.25
+                    if entityTable.velocity.x < 0 then
+                        entityTable.velocity.x = 0
+                    end
                 end
                 while tileMapCollisionRight(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
                     print("Right")
-                    targetPositionX = targetPositionX - 1
+                    targetPositionX = targetPositionX - 0.25
+                    if entityTable.velocity.x > 0 then
+                        entityTable.velocity.x = 0
+                    end
                 end
                 transformComponent.position = vec2.new(targetPositionX, targetPositionY)
             end
             
-            local desiredAnimation = playerAnimations[curSize][currentAnimation]
+            local desiredAnimation = playerAnimations[entityTable.curSize][entityTable.currentAnimation]
             if desiredAnimation ~= spriteAnimationComponent:getCurAnimation() then
                 spriteAnimationComponent:playAnimation(desiredAnimation, systemTime)
             end
 
-            local speedMultiplier = speedMultipliers[curSize]
-            velocityX = moveInput * speed * dt * speedMultiplier
-            velocityY = scaleInput * speed * dt * speedMultiplier
         end
         if moveInput > 0 then
             spriteComponent.flipped = false
@@ -231,21 +263,26 @@ PlayerScript.update = function(entity, dt, systemTime)
         if playerAnimations.transform ~= spriteAnimationComponent:getCurAnimation() then
             spriteAnimationComponent:playAnimation(playerAnimations.transform, systemTime)
         elseif not spriteAnimationComponent:isAnimationPlaying(systemTime) then
-            transforming = false
+            entityTable.transforming = false
             cameraComponent:addTrauma(0.5)
         end
     end
 
     -- calculate collision
-    local collisionRec = collisionRecs[curSize]
+    local collisionRec = collisionRecs[entityTable.curSize]
     local initialPosition = transformComponent.position
-    local targetPositionX = math.round(initialPosition.x + velocityX)
-    local targetPositionY = math.round(initialPosition.y + velocityY)
-    while tileMapCollision(collisionRec, vec2.new(targetPositionX, initialPosition.y)) and velocityX ~= 0 do
-        targetPositionX = targetPositionX - math.sign(velocityX)
+    local targetPositionX = initialPosition.x + entityTable.velocity.x * dt
+    local targetPositionY = initialPosition.y + entityTable.velocity.y * dt
+    local horizontalDir = math.sign(entityTable.velocity.x)
+    local verticalDir = math.sign(entityTable.velocity.y)
+    while tileMapCollision(collisionRec, vec2.new(targetPositionX, initialPosition.y)) and horizontalDir ~= 0 do
+        print("Collision Move Left" .. entityTable.velocity.x)
+        targetPositionX = targetPositionX - horizontalDir * 0.25
+        entityTable.velocity.x = 0
     end
-    while tileMapCollision(collisionRec, vec2.new(targetPositionX, targetPositionY))  and velocityY ~= 0 do
-        targetPositionY = targetPositionY - math.sign(velocityY)
+    while tileMapCollision(collisionRec, vec2.new(targetPositionX, targetPositionY))  and verticalDir ~= 0 do
+        targetPositionY = targetPositionY - verticalDir * 0.25
+        entityTable.velocity.y = 0
     end
     transformComponent.position = vec2.new(targetPositionX, targetPositionY)
 end

@@ -2,30 +2,30 @@ local Helper_Functions = require("HelperFunctions")
 
 local Movement = {}
 
-function Movement.registerProperties(script)
+function Movement.registerProperties(tableComponent)
     -- move
-    script:property("accelerationTime", 0.3)
-    script:property("deccelerationTime", 0.2)
-    script:property("maxSpeed", 80)
+    tableComponent.accelerationTime = 0.3
+    tableComponent.deccelerationTime = 0.2
+    tableComponent.maxSpeed = 80
     -- climb
-    script:property("climbSpeed", 40)
+    --script:property("climbSpeed", 40)
     -- wall slide
-    script:property("wallSideMaxFallSpeed", 10)
+    --script:property("wallSideMaxFallSpeed", 10)
     -- jump
-    script:property("jumpDist", 16 * 3)
-    script:property("jumpHeight", 16 * 6)
-    script:property("jumpArcHeight", 16)
-    script:property("jumpArcDist", 16)
-    script:property("jumpFallDist", 16 * 2)
-    script:property("maxFallSpeed", 300)
-    script:property("bufferTime", 100)
-    script:property("coyoteTime", 100)
+    tableComponent.jumpDist         = 3   * 16
+    tableComponent.jumpHeight       = 4.5 * 16
+    tableComponent.jumpArcHeight    = 1   * 16
+    tableComponent.jumpArcDist      = 1   * 16
+    tableComponent.jumpFallDist     = 2   * 16
+    tableComponent.maxFallSpeed     = 130
+    tableComponent.bufferTime = 100
+    tableComponent.coyoteTime = 100
     -- collision
-    script:property("groundCheckArea", 1)
-    script:property("groundLayer", 1)
-    script:property("groundAngle", 25)
+    --script:property("groundCheckArea", 1)
+    --script:property("groundLayer", 1)
+    --script:property("groundAngle", 25)
     -- dash
-    script:property("dashSpeed", 500)
+    --script:property("dashSpeed", 500)
 end
 
 function Movement:new()
@@ -78,9 +78,9 @@ function Movement:flipHorizontalInput()
     self.facing = self.horizontalInput
 end
 
-function Movement:setJumpInput(value)
+function Movement:setJumpInput(value, systemTime)
     if value then
-        self.lastJumpPress = Time:getTime()
+        self.lastJumpPress = systemTime
         if value ~= self.jumpInput then
             self.jumpInputUsed = false
         end
@@ -91,24 +91,24 @@ end
 --------------------------------------------------------------
 --MOVE
 --------------------------------------------------------------
-function Movement:moveMaxSpeed()
-    self.horizontalSpeed = self.horizontalInput * maxSpeed
+function Movement:moveMaxSpeed(tableComponent)
+    self.horizontalSpeed = self.horizontalInput * tableComponent.maxSpeed
 end
 
-function Movement:move()
-    self.curAcceleration = self.horizontalSpeed / maxSpeed
+function Movement:move(tableComponent, systemTime, dt)
+    self.curAcceleration = self.horizontalSpeed / tableComponent.maxSpeed
     local stillDeccelerating = self.horizontalInput * self.curAcceleration < 0
-    if self.horizontalInput ~= 0 and (not stillDeccelerating or accelerationTime < deccelerationTime) then
+    if self.horizontalInput ~= 0 and (not stillDeccelerating or tableComponent.accelerationTime < tableComponent.deccelerationTime) then
         --acceleration
-        local deltaAcceleration = accelerationTime <= 0 and self.horizontalInput or (self.horizontalInput * Time:getDeltaTime() / accelerationTime)
+        local deltaAcceleration = tableComponent.accelerationTime <= 0 and self.horizontalInput or (self.horizontalInput * dt / tableComponent.accelerationTime)
         self.curAcceleration = self.curAcceleration + deltaAcceleration
         self.curAcceleration = Helper_Functions.Clamp(self.curAcceleration, -1, 1)
     else
         --decceleration
-        local deltaAcceleration = deccelerationTime <= 0 and 1 or (Time:getDeltaTime() / deccelerationTime)
+        local deltaAcceleration = tableComponent.deccelerationTime <= 0 and 1 or (dt / tableComponent.deccelerationTime)
         self.curAcceleration = Helper_Functions.MoveTowards(self.curAcceleration, 0, deltaAcceleration)
     end
-    self.horizontalSpeed = self.curAcceleration * maxSpeed
+    self.horizontalSpeed = self.curAcceleration * tableComponent.maxSpeed
 end
 
 --------------------------------------------------------------
@@ -138,70 +138,69 @@ end
 --------------------------------------------------------------
 --JUMP
 --------------------------------------------------------------
-function Movement:canUseCoyote()
-    return self.coyoteUsable and not self.isGrounded and (self.timeLeftGrounded + coyoteTime > Time:getTime()) and self.lastJumpPress == Time:getTime()
+function Movement:canUseCoyote(tableComponent, systemTime)
+    return self.coyoteUsable and not self.isGrounded and (self.timeLeftGrounded + tableComponent.coyoteTime > systemTime) and self.lastJumpPress == systemTime
 end
 
-function Movement:hasBufferJump()
-    return self.isGrounded and (self.lastJumpPress + bufferTime > Time:getTime())
+function Movement:hasBufferJump(tableComponent, systemTime)
+    return self.isGrounded and (self.lastJumpPress + tableComponent.bufferTime > systemTime)
 end
 
-function Movement:hasWallJump()
-    return self.isWallSliding and self.lastJumpPress == Time:getTime()
+function Movement:hasWallJump(tableComponent, systemTime)
+    return self.isWallSliding and self.lastJumpPress == systemTime
 end
 
-function Movement:jumpSpeed()
-    return jumpDist ~= 0 and (2 * jumpHeight * maxSpeed) / jumpDist or 0
+function Movement:jumpSpeed(tableComponent, systemTime)
+    return tableComponent.jumpDist ~= 0 and (2 * tableComponent.jumpHeight * tableComponent.maxSpeed) / tableComponent.jumpDist or 0
 end
 
-function Movement:jumpArcSpeed()
-    return jumpArcDist ~= 0 and (2 * jumpArcHeight * maxSpeed) / jumpArcDist or 0
+function Movement:jumpArcSpeed(tableComponent, systemTime)
+    return tableComponent.jumpArcDist ~= 0 and (2 * tableComponent.jumpArcHeight * tableComponent.maxSpeed) / tableComponent.jumpArcDist or 0
 end
 
-function Movement:jumpGravity()
-    return jumpDist ~= 0 and (2 * jumpHeight * maxSpeed ^ 2) / jumpDist ^ 2 or 0
+function Movement:jumpGravity(tableComponent, systemTime)
+    return tableComponent.jumpDist ~= 0 and (2 * tableComponent.jumpHeight * tableComponent.maxSpeed  ^ 2) / tableComponent.jumpDist ^ 2 or 0
 end
 
-function Movement:jumpArcGravity()
-    return jumpArcDist ~= 0 and (2 * jumpArcHeight * maxSpeed ^ 2) / jumpArcDist ^ 2 or 0
+function Movement:jumpArcGravity(tableComponent, systemTime)
+    return tableComponent.jumpArcDist ~= 0 and (2 * tableComponent.jumpArcHeight * tableComponent.maxSpeed ^ 2) / tableComponent.jumpArcDist ^ 2 or 0
 end
 
-function Movement:fallGravity()
-    return jumpFallDist ~= 0 and (2 * jumpHeight * maxSpeed ^ 2) / jumpFallDist * 2 or 0
+function Movement:fallGravity(tableComponent, systemTime)
+    return tableComponent.jumpFallDist ~= 0 and (2 * tableComponent.jumpHeight * tableComponent.maxSpeed ^ 2) / tableComponent.jumpFallDist * 2 or 0
 end
 
-function Movement:calculateGravity()
-    local newIsGrounded = self:checkGrounded()
+function Movement:calculateGravity(tableComponent, systemTime, dt, isGrounded)
     self.justLanded = false
     self.justInAir = false
-    if self.isGrounded ~= newIsGrounded then
-        self.isGrounded = newIsGrounded
+    if self.isGrounded ~= isGrounded then
+        self.isGrounded = isGrounded
         if self.isGrounded then
             self.coyoteUsable = true
             self.justLanded = true
             self.jumping = false
         else
-            self.timeLeftGrounded = Time:getTime()
+            self.timeLeftGrounded = systemTime
             if not self.jumping then
                 self.justInAir = true
             end
         end
     end
     if not self.isGrounded then 
-        local deltaSpeed = (self.verticalSpeed < 0 and (self.endJumpEarly and self:jumpArcGravity() or self:jumpGravity()) or self:fallGravity()) * Time:getDeltaTime()
+        local deltaSpeed = (self.verticalSpeed < 0 and (self.endJumpEarly and self:jumpArcGravity(tableComponent, systemTime) or self:jumpGravity(tableComponent, systemTime)) or self:fallGravity(tableComponent, systemTime)) * dt
         self.verticalSpeed = self.verticalSpeed + deltaSpeed
 
         -- clamp speed
-        if self.verticalSpeed > maxFallSpeed then 
-            self.verticalSpeed = maxFallSpeed
+        if self.verticalSpeed > tableComponent.maxFallSpeed then 
+            self.verticalSpeed = tableComponent.maxFallSpeed
         end
     end
 end
 
-function Movement:jump()
+function Movement:jump(tableComponent, systemTime, dt)
     -- can jump if: grounded or within coyote threshold or sufficient jump buffer
-    if not self.jumpInputUsed and (self:hasBufferJump() or self:canUseCoyote() or self:hasWallJump()) then 
-        self.verticalSpeed = -self:jumpSpeed()
+    if not self.jumpInputUsed and (self:hasBufferJump(tableComponent, systemTime) or self:canUseCoyote(tableComponent, systemTime) or self:hasWallJump(tableComponent, systemTime)) then 
+        self.verticalSpeed = -self:jumpSpeed(tableComponent, systemTime)
         self.jumpInputUsed = true
         self.endJumpEarly = false
         self.coyoteUsable = false
@@ -211,21 +210,14 @@ function Movement:jump()
         self.justJumped = false
     end
     -- end jump input once at jump arc
-    if self.verticalSpeed > -self:jumpArcSpeed() then
+    if self.verticalSpeed > -self:jumpArcSpeed(tableComponent, systemTime) then
         self.endJumpEarly = true
     end
     -- test to end jump early
-    if not self.isGrounded and not self.jumpInput and not self.endJumpEarly then
-        self.endJumpEarly = true
-        self.verticalSpeed = -self:jumpArcSpeed()
-    end
-end
-
---------------------------------------------------------------
---COLLISION
---------------------------------------------------------------
-function Movement:checkGrounded()
-    return GO:getPhysicsBody():checkGrounded(groundAngle)
+    --if not self.isGrounded and not self.jumpInput and not self.endJumpEarly then
+    --    self.endJumpEarly = true
+    --    self.verticalSpeed = -self:jumpArcSpeed(tableComponent, systemTime)
+    --end
 end
 
 --------------------------------------------------------------
@@ -240,9 +232,9 @@ end
 --------------------------------------------------------------
 --HELPER
 --------------------------------------------------------------
-function Movement:setSpeed(x, y)
-    self.horizontalSpeed = x
-    self.verticalSpeed = y
+function Movement:setSpeed(velocity)
+    self.horizontalSpeed = velocity.x
+    self.verticalSpeed = velocity.y
 end
 
 function Movement:setHorizontalSpeed(x)
