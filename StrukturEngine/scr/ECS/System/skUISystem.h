@@ -11,6 +11,17 @@ struct skDialogueText
 	bool dialogueVisible;
 };
 
+enum class skGameState
+{
+	MAIN_MENU,
+	GAME,
+	CUT_SCENE,
+	PAUSE,
+
+	COUNT
+
+};
+
 namespace Struktur
 {
 	namespace Core
@@ -21,7 +32,7 @@ namespace Struktur
 	{
 		namespace UI
 		{
-			void Update(entt::registry& registry, const Core::skResourcePool& resourcePool, const skDialogueText& dialogueText, float systemTime);
+			void Update(entt::registry& registry, const Core::skResourcePool& resourcePool, const skDialogueText& dialogueText, float systemTime, skGameState& out_gameState, skGameState& out_prevGameState, bool& out_closeWindow);
 		};
 	};
 };

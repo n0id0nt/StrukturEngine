@@ -8,18 +8,6 @@
 #include "../ECS/System/skUISystem.h"
 #include "skInput.h"
 
-enum class skGameState
-{
-	MAIN_MENU,
-	GAME,
-	CUT_SCENE,
-	PAUSE,
-
-	COUNT
-
-};
-
-
 namespace Struktur
 {
 	namespace Core
@@ -27,6 +15,7 @@ namespace Struktur
 		struct skGameData
 		{
 			bool shouldQuit;
+			float pausedTime = 0.0f;
 			entt::registry registry;
 			skResourcePool resourcePool;
 			FileLoading::LevelParser::skWorld world;
@@ -34,8 +23,10 @@ namespace Struktur
 			skInput input;
 			Game::skCamera camera;
 			skDialogueText dialogueText;
-			skGameState gameState;
+			skGameState gameState = skGameState::MAIN_MENU;
+			skGameState previousGameState = skGameState::PAUSE;
 			std::unique_ptr<Physics::skPhysicsWorld> physicsWorld;
+			int cutSceneIndex = 1;
 
 			static void LUABind(Scripting::skLuaState& lua);
 		};

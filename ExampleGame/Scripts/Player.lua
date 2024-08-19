@@ -246,7 +246,7 @@ PlayerScript.create = function(entity, dt, systemTime)
     local jump64Animation = spriteAnimation.new(45, 47, 0.2, false)
     local fall64Animation = spriteAnimation.new(47, 48, 1, false)
 
-    local transformAnimation = spriteAnimation.new(48, 55, 0.6, false)
+    local transformAnimation = spriteAnimation.new(48, 54, 0.6, false)
 
     spriteAnimationComponent:addAnimation("idle8", idle8Animation)
     spriteAnimationComponent:addAnimation("run8", run8Animation)
@@ -270,7 +270,7 @@ PlayerScript.create = function(entity, dt, systemTime)
     
     spriteAnimationComponent:addAnimation("transform", transformAnimation)
 
-    spriteAnimationComponent:playAnimation("idle8", systemTime)
+    spriteAnimationComponent:playAnimation("idle16", systemTime)
     
     local luaComponent = GameData:getLuaComponent(entity)
     local entityTable = luaComponent.table
@@ -425,6 +425,8 @@ PlayerScript.update = function(entity, dt, systemTime)
     --    entityTable.velocity.x = 0
     --end
     transformComponent.position = vec2.new(targetPositionX, targetPositionY)
+    --print("x: " .. transformComponent.position.x .. " y: " .. transformComponent.position.y)
+
 end
 
 PlayerScript.destroy = function(entity)

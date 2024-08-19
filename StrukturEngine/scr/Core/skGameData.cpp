@@ -91,6 +91,8 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"dialogueText", &skGameData::dialogueText
 		,"shouldQuit", &skGameData::shouldQuit
 		,"gameState", &skGameData::gameState
+		,"previousGameState", &skGameData::previousGameState
+		,"cutSceneIndex", &skGameData::cutSceneIndex
 		//,"registry", &skGameData::registry
 		// Get components
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier

@@ -4,32 +4,24 @@
     <input name="Jump" type="button">
         <bindings>
             <binding type="keycode"             value="space"/>
-            <!-- <binding type="keycode"             value="w"/> -->
-            <!-- <binding type="keycode"             value="up"/> -->
+            <binding type="keycode"             value="w"/>
+            <binding type="keycode"             value="up"/>
             <binding type="controllerButton"    value="a"/>
-            <!-- <binding type="controllerButton"    value="up"/> -->
+            <binding type="controllerButton"    value="up"/>
         </bindings>
     </input>
-    <input name="Dash" type="button">
+    <input name="NextDialogue" type="button">
         <bindings>
-            <binding type="keycode" value="leftshift"/>
-            <binding type="keycode" value="rightshift"/>
+            <binding type="keycode"             value="space"/>
+            <binding type="keycode"             value="enter"/>
+            <binding type="controllerButton"    value="a"/>
+            <binding type="controllerButton"    value="b"/>
         </bindings>
     </input>
-    <input name="Grab" type="button">
+    <input name="Pause" type="button">
         <bindings>
-            <binding type="keycode" value="q"/>
-        </bindings>
-    </input>
-    <input name="Shoot" type="button">
-        <bindings>
-            <binding type="keycode" value="tab"/>
-        </bindings>
-    </input>
-    <input name="Pressure" type="variable">
-        <bindings>
-            <binding type="keycode" value="e"/>
-            <binding type="keycode" value="r"/>
+            <binding type="keycode" value="p"/>
+            <binding type="controllerButton" value="start"/>
         </bindings>
     </input>
     <input name="Horizontal" type="axis">

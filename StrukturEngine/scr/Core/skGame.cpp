@@ -76,6 +76,12 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                         luaComponent.table[fieldInstance.identifier] = value;
                         break;
                     }
+                    case Struktur::FileLoading::LevelParser::FieldInstanceType::INTEGER:
+                    {
+                        float value = std::any_cast<int>(fieldInstance.value);
+                        luaComponent.table[fieldInstance.identifier] = value;
+                        break;
+                    }
                     default:
                         assert(false);
                         break;
@@ -238,17 +244,25 @@ void Struktur::Core::Game()
         }
 
         float dt = GetFrameTime();
-        float systemTime = GetTime();
+
+        if (gameData.gameState == skGameState::PAUSE)
+        {
+            gameData.pausedTime += dt;
+        }
+        float systemTime = GetTime() - gameData.pausedTime;
 
         //physics 
         Lua::UpdateLuaState(gameData.luaState, dt, systemTime);
-        System::Animation::Update(systemTime, dt, gameData.registry);
-        System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
+        if (gameData.gameState != skGameState::PAUSE)
+        {
+            System::Animation::Update(systemTime, dt, gameData.registry);
+            System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
+        }
 
         BeginDrawing();
         ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool, gameData.camera);
-        //System::UI::Update(gameData.registry, gameData.resourcePool);
+        System::UI::Update(gameData.registry, gameData.resourcePool, gameData.dialogueText, systemTime, gameData.gameState, gameData.previousGameState, gameData.shouldQuit);
         //debug render(lines and stuff)
         //render UI
         //render debug UI
