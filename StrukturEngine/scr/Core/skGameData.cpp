@@ -68,10 +68,29 @@ Component& LUA_CreateComponent(Struktur::Core::skGameData& gameData, const entt:
 
 void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
+	lua.NewUsertype<skDialogueText>("dialogueText"
+		,"name", &skDialogueText::name
+		,"paragraph", &skDialogueText::paragraph
+		,"startTime", &skDialogueText::startTime
+		,"showAllText", &skDialogueText::showAllText
+		,"dialogueVisible", &skDialogueText::dialogueVisible
+	);
+
+	lua.NewEnum("eGameState"
+		, "MainMenu", skGameState::MAIN_MENU
+		, "Game", skGameState::GAME
+		, "Pause", skGameState::PAUSE
+		, "CutScene", skGameState::CUT_SCENE
+		, "Count", skGameState::COUNT
+	);
+
 	lua.NewUsertype<skGameData>("gameData"
 		,"resourcePool", &skGameData::resourcePool
 		,"world", &skGameData::world
 		,"input", &skGameData::input
+		,"dialogueText", &skGameData::dialogueText
+		,"shouldQuit", &skGameData::shouldQuit
+		,"gameState", &skGameData::gameState
 		//,"registry", &skGameData::registry
 		// Get components
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
