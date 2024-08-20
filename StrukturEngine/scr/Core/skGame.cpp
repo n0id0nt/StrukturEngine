@@ -78,7 +78,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                     }
                     case Struktur::FileLoading::LevelParser::FieldInstanceType::INTEGER:
                     {
-                        float value = std::any_cast<int>(fieldInstance.value);
+                        int value = std::any_cast<int>(fieldInstance.value);
                         luaComponent.table[fieldInstance.identifier] = value;
                         break;
                     }
@@ -210,7 +210,7 @@ bool LoadingScreen()
 void Struktur::Core::Game()
 {
     skGameData gameData;
-    InitWindow(1280, 720, "Struktur Engine");
+    InitWindow(1280, 720, "Growtesque");
     gameData.shouldQuit = false;
 
     SetTargetFPS(FPS);

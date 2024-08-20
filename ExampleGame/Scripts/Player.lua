@@ -183,7 +183,6 @@ local function rectToRectCollision(r1, r2)
 end
 
 local function huskCollision(preCollisionRec, postCollisionRec, prePosition, postPosition)
-    --print("Husk Collision Check")
     local huskEntities = GameData:getEntitiesWithIdentifier("PlayerHusk")
     local positionedPreCollisionRec = rectangle.new(preCollisionRec.x + prePosition.x, preCollisionRec.y + prePosition.y, preCollisionRec.width, preCollisionRec.height)
     local positionedPostCollisionRec = rectangle.new(postCollisionRec.x + postPosition.x, postCollisionRec.y + postPosition.y, postCollisionRec.width, postCollisionRec.height)
@@ -195,25 +194,30 @@ local function huskCollision(preCollisionRec, postCollisionRec, prePosition, pos
         local huskPositionedCollisionRec = rectangle.new(huskCollisionRec.x + huskPosition.x, huskCollisionRec.y + huskPosition.y, huskCollisionRec.width, huskCollisionRec.height)
         local initialCollision = rectToRectCollision(positionedPreCollisionRec, huskPositionedCollisionRec)
         local finalCollision = rectToRectCollision(positionedPostCollisionRec, huskPositionedCollisionRec)
-        --print("initialCollision " )
-        --print(initialCollision)
-        --print("x: " .. positionedPreCollisionRec.x .. " y: " .. positionedPreCollisionRec.y .. " width: " .. positionedPreCollisionRec.width .. " height: " .. positionedPreCollisionRec.height)
-        --print("x: " .. prePosition.x .. " y: " .. prePosition.y)
-        --print("finalCollision ")
-        --print(finalCollision)
-        --rint("x: " .. positionedPostCollisionRec.x .. " y: " .. positionedPostCollisionRec.y .. " width: " .. positionedPostCollisionRec.width .. " height: " .. positionedPostCollisionRec.height)
-        --rint("x: " .. postPosition.x .. " y: " .. postPosition.y)
-        --rint("huskCollision ")
-        --rint("x: " .. huskPositionedCollisionRec.x .. " y: " .. huskPositionedCollisionRec.y .. " width: " .. huskPositionedCollisionRec.width .. " height: " .. huskPositionedCollisionRec.height)
-        --rint("x: " .. huskPosition.x .. " y: " .. huskPosition.y)
         if not initialCollision and finalCollision and huskPosition.y > positionedPreCollisionRec.y + positionedPreCollisionRec.height then
-            --print("Husk Check")
             return true
         end
     end
     return false
 end
 
+local function pastCutScene(playerPosition)
+    local entities = GameData:getEntitiesWithIdentifier("CutScene")
+    for _, entity in ipairs(entities) do
+        local luaComponent = GameData:getLuaComponent(entity)
+        local luaTable = luaComponent.table
+        if not luaTable.cutSceneHandled then
+            local transformComponent = GameData:getTransformComponent(entity)
+            if transformComponent.position.x < playerPosition.x then
+                luaTable.cutSceneHandled = true
+                print("Playing cut scene " .. luaTable.CutSceneIndex)
+                GameData.cutSceneIndex = luaTable.CutSceneIndex
+                return true
+            end
+        end
+    end
+    return false
+end
 
 PlayerScript.create = function(entity, dt, systemTime)
     print("Create Player")
@@ -418,6 +422,10 @@ PlayerScript.update = function(entity, dt, systemTime)
         targetPositionY = targetPositionY - verticalDir * 0.25
         --print(targetPositionY)
         entityTable.velocity.y = 0
+    end
+
+    if pastCutScene(transformComponent.position) then
+        GameData.gameState = eGameState.CutScene
     end
     --while horizontalDir ~= 0 and huskCollision(collisionRec, initialPosition, vec2.new(targetPositionX, targetPositionY)) do
     --    targetPositionX = targetPositionX - horizontalDir * 0.25

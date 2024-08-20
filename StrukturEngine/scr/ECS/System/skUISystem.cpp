@@ -16,7 +16,7 @@ void Struktur::System::UI::Update(entt::registry& registry, const Core::skResour
 		int panelHeight = 30;
 		int panelPadding = 30;
 		DrawRectangle(0, 0, width, height, Color{ 5, 5, 5, 100 });
-		const char* gameTitle = "Growtheqesk";
+		const char* gameTitle = "Growtesque";
 		int fontSize = 50;
 		int textWidth = MeasureText(gameTitle, fontSize);
 		DrawText(gameTitle, width / 2 - textWidth / 2, height - textWidth / 2 - 280.0f, fontSize, Color{102, 57, 49, 255});
