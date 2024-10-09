@@ -19,11 +19,20 @@
 #include "../Game/skTileMap.h"
 #include "skLua.h"
 
-std::array<std::string,4> s_textures = {
-    "../ExampleGame/Tiles/spelunky_shop.png",
+std::array<std::string,2> s_textures = {
     "../ExampleGame/Tiles/cavesofgallet_tiles.png",
-    "../ExampleGame/Tiles/Warrior_Sheet-Effect.png",
     "../ExampleGame/Tiles/PlayerGrowthSprites.png",
+};
+
+std::array<std::string,8> s_sounds = {
+    "../ExampleGame/Sounds/jumpBig.wav",
+    "../ExampleGame/Sounds/jumpMedium.wav",
+    "../ExampleGame/Sounds/jumpSmall.wav",
+    "../ExampleGame/Sounds/scroll.wav",
+    "../ExampleGame/Sounds/transform.wav",
+    "../ExampleGame/Sounds/menuMusic.wav",
+    "../ExampleGame/Sounds/gameMusic.wav",
+    "../ExampleGame/Sounds/grow.wav",
 };
 
 // TODO might want to load this from a file
@@ -53,7 +62,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                 Struktur::Game::TileMap::skGridTile newGridTile{gridTile.px, gridTile.src, (Struktur::Game::TileMap::FlipBit)gridTile.f};
                 grid.push_back(newGridTile);
             }
-            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid, layer.intGrid);
+            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[0], layer.cWid, layer.cHei, layer.gridSize, grid, layer.intGrid);
             break;
         }
         case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
@@ -118,6 +127,13 @@ void LoadData(Struktur::Core::skGameData* gameData)
         gameData->resourcePool.CreateTexture(texture);
     }
 
+    //load sounds
+    InitAudioDevice();
+    for (std::string sound : s_sounds)
+    {
+        gameData->resourcePool.CreateSound(sound);
+    }
+
     // load level
     Struktur::FileLoading::LevelParser::skWorld world = Struktur::FileLoading::LevelParser::LoadWorldMap(gameData, "../ExampleGame/", "Levels/ExampleLDKTLevel.ldtk");
     gameData->world = world;
@@ -169,7 +185,7 @@ bool SplashScreen(const double startTime)
         textAlpha *= Lerp(1.f, 0.f, t);
     }
 
-    std::string spashScreenName = "Struktur Engine";
+    std::string spashScreenName = "Growtesque";
     int fontSize = 60;
     int fontWidth = MeasureText(spashScreenName.c_str(), fontSize);
     int width = GetScreenWidth();
@@ -270,6 +286,10 @@ void Struktur::Core::Game()
         EndDrawing();
 
     }
+
+    // quit the lua scripting
+    
+    // unload all the resources
 
     CloseWindow();
 }

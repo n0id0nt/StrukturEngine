@@ -11,6 +11,16 @@ local gameObjects =
     Wizzard = Wizzard_Script,
 } 
 
+local gameStateSongs = 
+{
+    [eGameState.MainMenu] = "../ExampleGame/Sounds/menuMusic.wav",
+    [eGameState.Game] = "../ExampleGame/Sounds/gameMusic.wav",
+    [eGameState.CutScene] = "../ExampleGame/Sounds/gameMusic.wav",
+    [eGameState.Pause] = "../ExampleGame/Sounds/menuMusic.wav",
+}
+
+local currentSong
+
 Script.initialise = function(systemTime)
     -- initialise each component
     for objectIdentifier, script in pairs(gameObjects) do
@@ -24,6 +34,16 @@ Script.initialise = function(systemTime)
 end
 
 Script.update = function(dt, systemTime)
+    if currentSong ~= gameStateSongs[GameData.gameState] then
+        if currentSong then
+            GameData:stopSound(currentSong)
+        end
+        currentSong = gameStateSongs[GameData.gameState]
+        GameData:playSound(currentSong)
+    elseif not GameData:isSoundPlaying(currentSong) then
+        GameData:playSound(currentSong)
+    end
+
     if GameData.gameState ~= eGameState.MainMenu and GameData.input:isInputJustReleased("Pause") then
         GameData.gameState, GameData.previousGameState = GameData.previousGameState, GameData.gameState
     end

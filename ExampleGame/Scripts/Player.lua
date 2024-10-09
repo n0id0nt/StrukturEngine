@@ -8,6 +8,13 @@ local sizes = {
     "large32",
     "giant64",
 }
+
+local jumpSounds = {
+    small8 = "../ExampleGame/Sounds/jumpSmall.wav",
+    medium16 = "../ExampleGame/Sounds/jumpMedium.wav",
+    large32 = "../ExampleGame/Sounds/jumpMedium.wav",
+    giant64 =  "../ExampleGame/Sounds/jumpBig.wav",
+}
 -- should put these on the players table
 local playerAnimations = {
     small8 = {
@@ -74,7 +81,7 @@ local speedFunctions = {
         tableComponent.maxSpeed = 65
         -- jump
         tableComponent.jumpDist         = 2.7 * 16
-        tableComponent.jumpHeight       = 3.5 * 16
+        tableComponent.jumpHeight       = 4.1 * 16
         tableComponent.jumpFallDist     = 2   * 16
     end,
 }
@@ -298,6 +305,7 @@ PlayerScript.update = function(entity, dt, systemTime)
     local cameraComponent = GameData:getCameraComponent(entity)
     local spriteComponent = GameData:getSpriteComponent(entity)
     local spriteAnimationComponent = GameData:getSpriteAnimationComponent(entity)
+    local isGrounded
     if not entityTable.transforming then
         local horizontalInput = GameData.input:getInputAxis("Horizontal")
         local jumpInput = GameData.input:isInputDown("Jump")
@@ -310,6 +318,7 @@ PlayerScript.update = function(entity, dt, systemTime)
             entityTable.timeOfLastTransformation = nil
             entityTable.transforming = true
             entityTable.velocity = vec2.new(0,0)
+            GameData:playSound("../ExampleGame/Sounds/transform.wav")
         else
             local sizeIndex = 1 + math.floor(#sizes * activeTransformTime / entityTable.transformTime) 
             sizeIndex = math.clamp(sizeIndex, 1, #sizes)
@@ -326,10 +335,14 @@ PlayerScript.update = function(entity, dt, systemTime)
             local entityPosition = transformComponent.position
             local isGroundedTileMap = tileMapCollision(groundedRec, entityPosition)
             local isGroundedHusk = huskCollision(collisionRec, groundedRec, entityPosition, entityPosition)
-            local isGrounded = isGroundedTileMap or isGroundedHusk
+            isGrounded = isGroundedTileMap or isGroundedHusk
             movement:move(entityTable, systemTime, dt)
             movement:calculateGravity(entityTable, systemTime, dt, isGrounded)
             movement:jump(entityTable, systemTime, dt)
+
+            if movement.justJumped then
+                GameData:playSound(jumpSounds[newSize])
+            end
         
             local horizontalSpeed, verticalSpeed = movement:getSpeed()
             entityTable.velocity = vec2.new(horizontalSpeed, verticalSpeed)
@@ -349,6 +362,7 @@ PlayerScript.update = function(entity, dt, systemTime)
             end
 
             if newSize ~= entityTable.curSize then
+                GameData:playSound("../ExampleGame/Sounds/grow.wav")
                 cameraComponent:addTrauma(0.3)
                 entityTable.curSize = newSize
                 speedFunctions[newSize](entityTable)
@@ -424,7 +438,7 @@ PlayerScript.update = function(entity, dt, systemTime)
         entityTable.velocity.y = 0
     end
 
-    if pastCutScene(transformComponent.position) then
+    if isGrounded and pastCutScene(transformComponent.position) then
         GameData.gameState = eGameState.CutScene
     end
     --while horizontalDir ~= 0 and huskCollision(collisionRec, initialPosition, vec2.new(targetPositionX, targetPositionY)) do

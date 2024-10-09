@@ -12,6 +12,12 @@ WizzardScript.create = function(entity, dt, systemTime)
     cameraComponent.cameraPriority = 0
     cameraComponent.zoom = 4
     cameraComponent.damping = vec2.new(3,3)
+
+    local spriteAnimationComponent = GameData:createSpriteAnimationComponent(entity)
+    local idleAnimation = spriteAnimation.new(55, 59, 1, true)
+    spriteAnimationComponent:addAnimation("idle", idleAnimation)
+    spriteAnimationComponent:playAnimation("idle", systemTime)
+
 end
 
 WizzardScript.update = function(entity, dt, systemTime)

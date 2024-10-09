@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<controllerAxis deadzone="0.2"/>
+<inputs>
+    <input name="Jump" type="button">
+        <bindings>
+            <binding type="keycode"             value="space"/>
+            <binding type="keycode"             value="w"/>
+            <binding type="keycode"             value="up"/>
+            <binding type="controllerButton"    value="a"/>
+            <binding type="controllerButton"    value="up"/>
+        </bindings>
+    </input>
+    <input name="NextDialogue" type="button">
+        <bindings>
+            <binding type="keycode"             value="space"/>
+            <binding type="keycode"             value="enter"/>
+            <binding type="controllerButton"    value="a"/>
+            <binding type="controllerButton"    value="b"/>
+        </bindings>
+    </input>
+    <input name="Pause" type="button">
+        <bindings>
+            <binding type="keycode" value="p"/>
+            <binding type="controllerButton" value="start"/>
+        </bindings>
+    </input>
+    <input name="Horizontal" type="axis">
+        <bindings>
+            <binding type="controllerButton"    value="left"    component="negetive"/>
+            <binding type="keycode"             value="left"    component="negetive"/>
+            <binding type="keycode"             value="a"       component="negetive"/>
+
+            <binding type="controllerButton"    value="right"   component="positive"/>
+            <binding type="keycode"             value="right"   component="positive"/>
+            <binding type="keycode"             value="d"       component="positive"/>
+
+            <binding type="controllerAxis"      value="leftx"/>
+        </bindings>
+    </input>
+    <input name="Vertical" type="axis">
+        <bindings>
+            <binding type="controllerButton"    value="down"    component="positive"/>
+            <binding type="keycode"             value="down"    component="positive"/>
+            <binding type="keycode"             value="s"       component="positive"/>
+
+            <binding type="controllerButton"    value="up"      component="negetive"/>
+            <binding type="keycode"             value="up"      component="negetive"/>
+            <binding type="keycode"             value="w"       component="negetive"/>
+
+            <binding type="controllerAxis"      value="lefty"/>
+        </bindings>
+    </input>
+    <input name="Move" type="axis2">
+        <bindings>
+            <binding type="controllerButton"    value="up"      component="up"/>
+            <binding type="keycode"             value="up"      component="up"/>
+            <binding type="keycode"             value="w"       component="up"/>
+
+            <binding type="controllerButton"    value="down"    component="down"/>
+            <binding type="keycode"             value="down"    component="down"/>
+            <binding type="keycode"             value="s"       component="down"/>
+
+            <!--<binding type="controllerAxis"      value="lefty"   component="y"/>-->
+
+            <binding type="controllerButton"    value="left"    component="left"/>
+            <binding type="keycode"             value="left"    component="left"/>
+            <binding type="keycode"             value="a"       component="left"/>
+            
+            <binding type="controllerButton"    value="right"   component="right"/>
+            <binding type="keycode"             value="right"   component="right"/>
+            <binding type="keycode"             value="d"       component="right"/>
+
+            <!--<binding type="controllerAxis"      value="leftx"   component="x"/>-->
+        </bindings>
+    </input>
+</inputs>

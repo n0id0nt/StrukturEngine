@@ -15,7 +15,7 @@ void Struktur::System::UI::Update(entt::registry& registry, const Core::skResour
 		int panelWidth = 150;
 		int panelHeight = 30;
 		int panelPadding = 30;
-		DrawRectangle(0, 0, width, height, Color{ 5, 5, 5, 100 });
+		//DrawRectangle(0, 0, width, height, Color{ 5, 5, 5, 100 });
 		const char* gameTitle = "Growtesque";
 		int fontSize = 50;
 		int textWidth = MeasureText(gameTitle, fontSize);
@@ -53,7 +53,7 @@ void Struktur::System::UI::Update(entt::registry& registry, const Core::skResour
 	}
 	case skGameState::CUT_SCENE:
 	{
-		if (dialogueText.dialogueVisible)
+		//if (dialogueText.dialogueVisible)
 		{
 			// this makes a good title
 			int width = GetScreenWidth();

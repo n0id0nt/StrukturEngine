@@ -66,6 +66,24 @@ Component& LUA_CreateComponent(Struktur::Core::skGameData& gameData, const entt:
 	return component;
 }
 
+void LUA_PlaySound(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	PlaySound(sound);
+}
+
+void LUA_StopSound(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	StopSound(sound);
+}
+
+bool LUA_IsSoundPlaying(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	return IsSoundPlaying(sound);
+}
+
 void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
 	lua.NewUsertype<skDialogueText>("dialogueText"
@@ -108,5 +126,8 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent>
 		,"createSpriteComponent", &LUA_CreateComponent<Component::skSpriteComponent>
 		,"createSpriteAnimationComponent", &LUA_CreateComponent<Component::skSpriteAnimationComponent>
+		,"playSound", &LUA_PlaySound
+		,"stopSound", &LUA_StopSound
+		,"isSoundPlaying", &LUA_IsSoundPlaying
 	);
 }
