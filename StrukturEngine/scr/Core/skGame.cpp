@@ -284,11 +284,10 @@ void Struktur::Core::Game()
         //render debug UI
         //Render IMGUI (When i actually add this)
         EndDrawing();
-
     }
 
     // destroy all entities
-   gameData.registry.clear();
+    gameData.registry.clear();
 
     // unload all the resources
     gameData.resourcePool.Clear();
