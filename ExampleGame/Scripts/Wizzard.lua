@@ -1,4 +1,4 @@
-local WizzardScript = scriptTemplate.new()
+local WizzardScript = {}-- scriptTemplate.new()
 
 WizzardScript.create = function(entity, dt, systemTime)
     local spriteComponent = GameData:createSpriteComponent(entity)

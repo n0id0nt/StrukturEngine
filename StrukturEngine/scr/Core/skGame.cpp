@@ -287,9 +287,11 @@ void Struktur::Core::Game()
 
     }
 
-    // quit the lua scripting
-    
+    // destroy all entities
+   gameData.registry.clear();
+
     // unload all the resources
+    gameData.resourcePool.Clear();
 
     CloseWindow();
 }

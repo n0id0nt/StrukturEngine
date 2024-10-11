@@ -29,6 +29,7 @@ Script.initialise = function(systemTime)
             script.create(entity, 0, systemTime)
             local luaComponent = GameData:getLuaComponent(entity)
             luaComponent.initalised = true
+            print(objectIdentifier)
         end
     end
 end
@@ -43,7 +44,7 @@ Script.update = function(dt, systemTime)
     elseif not GameData:isSoundPlaying(currentSong) then
         GameData:playSound(currentSong)
     end
-
+    
     if GameData.gameState ~= eGameState.MainMenu and GameData.input:isInputJustReleased("Pause") then
         GameData.gameState, GameData.previousGameState = GameData.previousGameState, GameData.gameState
     end

@@ -5,6 +5,7 @@
 void Struktur::Scripting::skLuaState::CreateLuaState(const std::string& workingDirectory)
 {
 	m_lua = sol::state();
+	m_lua.collect_garbage();
 	m_lua.open_libraries(sol::lib::base, sol::lib::package, sol::lib::math);
 	// Change the working directory
 	//DEBUG_PRINT(Engine::GetInstance()->GetProjectDirectory());
@@ -84,6 +85,11 @@ void Struktur::Scripting::skLuaState::ScriptFile(const std::string& filename)
 		TraceLog(LOG_ERROR, std::format("Lua script {} loading no Script.initialise(systemTime) function provided", filename).c_str());
 		assert(false);
 	}
+}
+
+void Struktur::Scripting::skLuaState::GarbageCollection()
+{
+	m_lua.collect_garbage();
 }
 
 sol::table Struktur::Scripting::skLuaState::CreateTable()

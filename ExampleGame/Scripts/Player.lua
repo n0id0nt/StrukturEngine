@@ -1,6 +1,6 @@
 local Movement = require("Movement")
 
-local PlayerScript = scriptTemplate.new()
+local PlayerScript = {} -- scriptTemplate.new()
 
 local sizes = {
     "small8",

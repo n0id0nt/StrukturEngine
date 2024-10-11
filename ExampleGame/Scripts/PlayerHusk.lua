@@ -1,4 +1,4 @@
-local PlayerHuskScript = scriptTemplate.new()
+local PlayerHuskScript = {} --scriptTemplate.new()
 
 PlayerHuskScript.create = function(entity, dt, systemTime)
     local spriteComponent = GameData:createSpriteComponent(entity)
