@@ -5,6 +5,7 @@
 #include "../ECS/Component/skCameraComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
 #include "../ECS/Component/skSpriteAnimationComponent.h"
+#include "../ECS/Component/skTileMapComponent.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -65,17 +66,57 @@ Component& LUA_CreateComponent(Struktur::Core::skGameData& gameData, const entt:
 	return component;
 }
 
+void LUA_PlaySound(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	PlaySound(sound);
+}
+
+void LUA_StopSound(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	StopSound(sound);
+}
+
+bool LUA_IsSoundPlaying(Struktur::Core::skGameData& gameData, const std::string& a_sound)
+{
+	Sound sound = gameData.resourcePool.RetrieveSound(a_sound);
+	return IsSoundPlaying(sound);
+}
+
 void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
+	lua.NewUsertype<skDialogueText>("dialogueText"
+		,"name", &skDialogueText::name
+		,"paragraph", &skDialogueText::paragraph
+		,"startTime", &skDialogueText::startTime
+		,"showAllText", &skDialogueText::showAllText
+		,"dialogueVisible", &skDialogueText::dialogueVisible
+	);
+
+	lua.NewEnum("eGameState"
+		, "MainMenu", skGameState::MAIN_MENU
+		, "Game", skGameState::GAME
+		, "Pause", skGameState::PAUSE
+		, "CutScene", skGameState::CUT_SCENE
+		, "Count", skGameState::COUNT
+	);
+
 	lua.NewUsertype<skGameData>("gameData"
 		,"resourcePool", &skGameData::resourcePool
 		,"world", &skGameData::world
 		,"input", &skGameData::input
+		,"dialogueText", &skGameData::dialogueText
+		,"shouldQuit", &skGameData::shouldQuit
+		,"gameState", &skGameData::gameState
+		,"previousGameState", &skGameData::previousGameState
+		,"cutSceneIndex", &skGameData::cutSceneIndex
 		//,"registry", &skGameData::registry
 		// Get components
 		,"getEntitiesWithIdentifier", &LUA_GetEntitiesWithIdentifier
 		,"getEntityWithIdentifier", &LUA_GetEntityWithIdentifier
 		,"getTransformComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTransformComponent>
+		,"getTileMapComponentsTable", &LUA_GetEntitiesAndComponentsOfType<Component::skTileMapComponent>
 		,"getTransformComponent", &LUA_GetComponentFromEntity<Component::skTransformComponent>
 		,"getLuaComponent", &LUA_GetComponentFromEntity<Component::skLuaComponent>
 		,"getCameraComponent", &LUA_GetComponentFromEntity<Component::skCameraComponent>
@@ -85,5 +126,8 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent>
 		,"createSpriteComponent", &LUA_CreateComponent<Component::skSpriteComponent>
 		,"createSpriteAnimationComponent", &LUA_CreateComponent<Component::skSpriteAnimationComponent>
+		,"playSound", &LUA_PlaySound
+		,"stopSound", &LUA_StopSound
+		,"isSoundPlaying", &LUA_IsSoundPlaying
 	);
 }

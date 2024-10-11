@@ -20,6 +20,8 @@ namespace Struktur
 
 			void ScriptFile(const std::string& filename);
 
+			void GarbageCollection();
+
 			template <typename... Args>
 			void Set(Args&&... args)
 			{

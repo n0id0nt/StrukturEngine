@@ -203,6 +203,10 @@ Struktur::FileLoading::LevelParser::FieldInstanceType Struktur::FileLoading::Lev
 	{
 		return FieldInstanceType::FLOAT;
 	}
+	if (fieldInstanceType == "Int")
+	{
+		return FieldInstanceType::INTEGER;
+	}
 	assert(false); // need to implement this type
 	return FieldInstanceType::COUNT;
 }

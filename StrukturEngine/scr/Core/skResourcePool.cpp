@@ -6,6 +6,7 @@ Struktur::Core::skResourcePool::skResourcePool() : m_images()
 
 Struktur::Core::skResourcePool::~skResourcePool()
 {
+	Clear();
 }
 
 void Struktur::Core::skResourcePool::CreateTexture(const std::string& path)
@@ -123,4 +124,65 @@ void Struktur::Core::skResourcePool::ReleaseTexture(const std::string& path)
 	Image& image = it->second.referenceRAM;
 	UnloadImage(image);
 	m_images.erase(it);
+}
+
+void Struktur::Core::skResourcePool::CreateSound(const std::string& path)
+{
+	std::string key = path;
+	auto it = m_sounds.find(key);
+	if (it == m_sounds.end())
+	{
+		m_sounds[key] = LoadSound(path.c_str());
+	}
+	else
+	{
+		assert(false); // sound already exists
+	}
+}
+
+Sound Struktur::Core::skResourcePool::RetrieveSound(const std::string& path)
+{
+	std::string key = path;
+	auto it = m_sounds.find(key);
+	if (it == m_sounds.end())
+	{
+		assert(true); // texture does not exist
+		Sound empty{};
+		return empty;
+	}
+	return it->second;
+}
+
+void Struktur::Core::skResourcePool::ReleaseSound(const std::string& path)
+{
+	std::string key = path;
+	auto it = m_sounds.find(key);
+	if (it == m_sounds.end())
+	{
+		assert(true); // sound does not exist
+		return;
+	}
+	Sound& sound = it->second;
+	UnloadSound(sound);
+	m_sounds.erase(it);
+}
+
+void Struktur::Core::skResourcePool::Clear()
+{
+	for (auto it = m_images.begin(); it != m_images.end(); it++)
+	{
+		if (IsTextureLoadedInGPU(it->first))
+		{
+			UnloadTextureGPU(it->first);
+		}
+		Image& image = it->second.referenceRAM;
+		UnloadImage(image);
+	}
+	m_images.clear();
+	for (auto it = m_sounds.begin(); it != m_sounds.end(); it++)
+	{
+		Sound& sound = it->second;
+		UnloadSound(sound);
+	}
+	m_sounds.clear();
 }

@@ -180,7 +180,7 @@ void Struktur::Core::skInput::LoadInputBindings(const std::string& fileDir, cons
 {
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file((fileDir + bindingFile).c_str());
-	assert(result);
+	assert(result, (fileDir + bindingFile).c_str());
 
 	auto controllerAxis = doc.child("controllerAxis");
 

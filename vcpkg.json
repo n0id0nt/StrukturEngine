@@ -1,12 +1,16 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "struktur",
+  "version": "1",
   "dependencies": [
     "entt",
+    "glm",
     "lua",
     "nlohmann-json",
     "pugixml",
     "raygui",
     "raylib",
-    "sol2",
-    "glm"
+    "box2d",
+    "sol2"
   ]
 }

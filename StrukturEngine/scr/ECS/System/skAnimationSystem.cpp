@@ -8,10 +8,10 @@ void Struktur::System::Animation::Update(float systemTime, float dt, entt::regis
 	auto view = registry.view<Component::skSpriteComponent, Component::skSpriteAnimationComponent>();
 	for (auto [entity, sprite, spriteAnimation] : view.each())
 	{
-		// get the current animatio frame
+		// get the current animation frame
 		float animationTime = systemTime - spriteAnimation.animationStartTime;
 		Struktur::Animation::skSpriteAnimation curAnimation = spriteAnimation.animations[spriteAnimation.curAnimation];
-		if (curAnimation.loop)
+		if (curAnimation.loop) 
 		{
 			animationTime = fmod(animationTime, curAnimation.animationTime);
 		}

@@ -36,8 +36,16 @@ namespace Struktur
 			//void CreateFont(const std::string& path, int size);
 			//Font* RetrieveFont(const std::string& path, int size);
 			//void ReleaseFont(const std::string& path, int size);
+		
+			void CreateSound(const std::string& path);
+			Sound RetrieveSound(const std::string& path);
+			void ReleaseSound(const std::string& path);
+
+			void Clear();
+
 		private:
 			std::unordered_map<std::string, RefGPU<Image, Texture2D>> m_images;
+			std::unordered_map<std::string, Sound> m_sounds;
 		};
 	}
 }

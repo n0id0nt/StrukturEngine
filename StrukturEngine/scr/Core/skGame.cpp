@@ -4,6 +4,7 @@
 #include "skGameData.h"
 #include <string>
 #include <vector>
+#include <entt/entt.hpp>
 #include "../Util/skTask.h"
 #include "../ECS/Component/skTransformComponent.h"
 #include "../ECS/Component/skSpriteComponent.h"
@@ -13,17 +14,32 @@
 #include "../ECS/System/skRenderSystem.h"
 #include "../ECS/System/skCameraSystem.h"
 #include "../ECS/System/skAnimationSystem.h"
-#include <entt/entt.hpp>
+#include "../ECS/System/skUISystem.h"
 #include "../FileLoading/skLevelParser.h"
 #include "../Game/skTileMap.h"
 #include "skLua.h"
-#include "raygui.h"
 
-std::array<std::string,3> s_textures = {
-    "../ExampleGame/Tiles/spelunky_shop.png",
+std::array<std::string,2> s_textures = {
     "../ExampleGame/Tiles/cavesofgallet_tiles.png",
-    "../ExampleGame/Tiles/Warrior_Sheet-Effect.png",
+    "../ExampleGame/Tiles/PlayerGrowthSprites.png",
 };
+
+std::array<std::string,8> s_sounds = {
+    "../ExampleGame/Sounds/jumpBig.wav",
+    "../ExampleGame/Sounds/jumpMedium.wav",
+    "../ExampleGame/Sounds/jumpSmall.wav",
+    "../ExampleGame/Sounds/scroll.wav",
+    "../ExampleGame/Sounds/transform.wav",
+    "../ExampleGame/Sounds/menuMusic.wav",
+    "../ExampleGame/Sounds/gameMusic.wav",
+    "../ExampleGame/Sounds/grow.wav",
+};
+
+// TODO might want to load this from a file
+constexpr static const unsigned int FPS = 60;
+constexpr static const float TIME_STEP = 1.0f / FPS;
+constexpr static const int VELOCITY_ITERATIONS = 6;
+constexpr static const int POSITION_ITERATIONS = 4;
 
 void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry, Struktur::Scripting::skLuaState& luaState)
 {
@@ -31,13 +47,13 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
 
 
     for (auto& layer : level.layers) {
-    	const auto layerEntity = registry.create();
         switch (layer.type)
         {
         case Struktur::FileLoading::LevelParser::LayerType::INT_GRID:
         case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
-            auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+    	    const auto layerEntity = registry.create();
+            auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
             transform.SetPosition2(Vector2(layer.pxTotalOffsetX, layer.pxTotalOffsetY));
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
             grid.reserve(layer.autoLayerTiles.size());
@@ -46,15 +62,16 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                 Struktur::Game::TileMap::skGridTile newGridTile{gridTile.px, gridTile.src, (Struktur::Game::TileMap::FlipBit)gridTile.f};
                 grid.push_back(newGridTile);
             }
-            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[1], layer.cWid, layer.cHei, layer.gridSize, grid);
+            registry.emplace<Struktur::Component::skTileMapComponent>(layerEntity, s_textures[0], layer.cWid, layer.cHei, layer.gridSize, grid, layer.intGrid);
             break;
         }
         case Struktur::FileLoading::LevelParser::LayerType::ENTITIES:
         {
             for (auto& entityInstance : layer.entityInstaces)
             {
+                const auto layerEntity = registry.create();
                 Vector2 position = entityInstance.px;
-                auto transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
+                auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
                 transform.SetPosition2(Vector2(position.x, position.y));
                 registry.emplace<Struktur::Component::skIdentifierComponent>(layerEntity, entityInstance.identifier);
                 auto& luaComponent = registry.emplace<Struktur::Component::skLuaComponent>(layerEntity, false, luaState.CreateTable());
@@ -65,6 +82,12 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
                     case Struktur::FileLoading::LevelParser::FieldInstanceType::FLOAT:
                     {
                         float value = std::any_cast<float>(fieldInstance.value);
+                        luaComponent.table[fieldInstance.identifier] = value;
+                        break;
+                    }
+                    case Struktur::FileLoading::LevelParser::FieldInstanceType::INTEGER:
+                    {
+                        int value = std::any_cast<int>(fieldInstance.value);
                         luaComponent.table[fieldInstance.identifier] = value;
                         break;
                     }
@@ -88,6 +111,8 @@ void LoadData(Struktur::Core::skGameData* gameData)
     gameData->input = Struktur::Core::skInput(0);
     gameData->input.LoadInputBindings("../ExampleGame/", "Settings/InputBindings/InputBindings.xml");
 
+    gameData->physicsWorld = std::make_unique<Struktur::Physics::skPhysicsWorld>(Vector2{ 0.f, 0.f }, TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS, 1.0f);
+
     //set up lua state
     gameData->luaState.CreateLuaState("../ExampleGame/");
     Struktur::Core::Lua::BindToLua(gameData->luaState);
@@ -100,6 +125,13 @@ void LoadData(Struktur::Core::skGameData* gameData)
     for (std::string texture : s_textures)
     {
         gameData->resourcePool.CreateTexture(texture);
+    }
+
+    //load sounds
+    InitAudioDevice();
+    for (std::string sound : s_sounds)
+    {
+        gameData->resourcePool.CreateSound(sound);
     }
 
     // load level
@@ -153,7 +185,7 @@ bool SplashScreen(const double startTime)
         textAlpha *= Lerp(1.f, 0.f, t);
     }
 
-    std::string spashScreenName = "Struktur Engine";
+    std::string spashScreenName = "Growtesque";
     int fontSize = 60;
     int fontWidth = MeasureText(spashScreenName.c_str(), fontSize);
     int width = GetScreenWidth();
@@ -194,10 +226,10 @@ bool LoadingScreen()
 void Struktur::Core::Game()
 {
     skGameData gameData;
-    InitWindow(1280, 720, "Struktur Engine");
+    InitWindow(1280, 720, "Growtesque");
     gameData.shouldQuit = false;
 
-    SetTargetFPS(60);
+    SetTargetFPS(FPS);
     // load in game data from memory
     {
         // create task to load game
@@ -228,43 +260,37 @@ void Struktur::Core::Game()
         }
 
         float dt = GetFrameTime();
-        float systemTime = GetTime();
+
+        if (gameData.gameState == skGameState::PAUSE)
+        {
+            gameData.pausedTime += dt;
+        }
+        float systemTime = GetTime() - gameData.pausedTime;
 
         //physics 
         Lua::UpdateLuaState(gameData.luaState, dt, systemTime);
-        System::Animation::Update(systemTime, dt, gameData.registry);
-        System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
+        if (gameData.gameState != skGameState::PAUSE)
+        {
+            System::Animation::Update(systemTime, dt, gameData.registry);
+            System::Camera::Update(systemTime, dt, gameData.registry, gameData.camera);
+        }
 
         BeginDrawing();
         ClearBackground(BLACK);
         System::Render::Update(gameData.registry, gameData.resourcePool, gameData.camera);
+        System::UI::Update(gameData.registry, gameData.resourcePool, gameData.dialogueText, systemTime, gameData.gameState, gameData.previousGameState, gameData.shouldQuit);
         //debug render(lines and stuff)
         //render UI
         //render debug UI
         //Render IMGUI (When i actually add this)
-#ifdef _DEBUG
-        static bool showMessageBox = false;
-
-        int focus = 0, scroll = 0; // Needed by GuiDMPropertyList()
-        if (GuiButton(Rectangle{ 24, 24, 120, 30 }, "#191#Show Compnents")) showMessageBox = true;
-
-        if (showMessageBox)
-        {
-            int result = GuiMessageBox(Rectangle{ 85, 70, 250, 100 },
-                "#191#Message Box", "Hi! This is a message!", "Nice;Cool;Wow");
-            const char* text[3] = { "Text;", "Text;", "Text;" };
-            static Vector2 scroll;
-            static Rectangle view;
-            static bool toggle;
-            result += GuiScrollPanel(Rectangle{ 85, 270, 250, 100 }, "Test text", Rectangle{ 95, 275, 230, 150 }, &scroll, &view);
-            result += GuiLabel(Rectangle{ view.x + scroll.x, view.y + scroll.y, view.width, 15 }, "Test text");
-            result += GuiCheckBox(Rectangle{ view.x + scroll.x, view.y + scroll.y + 15, view.width, 15 }, "Test text toggle", &toggle);
-            if (result >= 0) showMessageBox = false;
-        }
-#endif
         EndDrawing();
-
     }
+
+    // destroy all entities
+    gameData.registry.clear();
+
+    // unload all the resources
+    gameData.resourcePool.Clear();
 
     CloseWindow();
 }
