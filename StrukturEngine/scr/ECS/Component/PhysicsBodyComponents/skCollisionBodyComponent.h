@@ -1,6 +1,6 @@
 #pragma once
-#include "../../../Scripting/skLuaState.h"
-#include "../../../Physics/skPhysicsWorld.h"
+#include "Scripting/skLuaState.h"
+#include "Physics/skPhysicsWorld.h"
 #include "box2d\box2d.h"
 #include "raylib.h"
 #include <set>

@@ -5,18 +5,18 @@
 #include <string>
 #include <vector>
 #include <entt/entt.hpp>
-#include "../Util/skTask.h"
-#include "../ECS/Component/skTransformComponent.h"
-#include "../ECS/Component/skSpriteComponent.h"
-#include "../ECS/Component/skTileMapComponent.h"
-#include "../ECS/Component/skIdentifierComponent.h"
-#include "../ECS/Component/skLuaComponent.h"
-#include "../ECS/System/skRenderSystem.h"
-#include "../ECS/System/skCameraSystem.h"
-#include "../ECS/System/skAnimationSystem.h"
-#include "../ECS/System/skUISystem.h"
-#include "../FileLoading/skLevelParser.h"
-#include "../Game/skTileMap.h"
+#include "Util/skTask.h"
+#include "ECS/Component/skTransformComponent.h"
+#include "ECS/Component/skSpriteComponent.h"
+#include "ECS/Component/skTileMapComponent.h"
+#include "ECS/Component/skIdentifierComponent.h"
+#include "ECS/Component/skLuaComponent.h"
+#include "ECS/System/skRenderSystem.h"
+#include "ECS/System/skCameraSystem.h"
+#include "ECS/System/skAnimationSystem.h"
+#include "ECS/System/skUISystem.h"
+#include "FileLoading/skLevelParser.h"
+#include "Game/skTileMap.h"
 #include "skLua.h"
 
 std::array<std::string,2> s_textures = {
@@ -227,6 +227,7 @@ void Struktur::Core::Game()
 {
     skGameData gameData;
     InitWindow(1280, 720, "Growtesque");
+    SetExitKey(KEY_NULL);
     gameData.shouldQuit = false;
 
     SetTargetFPS(FPS);

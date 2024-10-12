@@ -1,7 +1,7 @@
 #include "skAnimationSystem.h"
-#include "../Component/skSpriteAnimationComponent.h"
-#include "../Component/skSpriteComponent.h"
-#include "../../Animation/skSpriteAnimation.h"
+#include "ECS/Component/skSpriteAnimationComponent.h"
+#include "ECS/Component/skSpriteComponent.h"
+#include "Animation/skSpriteAnimation.h"
 
 void Struktur::System::Animation::Update(float systemTime, float dt, entt::registry& registry)
 {

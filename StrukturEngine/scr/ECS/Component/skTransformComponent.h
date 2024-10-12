@@ -1,6 +1,6 @@
 #pragma once
 #include "raylib.h"
-#include "../../Scripting/skLuaState.h"
+#include "Scripting/skLuaState.h"
 #include "entt\entt.hpp"
 #include "glm\glm.hpp"
 #include "glm\gtc\matrix_transform.hpp"

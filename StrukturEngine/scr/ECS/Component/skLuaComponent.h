@@ -1,6 +1,6 @@
 #pragma once
 #include <sol/sol.hpp>
-#include "../../Scripting/skLuaState.h"
+#include "Scripting/skLuaState.h"
 
 namespace Struktur
 {

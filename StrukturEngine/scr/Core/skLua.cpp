@@ -1,14 +1,14 @@
 #include "skLua.h"
 #include "skGameData.h"
 #include "skInput.h"
-#include "../ECS/Component/skTransformComponent.h"
-#include "../ECS/Component/skLuaComponent.h"
-#include "../ECS/Component/skCameraComponent.h"
-#include "../ECS/Component/skTileMapComponent.h"
-#include "../ECS/Component/skSpriteComponent.h"
-#include "../ECS/Component/skSpriteAnimationComponent.h"
-#include "../Scripting/skLuaScriptTemplate.h"
-#include "../Animation/skSpriteAnimation.h"
+#include "ECS/Component/skTransformComponent.h"
+#include "ECS/Component/skLuaComponent.h"
+#include "ECS/Component/skCameraComponent.h"
+#include "ECS/Component/skTileMapComponent.h"
+#include "ECS/Component/skSpriteComponent.h"
+#include "ECS/Component/skSpriteAnimationComponent.h"
+#include "Scripting/skLuaScriptTemplate.h"
+#include "Animation/skSpriteAnimation.h"
 
 void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 {

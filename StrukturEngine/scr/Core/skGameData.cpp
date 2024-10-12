@@ -1,11 +1,11 @@
 #include "skGameData.h"
-#include "../ECS/Component/skIdentifierComponent.h"
-#include "../ECS/Component/skTransformComponent.h"
-#include "../ECS/Component/skLuaComponent.h"
-#include "../ECS/Component/skCameraComponent.h"
-#include "../ECS/Component/skSpriteComponent.h"
-#include "../ECS/Component/skSpriteAnimationComponent.h"
-#include "../ECS/Component/skTileMapComponent.h"
+#include "ECS/Component/skIdentifierComponent.h"
+#include "ECS/Component/skTransformComponent.h"
+#include "ECS/Component/skLuaComponent.h"
+#include "ECS/Component/skCameraComponent.h"
+#include "ECS/Component/skSpriteComponent.h"
+#include "ECS/Component/skSpriteAnimationComponent.h"
+#include "ECS/Component/skTileMapComponent.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {

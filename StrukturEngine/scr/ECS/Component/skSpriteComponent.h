@@ -1,8 +1,8 @@
 #pragma once
 #include <entt/entt.hpp>
 #include "raylib.h"
-#include "../../Scripting/skLuaState.h"
-#include "../../Core/skResourcePool.h"
+#include "Scripting/skLuaState.h"
+#include "Core/skResourcePool.h"
 
 namespace Struktur
 {

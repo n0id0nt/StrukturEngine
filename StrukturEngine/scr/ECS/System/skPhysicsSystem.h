@@ -1,6 +1,6 @@
 #pragma once
 #include <entt/entt.hpp>
-#include "../../Physics/skPhysicsWorld.h"
+#include "Physics/skPhysicsWorld.h"
 
 namespace Struktur
 {

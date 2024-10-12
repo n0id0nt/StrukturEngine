@@ -3,7 +3,7 @@
 #include <entt\entt.hpp>
 #include <vector>
 #include "glm\glm.hpp"
-#include "../Scripting/skLuaState.h"
+#include "Scripting/skLuaState.h"
 
 namespace Struktur
 {

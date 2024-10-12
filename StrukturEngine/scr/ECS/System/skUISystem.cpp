@@ -1,5 +1,5 @@
 #include "skUISystem.h"
-#include "../../Core/skResourcePool.h"
+#include "Core/skResourcePool.h"
 #include "raygui.h"
 #include "raylib.h"
 

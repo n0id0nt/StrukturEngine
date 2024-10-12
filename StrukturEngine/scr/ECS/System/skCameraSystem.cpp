@@ -1,8 +1,8 @@
 #include "skCameraSystem.h"
-#include "../Component/skCameraComponent.h"
-#include "../Component/skTransformComponent.h"
-#include "../../Game/skCamera.h"
-#include "../../Util/skNoise.h"
+#include "ECS/Component/skCameraComponent.h"
+#include "ECS/Component/skTransformComponent.h"
+#include "Game/skCamera.h"
+#include "Util/skNoise.h"
 #include <raymath.h>
 
 void Struktur::System::Camera::Update(float systemTime, float dt, entt::registry& registry, Game::skCamera& out_camera)

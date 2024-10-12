@@ -1,8 +1,8 @@
 #pragma once
 #include <unordered_map>
 #include <string>
-#include "../../Animation/skSpriteAnimation.h"
-#include "../../Scripting/skLuaState.h"
+#include "Animation/skSpriteAnimation.h"
+#include "Scripting/skLuaState.h"
 
 namespace Struktur
 {

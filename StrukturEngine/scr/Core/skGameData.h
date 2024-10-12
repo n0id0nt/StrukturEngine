@@ -1,11 +1,11 @@
 #pragma once
 #include <entt/entt.hpp>
 #include "skResourcePool.h"
-#include "../FileLoading/skLevelParser.h"
-#include "../Scripting/skLuaState.h"
-#include "../Game/skCamera.h"
-#include "../Physics/skPhysicsWorld.h"
-#include "../ECS/System/skUISystem.h"
+#include "FileLoading/skLevelParser.h"
+#include "Scripting/skLuaState.h"
+#include "Game/skCamera.h"
+#include "Physics/skPhysicsWorld.h"
+#include "ECS/System/skUISystem.h"
 #include "skInput.h"
 
 namespace Struktur

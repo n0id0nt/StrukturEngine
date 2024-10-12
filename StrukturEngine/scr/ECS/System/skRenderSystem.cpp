@@ -1,11 +1,11 @@
 #include "skRenderSystem.h"
-#include "../Component/skTransformComponent.h"
-#include "../Component/skSpriteComponent.h"
-#include "../Component/skTileMapComponent.h"
-#include "../Component/skCameraComponent.h"
-#include "../Component/skIdentifierComponent.h"
+#include "ECS/Component/skTransformComponent.h"
+#include "ECS/Component/skSpriteComponent.h"
+#include "ECS/Component/skTileMapComponent.h"
+#include "ECS/Component/skCameraComponent.h"
+#include "ECS/Component/skIdentifierComponent.h"
 #include "raylib.h"
-#include "../../Core/skResourcePool.h"
+#include "Core/skResourcePool.h"
 #include <cmath>
 
 struct spriteDraw {

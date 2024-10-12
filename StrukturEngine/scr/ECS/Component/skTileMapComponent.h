@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "../../Game/skTileMap.h"
-#include "../../Scripting/skLuaState.h"
+#include "Game/skTileMap.h"
+#include "Scripting/skLuaState.h"
 
 namespace Struktur
 {

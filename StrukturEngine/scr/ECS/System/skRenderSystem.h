@@ -1,6 +1,6 @@
 #pragma once
 #include <entt/entt.hpp>
-#include "../../Game/skCamera.h"
+#include "Game/skCamera.h"
 
 namespace Struktur
 {

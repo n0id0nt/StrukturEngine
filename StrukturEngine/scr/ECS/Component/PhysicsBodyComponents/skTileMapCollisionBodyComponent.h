@@ -1,12 +1,12 @@
 #pragma once
-#include "../../../Scripting/skLuaState.h"
+#include "Scripting/skLuaState.h"
 #include "box2d\box2d.h"
 #include "raylib.h"
 #include <set>
 #include <string>
 #include <vector>
 #include "skCollisionBodyComponent.h"
-#include "../skTileMapComponent.h"
+#include "ECS/Component/skTileMapComponent.h"
 namespace Struktur
 {
     namespace Component
