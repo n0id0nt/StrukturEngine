@@ -25,27 +25,27 @@ std::string Struktur::Entity::skEntity::GetName() const
 	return m_name;
 }
 
-void Struktur::Entity::skEntity::SetChild(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity)
+void Struktur::Entity::skEntity::SetChild(skEntity* entity)
 {
-	if (entity->m_parent.get() == this)
+	if (entity->m_parent == this)
 		return;
 
 	entity->RemoveParent();
 
 	m_children.push_back(entity);
-	entity->m_parent = self;
+	entity->m_parent = this;
 }
 
-void Struktur::Entity::skEntity::SetParent(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity)
+void Struktur::Entity::skEntity::SetParent(skEntity* entity)
 {
-	if (m_parent.get() == this)
+	if (m_parent == this)
 		return;
 
 	if (m_parent)
-		m_parent->RemoveChild(m_parent, self);
+		m_parent->RemoveChild(this);
 
 	m_parent = entity;
-	m_parent->m_children.push_back(self);
+	m_parent->m_children.push_back(this);
 }
 
 void Struktur::Entity::skEntity::Delete()
@@ -58,9 +58,9 @@ bool Struktur::Entity::skEntity::IsMarkedForDeletion()
 	return m_scheduledForDeletion;
 }
 
-void Struktur::Entity::skEntity::RemoveChild(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity)
+void Struktur::Entity::skEntity::RemoveChild(skEntity* entity)
 {
-	if (entity->m_parent.get() != this)
+	if (entity->m_parent != this)
 		return;
 	entity->m_parent = nullptr;
 	m_children.erase(std::remove(m_children.begin(), m_children.end(), entity), m_children.end());
@@ -90,12 +90,12 @@ bool Struktur::Entity::skEntity::HasTag(const std::string& tag)
 	return m_tags.contains(tag);
 }
 
-const std::vector<std::shared_ptr<Struktur::Entity::skEntity>>& Struktur::Entity::skEntity::GetChildren() const
+const std::vector<Struktur::Entity::skEntity*>& Struktur::Entity::skEntity::GetChildren() const
 {
 	return m_children;
 }
 
-std::shared_ptr<Struktur::Entity::skEntity> Struktur::Entity::skEntity::GetParent() const
+Struktur::Entity::skEntity* Struktur::Entity::skEntity::GetParent() const
 {
 	return m_parent;
 }

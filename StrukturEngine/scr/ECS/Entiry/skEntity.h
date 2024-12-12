@@ -17,41 +17,41 @@ namespace Struktur
 
 			std::string GetName() const;
 
-			void SetChild(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity);
-			void SetParent(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity);
+			void SetChild(skEntity* entity);
+			void SetParent(skEntity* entity);
 
 			// schedules the deletion of the entity at the end of the current frame
 			void Delete();
 			bool IsMarkedForDeletion();
 
-			void RemoveChild(std::shared_ptr<skEntity> self, std::shared_ptr<skEntity> entity);
+			void RemoveChild(skEntity* entity);
 			void RemoveParent();
 
 			void AddTag(const std::string& tag);
 			void RemoveTag(const std::string& tag);
 			bool HasTag(const std::string& tag);
 
-			const std::vector<std::shared_ptr<skEntity>>& GetChildren() const;
-			std::shared_ptr<skEntity> GetParent() const;
+			const std::vector<skEntity*>& GetChildren() const;
+			skEntity* GetParent() const;
 
 			bool GetIsIndependentFromLevel() const;
 
 			template <typename ComponentType, typename... Args>
-			const ComponentType* CreateComponent(Args&&... args) const
+			ComponentType& CreateComponent(Args&&... args) const
 			{
 				return m_registry->emplace<ComponentType>(m_entity, std::forward<Args>(args) ...);
 			}
 
 			template <typename ComponentType>
-			const ComponentType* GetComponent() const
+			ComponentType& GetComponent() const
 			{
-				return m_registry->GetComponent<ComponentType>(m_entity);
+				return m_registry->get<ComponentType>(m_entity);
 			}
 
 			template <typename ComponentType>
 			bool HasComponent() const
 			{
-				return m_registry->HasComponent<ComponentType>(m_entity);
+				return m_registry->try_get<ComponentType>(m_entity) != nullptr;
 			}
 
 			static void LUABind(sol::state& lua);
@@ -60,8 +60,8 @@ namespace Struktur
 			entt::entity m_entity;
 			entt::registry* m_registry;
 
-			std::shared_ptr<skEntity> m_parent;
-			std::vector<std::shared_ptr<skEntity>> m_children;
+			skEntity* m_parent;
+			std::vector<skEntity*> m_children;
 			std::set<std::string> m_tags;
 
 			std::string m_name;

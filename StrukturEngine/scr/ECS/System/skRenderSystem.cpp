@@ -5,7 +5,7 @@
 #include "ECS/Component/skCameraComponent.h"
 #include "ECS/Component/skIdentifierComponent.h"
 #include "raylib.h"
-#include "Core/skResourcePool.h"
+#include "Core/System/skResourcePool.h"
 #include <cmath>
 
 struct spriteDraw {

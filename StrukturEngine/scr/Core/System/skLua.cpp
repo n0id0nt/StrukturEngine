@@ -1,6 +1,6 @@
 #include "skLua.h"
-#include "skGameData.h"
-#include "skInput.h"
+#include "Core/skGameData.h"
+#include "Core/System/skInput.h"
 #include "ECS/Component/skTransformComponent.h"
 #include "ECS/Component/skLuaComponent.h"
 #include "ECS/Component/skCameraComponent.h"

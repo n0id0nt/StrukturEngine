@@ -2,7 +2,7 @@
 #include <entt/entt.hpp>
 #include "raylib.h"
 #include "Scripting/skLuaState.h"
-#include "Core/skResourcePool.h"
+#include "Core/System/skResourcePool.h"
 
 namespace Struktur
 {

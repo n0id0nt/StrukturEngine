@@ -30,7 +30,7 @@
     <ClCompile Include="scr\ECS\System\skRenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\Core\skResourcePool.cpp">
+    <ClCompile Include="scr\Core\System\skResourcePool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\FileLoading\skLevelParser.cpp">
@@ -48,7 +48,7 @@
     <ClCompile Include="scr\Game\skTileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\Core\skLua.cpp">
+    <ClCompile Include="scr\Core\System\skLua.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\Scripting\skLuaState.cpp">
@@ -60,7 +60,7 @@
     <ClCompile Include="scr\ECS\Component\skIdentifierComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\Core\skInput.cpp">
+    <ClCompile Include="scr\Core\System\skInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scr\ECS\Component\skCameraComponent.cpp">
@@ -134,7 +134,7 @@
     <ClInclude Include="scr\ECS\System\skRenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\Core\skResourcePool.h">
+    <ClInclude Include="scr\Core\System\skResourcePool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\FileLoading\skLevelParser.h">
@@ -152,7 +152,7 @@
     <ClInclude Include="scr\Game\skTileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\Core\skLua.h">
+    <ClInclude Include="scr\Core\System\skLua.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\Scripting\skLuaState.h">
@@ -164,7 +164,7 @@
     <ClInclude Include="scr\ECS\Component\skIdentifierComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\Core\skInput.h">
+    <ClInclude Include="scr\Core\System\skInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scr\ECS\Component\skCameraComponent.h">

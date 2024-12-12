@@ -1,8 +1,8 @@
 #pragma once
 #include <Box2D/Box2D.h>
-#include <entt\entt.hpp>
+#include <entt/entt.hpp>
 #include <vector>
-#include "glm\glm.hpp"
+#include "glm/glm.hpp"
 #include "Scripting/skLuaState.h"
 
 namespace Struktur

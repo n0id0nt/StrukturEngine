@@ -17,7 +17,7 @@
 #include "ECS/System/skUISystem.h"
 #include "FileLoading/skLevelParser.h"
 #include "Game/skTileMap.h"
-#include "skLua.h"
+#include "Core/System/skLua.h"
 
 std::array<std::string,2> s_textures = {
     "../ExampleGame/Tiles/cavesofgallet_tiles.png",
