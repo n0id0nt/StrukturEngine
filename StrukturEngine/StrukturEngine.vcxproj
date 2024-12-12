@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="scr\Core\skGameData.cpp" />
     <ClCompile Include="scr\Core\skGame.cpp" />
+    <ClCompile Include="scr\ECS\Entiry\skEntity.cpp" />
     <ClCompile Include="scr\Main.cpp" />
     <ClCompile Include="scr\ECS\Component\skTransformComponent.cpp" />
     <ClCompile Include="scr\ECS\System\skRenderSystem.cpp" />
@@ -196,6 +197,7 @@
   <ItemGroup>
     <ClInclude Include="scr\Core\skGameData.h" />
     <ClInclude Include="scr\Core\skGame.h" />
+    <ClInclude Include="scr\ECS\Entiry\skEntity.h" />
     <ClInclude Include="scr\Util\skTask.h" />
     <ClInclude Include="scr\ECS\Component\skTransformComponent.h" />
     <ClInclude Include="scr\ECS\System\skRenderSystem.h" />
