@@ -1,4 +1,5 @@
 #pragma once
+#include "Game/skLevel.h"
 #include <string>
 
 namespace Struktur
@@ -7,7 +8,8 @@ namespace Struktur
 	{
 		struct skLevelComponent
 		{
-			std::string table;
+			std::string levelId;
+			bool doNotUnload;
 		};
 	};
 };

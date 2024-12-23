@@ -114,10 +114,7 @@
     <ClCompile Include="scr\ECS\System\skUISystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scr\ECS\Entiry\skEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="scr\ECS\skRegistry.cpp">
+    <ClCompile Include="scr\Game\skLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,10 +218,7 @@
     <ClInclude Include="scr\ECS\System\skUISystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="scr\ECS\Entiry\skEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="scr\ECS\skRegistry.h">
+    <ClInclude Include="scr\Game\skLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

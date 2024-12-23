@@ -1,5 +1,5 @@
 #include "skUISystem.h"
-#include "Core/skResourcePool.h"
+#include "Core/System/skResourcePool.h"
 #include "raygui.h"
 #include "raylib.h"
 
@@ -24,7 +24,7 @@ void Struktur::System::UI::Update(entt::registry& registry, const Core::skResour
 		out_closeWindow |= GuiButton(Rectangle{ (float)width / 2.0f - panelWidth / 2.0f, height - panelHeight - 80.0f, (float)panelWidth, (float)panelHeight }, "Quit");
 		if (result)
 		{
-			out_gameState = skGameState::CUT_SCENE;
+			out_gameState = skGameState::GAME;
 		}
 		
 		break;

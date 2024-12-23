@@ -10,6 +10,7 @@
 #include "ECS/Component/skSpriteComponent.h"
 #include "ECS/Component/skTileMapComponent.h"
 #include "ECS/Component/skIdentifierComponent.h"
+#include "ECS/Component/skLevelComponent.h"
 #include "ECS/Component/skLuaComponent.h"
 #include "ECS/System/skRenderSystem.h"
 #include "ECS/System/skCameraSystem.h"
@@ -53,6 +54,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
         case Struktur::FileLoading::LevelParser::LayerType::AUTO_LAYER:
         {
     	    const auto layerEntity = registry.create();
+            registry.emplace<Struktur::Component::skLevelComponent>(layerEntity, level.Iid);
             auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
             transform.SetPosition2(Vector2(layer.pxTotalOffsetX, layer.pxTotalOffsetY));
             std::vector<Struktur::Game::TileMap::skGridTile> grid;
@@ -70,6 +72,7 @@ void LoadLevelEntities(Struktur::FileLoading::LevelParser::skLevel& level, entt:
             for (auto& entityInstance : layer.entityInstaces)
             {
                 const auto layerEntity = registry.create();
+                registry.emplace<Struktur::Component::skLevelComponent>(layerEntity, level.Iid);
                 Vector2 position = entityInstance.px;
                 auto& transform = registry.emplace<Struktur::Component::skTransformComponent>(layerEntity, layerEntity);
                 transform.SetPosition2(Vector2(position.x, position.y));

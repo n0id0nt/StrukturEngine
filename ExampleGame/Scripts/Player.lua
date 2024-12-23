@@ -2,102 +2,27 @@ local Movement = require("Movement")
 
 local PlayerScript = {} -- scriptTemplate.new()
 
-local sizes = {
-    "small8",
-    "medium16",
-    "large32",
-    "giant64",
-}
-
-local jumpSounds = {
-    small8 = "../ExampleGame/Sounds/jumpSmall.wav",
-    medium16 = "../ExampleGame/Sounds/jumpMedium.wav",
-    large32 = "../ExampleGame/Sounds/jumpMedium.wav",
-    giant64 =  "../ExampleGame/Sounds/jumpBig.wav",
-}
+local jumpSound = "../ExampleGame/Sounds/jumpMedium.wav"
 -- should put these on the players table
 local playerAnimations = {
-    small8 = {
-        idle = "idle8",
-        run = "run8",
-        jump = "jump8",
-        fall = "fall8",
-    },
-    medium16 = {
-        idle = "idle16",
-        run = "run16",
-        jump = "jump16",
-        fall = "fall16",
-    },
-    large32 = {
-        idle = "idle32",
-        run = "run32",
-        jump = "jump32",
-        fall = "fall32",
-    },
-    giant64 = {
-        idle = "idle64",
-        run = "run64",
-        jump = "jump64",
-        fall = "fall64",
-    },
-    transform = "transform",
+    idle = "idle32",
+    run = "run32",
+    jump = "jump32",
+    fall = "fall32",
 }
-local speedFunctions = {
-    small8 = function(tableComponent)
-        -- move
-        tableComponent.accelerationTime = 0.3
-        tableComponent.deccelerationTime = 0.2
-        tableComponent.maxSpeed = 40
-        -- jump
-        tableComponent.jumpDist         = 1.2 * 16
-        tableComponent.jumpHeight       = 2.2 * 16
-        tableComponent.jumpFallDist     = 2   * 16
-    end,
-    medium16 = function(tableComponent)
-        -- move
-        tableComponent.accelerationTime = 0.3
-        tableComponent.deccelerationTime = 0.2
-        tableComponent.maxSpeed = 55
-        -- jump
-        tableComponent.jumpDist         = 2.2 * 16
-        tableComponent.jumpHeight       = 3.5 * 16
-        tableComponent.jumpFallDist     = 2   * 16
-    end,
-    large32 = function(tableComponent)
-        -- move
-        tableComponent.accelerationTime = 0.3
-        tableComponent.deccelerationTime = 0.2
-        tableComponent.maxSpeed = 80
-        -- jump
-        tableComponent.jumpDist         = 3.2 * 16
-        tableComponent.jumpHeight       = 4.5 * 16
-        tableComponent.jumpFallDist     = 2   * 16
-    end,
-    giant64 = function(tableComponent)
-        -- move
-        tableComponent.accelerationTime = 0.3
-        tableComponent.deccelerationTime = 0.2
-        tableComponent.maxSpeed = 65
-        -- jump
-        tableComponent.jumpDist         = 2.7 * 16
-        tableComponent.jumpHeight       = 4.1 * 16
-        tableComponent.jumpFallDist     = 2   * 16
-    end,
-}
-local collisionRecs = {
-    small8 = rectangle.new(-2,32-8,4,8),
-    medium16 = rectangle.new(-3,32-15,6,15),
-    large32 = rectangle.new(-6,32-30,12,30),
-    giant64 = rectangle.new(-11,32-59,22,59),
-}
-local groundedRecs = {
-    small8 = rectangle.new(-2,32,4,0.25),
-    medium16 = rectangle.new(-3,32,6,0.25),
-    large32 = rectangle.new(-6,32,12,0.25),
-    giant64 = rectangle.new(-11,32,22,0.25),
-}
+local speedFunction = function(tableComponent)
+    -- move
+    tableComponent.accelerationTime = 0.3
+    tableComponent.deccelerationTime= 0.2
+    tableComponent.maxSpeed         = 80
+    -- jump
+    tableComponent.jumpDist         = 3.2 * 16
+    tableComponent.jumpHeight       = 4.5 * 16
+    tableComponent.jumpFallDist     = 2   * 16
+end
+local collisionRec = rectangle.new(-6,32-30,12,30)
 
+local groundedRec = rectangle.new(-6,32,12,0.25)
 
 function math.clamp(val, lower, upper)
     if lower > upper then lower, upper = upper, lower end -- swap if boundaries supplied the wrong way
@@ -237,65 +162,29 @@ PlayerScript.create = function(entity, dt, systemTime)
     spriteComponent:setImage("../ExampleGame/Tiles/PlayerGrowthSprites.png", 5, 12, 0, GameData.resourcePool)
     spriteComponent.offset = vec2.new(32,32)
     local spriteAnimationComponent = GameData:createSpriteAnimationComponent(entity)
-    local idle8Animation = spriteAnimation.new(0, 4, 1, true)
-    local run8Animation = spriteAnimation.new(4, 9, 0.7, true)
-    local jump8Animation = spriteAnimation.new(9, 11, 0.2, false)
-    local fall8Animation = spriteAnimation.new(11, 12, 1, false)
-
-    local idle16Animation = spriteAnimation.new(12, 16, 1, true)
-    local run16Animation = spriteAnimation.new(16, 21, 0.7, true)
-    local jump16Animation = spriteAnimation.new(21, 23, 0.2, false)
-    local fall16Animation = spriteAnimation.new(23, 24, 1, false)
 
     local idle32Animation = spriteAnimation.new(24, 28, 1, true)
     local run32Animation = spriteAnimation.new(28, 33, 0.7, true)
     local jump32Animation = spriteAnimation.new(33, 35, 0.2, false)
     local fall32Animation = spriteAnimation.new(35, 36, 1, false)
-
-    local idle64Animation = spriteAnimation.new(36, 40, 1, true)
-    local run64Animation = spriteAnimation.new(40, 45, 0.7, true)
-    local jump64Animation = spriteAnimation.new(45, 47, 0.2, false)
-    local fall64Animation = spriteAnimation.new(47, 48, 1, false)
-
-    local transformAnimation = spriteAnimation.new(48, 54, 0.6, false)
-
-    spriteAnimationComponent:addAnimation("idle8", idle8Animation)
-    spriteAnimationComponent:addAnimation("run8", run8Animation)
-    spriteAnimationComponent:addAnimation("jump8", jump8Animation)
-    spriteAnimationComponent:addAnimation("fall8", fall8Animation)
-
-    spriteAnimationComponent:addAnimation("idle16", idle16Animation)
-    spriteAnimationComponent:addAnimation("run16", run16Animation)
-    spriteAnimationComponent:addAnimation("jump16", jump16Animation)
-    spriteAnimationComponent:addAnimation("fall16", fall16Animation)
     
     spriteAnimationComponent:addAnimation("idle32", idle32Animation)
     spriteAnimationComponent:addAnimation("run32", run32Animation)
     spriteAnimationComponent:addAnimation("jump32", jump32Animation)
     spriteAnimationComponent:addAnimation("fall32", fall32Animation)
-    
-    spriteAnimationComponent:addAnimation("idle64", idle64Animation)
-    spriteAnimationComponent:addAnimation("run64", run64Animation)
-    spriteAnimationComponent:addAnimation("jump64", jump64Animation)
-    spriteAnimationComponent:addAnimation("fall64", fall64Animation)
-    
-    spriteAnimationComponent:addAnimation("transform", transformAnimation)
-
-    spriteAnimationComponent:playAnimation("idle16", systemTime)
+    spriteAnimationComponent:playAnimation("idle32", systemTime)
     
     local luaComponent = GameData:getLuaComponent(entity)
     local entityTable = luaComponent.table
-    entityTable.Movement = Movement:new()
+    entityTable.movement = Movement:new()
     entityTable.transformTime = 10
     entityTable.transforming = false
-    --entityTable.timeOfLastTransformation = nil
-    entityTable.curSize = "small8"
     entityTable.currentAnimation = "idle"
     entityTable.velocity = vec2.new(0,0)
     entityTable.bufferTime       = 0.08
     entityTable.coyoteTime       = 0.08
     entityTable.maxFallSpeed     = 130
-    speedFunctions[entityTable.curSize](entityTable)
+    speedFunction(entityTable)
 end
     
 PlayerScript.update = function(entity, dt, systemTime)
@@ -309,92 +198,43 @@ PlayerScript.update = function(entity, dt, systemTime)
     if not entityTable.transforming then
         local horizontalInput = GameData.input:getInputAxis("Horizontal")
         local jumpInput = GameData.input:isInputDown("Jump")
+        local movement = entityTable.movement
+        movement:setHorizontalInput(horizontalInput)
+        movement:setJumpInput(jumpInput, systemTime)
+        local entityPosition = transformComponent.position
+        local isGroundedTileMap = tileMapCollision(groundedRec, entityPosition)
+        local isGroundedHusk = huskCollision(collisionRec, groundedRec, entityPosition, entityPosition)
+        isGrounded = isGroundedTileMap or isGroundedHusk
+        movement:move(entityTable, systemTime, dt)
+        movement:calculateGravity(entityTable, systemTime, dt, isGrounded)
+        movement:jump(entityTable, systemTime, dt)
 
-        if not entityTable.timeOfLastTransformation then
-            entityTable.timeOfLastTransformation = systemTime
+        if movement.justJumped then
+            GameData:playSound(jumpSound)
         end
-        local activeTransformTime = systemTime - entityTable.timeOfLastTransformation
-        if entityTable.transformTime < activeTransformTime then
-            entityTable.timeOfLastTransformation = nil
-            entityTable.transforming = true
-            entityTable.velocity = vec2.new(0,0)
-            GameData:playSound("../ExampleGame/Sounds/transform.wav")
-        else
-            local sizeIndex = 1 + math.floor(#sizes * activeTransformTime / entityTable.transformTime) 
-            sizeIndex = math.clamp(sizeIndex, 1, #sizes)
-            
-            local newSize = sizes[sizeIndex]
+    
+        local horizontalSpeed, verticalSpeed = movement:getSpeed()
+        entityTable.velocity = vec2.new(horizontalSpeed, verticalSpeed)
 
-            local movement = entityTable.Movement
-            movement:setSpeed(entityTable.velocity)
-
-            movement:setHorizontalInput(horizontalInput)
-            movement:setJumpInput(jumpInput, systemTime)
-            local groundedRec = groundedRecs[newSize]
-            local collisionRec = collisionRecs[newSize]
-            local entityPosition = transformComponent.position
-            local isGroundedTileMap = tileMapCollision(groundedRec, entityPosition)
-            local isGroundedHusk = huskCollision(collisionRec, groundedRec, entityPosition, entityPosition)
-            isGrounded = isGroundedTileMap or isGroundedHusk
-            movement:move(entityTable, systemTime, dt)
-            movement:calculateGravity(entityTable, systemTime, dt, isGrounded)
-            movement:jump(entityTable, systemTime, dt)
-
-            if movement.justJumped then
-                GameData:playSound(jumpSounds[newSize])
-            end
-        
-            local horizontalSpeed, verticalSpeed = movement:getSpeed()
-            entityTable.velocity = vec2.new(horizontalSpeed, verticalSpeed)
-
-            if isGrounded then
-                if horizontalInput ~= 0 then
-                    entityTable.currentAnimation = "run"
-                else
-                    entityTable.currentAnimation = "idle"
-                end
+        if isGrounded then
+            if horizontalInput ~= 0 then
+                entityTable.currentAnimation = "run"
             else
-                if movement.verticalSpeed < 0 then
-                    entityTable.currentAnimation = "jump"
-                else
-                    entityTable.currentAnimation = "fall"
-                end
+                entityTable.currentAnimation = "idle"
             end
-
-            if newSize ~= entityTable.curSize then
-                GameData:playSound("../ExampleGame/Sounds/grow.wav")
-                cameraComponent:addTrauma(0.3)
-                entityTable.curSize = newSize
-                speedFunctions[newSize](entityTable)
-                local targetPositionX = entityPosition.x
-                local targetPositionY = entityPosition.y
-                while tileMapCollisionUp(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
-                    targetPositionY = targetPositionY + 0.25
-                    if entityTable.velocity.y < 0 then
-                        entityTable.velocity.y = 0
-                    end
-                end
-                while tileMapCollisionLeft(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
-                    targetPositionX = targetPositionX + 0.25
-                    if entityTable.velocity.x < 0 then
-                        entityTable.velocity.x = 0
-                    end
-                end
-                while tileMapCollisionRight(collisionRec, vec2.new(targetPositionX, targetPositionY)) do
-                    targetPositionX = targetPositionX - 0.25
-                    if entityTable.velocity.x > 0 then
-                        entityTable.velocity.x = 0
-                    end
-                end
-                transformComponent.position = vec2.new(targetPositionX, targetPositionY)
+        else
+            if movement.verticalSpeed < 0 then
+                entityTable.currentAnimation = "jump"
+            else
+                entityTable.currentAnimation = "fall"
             end
-            
-            local desiredAnimation = playerAnimations[entityTable.curSize][entityTable.currentAnimation]
-            if desiredAnimation ~= spriteAnimationComponent:getCurAnimation() then
-                spriteAnimationComponent:playAnimation(desiredAnimation, systemTime)
-            end
-
         end
+        
+        local desiredAnimation = playerAnimations[entityTable.currentAnimation]
+        if desiredAnimation ~= spriteAnimationComponent:getCurAnimation() then
+            spriteAnimationComponent:playAnimation(desiredAnimation, systemTime)
+        end
+
         if horizontalInput > 0 then
             spriteComponent.flipped = false
         elseif horizontalInput < 0 then
@@ -418,7 +258,6 @@ PlayerScript.update = function(entity, dt, systemTime)
     end
 
     -- calculate collision
-    local collisionRec = collisionRecs[entityTable.curSize]
     local initialPosition = transformComponent.position
     local targetPositionX = initialPosition.x + entityTable.velocity.x * dt
     local targetPositionY = initialPosition.y + entityTable.velocity.y * dt
