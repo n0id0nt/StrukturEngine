@@ -6,6 +6,8 @@
 #include "ECS/Component/skSpriteComponent.h"
 #include "ECS/Component/skSpriteAnimationComponent.h"
 #include "ECS/Component/skTileMapComponent.h"
+#include "ECS/Component/skLevelComponent.h"
+#include "Game/skLevel.h"
 
 entt::entity LUA_GetEntityWithIdentifier(Struktur::Core::skGameData& gameData, const std::string& identifier)
 {
@@ -84,6 +86,17 @@ bool LUA_IsSoundPlaying(Struktur::Core::skGameData& gameData, const std::string&
 	return IsSoundPlaying(sound);
 }
 
+void LUA_LoadLevelEntities(Struktur::Core::skGameData& gameData, const Struktur::FileLoading::LevelParser::skLevel& level)
+{
+	Struktur::Game::Level::LoadLevelEntities(level, gameData.registry, gameData.luaState);
+}
+
+void LUA_LoadLevelFromIndex(Struktur::Core::skGameData& gameData, int index)
+{
+
+	Struktur::Game::Level::LoadLevelEntities(gameData.world.levels[index], gameData.registry, gameData.luaState);
+}
+
 void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 {
 	lua.NewUsertype<skDialogueText>("dialogueText"
@@ -122,6 +135,7 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"getCameraComponent", &LUA_GetComponentFromEntity<Component::skCameraComponent>
 		,"getSpriteComponent", &LUA_GetComponentFromEntity<Component::skSpriteComponent>
 		,"getSpriteAnimationComponent", &LUA_GetComponentFromEntity<Component::skSpriteAnimationComponent>
+		,"getlevelComponent", &LUA_GetComponentFromEntity<Component::skLevelComponent>
 		// create components
 		,"createCameraComponent", &LUA_CreateComponent<Component::skCameraComponent>
 		,"createSpriteComponent", &LUA_CreateComponent<Component::skSpriteComponent>
@@ -129,5 +143,7 @@ void Struktur::Core::skGameData::LUABind(Scripting::skLuaState& lua)
 		,"playSound", &LUA_PlaySound
 		,"stopSound", &LUA_StopSound
 		,"isSoundPlaying", &LUA_IsSoundPlaying
+		,"loadLevelEntities", &LUA_LoadLevelEntities
+		,"loadLevelFromIndex", &LUA_LoadLevelFromIndex
 	);
 }

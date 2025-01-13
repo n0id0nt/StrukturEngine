@@ -1,5 +1,6 @@
 #pragma once
 #include "Game/skLevel.h"
+#include "Scripting/skLuaState.h"
 #include <string>
 
 namespace Struktur
@@ -9,7 +10,8 @@ namespace Struktur
 		struct skLevelComponent
 		{
 			std::string levelId;
-			bool doNotUnload;
+
+			static void LUABind(Scripting::skLuaState& lua);
 		};
 	};
 };

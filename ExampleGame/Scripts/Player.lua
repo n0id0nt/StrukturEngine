@@ -153,6 +153,10 @@ end
 
 PlayerScript.create = function(entity, dt, systemTime)
     print("Create Player")
+    local levelComponent = GameData:getlevelComponent(entity)
+    -- This will separate the player from the level it was created with so the lifetime is greater than that of the level. 
+    -- calling the new level id "GamePlay" to signify that the objects scope is that of gameplay
+    levelComponent.levelId = "GamePlay" 
     local cameraComponent = GameData:createCameraComponent(entity)
     cameraComponent.cameraPriority = 1
     cameraComponent.zoom = 4

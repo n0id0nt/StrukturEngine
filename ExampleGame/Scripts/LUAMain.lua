@@ -21,6 +21,8 @@ local gameStateSongs =
 
 local currentSong
 
+-- TODO add function for loading resources through lua here - sounds, images, fonts, ect...
+
 Script.initialise = function(systemTime)
     -- initialise each component
     for objectIdentifier, script in pairs(gameObjects) do

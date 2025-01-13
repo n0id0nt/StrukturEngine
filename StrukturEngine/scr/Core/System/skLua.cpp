@@ -7,6 +7,7 @@
 #include "ECS/Component/skTileMapComponent.h"
 #include "ECS/Component/skSpriteComponent.h"
 #include "ECS/Component/skSpriteAnimationComponent.h"
+#include "ECS/Component/skLevelComponent.h"
 #include "Scripting/skLuaScriptTemplate.h"
 #include "Animation/skSpriteAnimation.h"
 
@@ -15,12 +16,14 @@ void Struktur::Core::Lua::BindToLua(Scripting::skLuaState& luaState)
 	skGameData::LUABind(luaState);
 	skInput::LUABind(luaState);
 
+	// Register components
 	Component::skTransformComponent::LUABind(luaState);
 	Component::skLuaComponent::LUABind(luaState);
 	Component::skCameraComponent::LUABind(luaState);
 	Component::skTileMapComponent::LUABind(luaState);
 	Component::skSpriteComponent::LUABind(luaState);
 	Component::skSpriteAnimationComponent::LUABind(luaState);
+	Component::skLevelComponent::LUABind(luaState);
 
 	Scripting::skLuaScriptTemplate::LUABind(luaState);
 	Animation::skSpriteAnimation::LUABind(luaState);

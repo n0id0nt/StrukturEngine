@@ -1,4 +1,4 @@
 {
-	"maps": [{ "fileName": "Level_0.tmx", "x": 0, "y": 0 }],
+	"maps": [ { "fileName": "0001_Level_0.tmx", "x": 0, "y": 0 }, { "fileName": "0002_Level_1.tmx", "x": 512, "y": 0 } ],
 	"type": "world"
 }

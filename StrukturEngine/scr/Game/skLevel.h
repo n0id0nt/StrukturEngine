@@ -1,12 +1,15 @@
 #pragma once
+#include "FileLoading/skLevelParser.h"
+#include <entt/entt.hpp>
+#include "Core/System/skLua.h"
+
 namespace Struktur
 {
 	namespace Game
 	{
 		namespace Level
 		{
-			using skLevelId = unsigned int;
-			static constexpr skLevelId NO_LEVEL = 0;
+			void LoadLevelEntities(const Struktur::FileLoading::LevelParser::skLevel& level, entt::registry& registry, Struktur::Scripting::skLuaState& luaState);
 		}
 	};
 };
